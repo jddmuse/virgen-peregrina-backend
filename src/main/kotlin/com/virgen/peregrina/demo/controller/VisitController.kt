@@ -29,8 +29,8 @@ class VisitController {
 
     @PostMapping("/create")
     fun createVisit(@RequestBody visitModel: VisitModel): ResponseEntity<BaseResponse<VisitModel>> = try {
-        log.debug("$TAG $METHOD_CALLED signUp()")
-        log.debug("$PARAMS $visitModel")
+        log.info("$TAG $METHOD_CALLED signUp()")
+        log.info("$PARAMS $visitModel")
         val result = visitService.create(visitModel)
         when (result) {
             is BaseResult.Success -> {
@@ -45,7 +45,7 @@ class VisitController {
             }
 
             is BaseResult.NullOrEmptyData -> {
-                ResponseEntity(BaseResponse(), HttpStatus.BAD_REQUEST)
+                ResponseEntity(BaseResponse(message = result.message), HttpStatus.BAD_REQUEST)
             }
         }
     } catch (ex: Exception) {
@@ -56,7 +56,7 @@ class VisitController {
         ), HttpStatus.BAD_REQUEST)
     }
 
-    @GetMapping("/login/get-all")
+    @GetMapping("/get-all")
     fun getVisits(): ResponseEntity<BaseResponse<List<VisitModel>>> = try {
         log.debug("$TAG $METHOD_CALLED getVisits()")
         val result: BaseResult<List<VisitModel>> = visitService.getAll()

@@ -34,8 +34,8 @@ class UserController {
 
     @PostMapping("/create")
     fun signUp(@RequestBody userModel: UserModel): ResponseEntity<BaseResponse<UserModel>> {
-        log.debug("$TAG $METHOD_CALLED signUp()")
-        log.debug("$PARAMS $userModel")
+        log.info("$TAG $METHOD_CALLED signUp()")
+        log.info("$PARAMS $userModel")
         val result = userService.create(userModel)
         return when (result) {
             is BaseResult.Success -> {
@@ -57,8 +57,8 @@ class UserController {
 
     @GetMapping("/login")
     fun signIn(@PathVariable firebaseUid: String): ResponseEntity<BaseResponse<UserModel?>> {
-        log.debug("$TAG $METHOD_CALLED signIn()")
-        log.debug("$PARAMS firebaseId=$firebaseUid")
+        log.info("$TAG $METHOD_CALLED signIn()")
+        log.info("$PARAMS firebaseId=$firebaseUid")
         val result = userService.signIn(firebaseUid)
         return when (result) {
             is BaseResult.Success -> {

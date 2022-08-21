@@ -7,6 +7,8 @@ import com.virgen.peregrina.demo.data.model.VisitModel
 import com.virgen.peregrina.demo.data.model.toModel
 import com.virgen.peregrina.demo.repository.VisitRepository
 import com.virgen.peregrina.demo.service.VisitService
+import com.virgen.peregrina.demo.util.ERROR_START_DATE_GREATER_THAN_END_DATE
+import com.virgen.peregrina.demo.util.ERROR_VISIT_ON_RANGE
 import com.virgen.peregrina.demo.util.METHOD_CALLED
 import com.virgen.peregrina.demo.util.PARAMS
 import com.virgen.peregrina.demo.util.base.BaseResult
@@ -33,39 +35,57 @@ class VisitServiceImpl : VisitService {
     @Qualifier("visitConverter")
     private lateinit var visitConverter: VisitConverter
 
-    override fun create(model: VisitModel): BaseResult<VisitModel> = try {
-        log.debug("$TAG $METHOD_CALLED create()")
-        log.debug("$PARAMS $model")
-        // casting model to entity
-        var newVisit = visitConverter.toEntity(model)
-        // getting all visits after today
-        val result = visitRepository.getAllAfterToday()
+    override fun create(model: VisitModel): BaseResult<VisitModel> {
+        try {
+            log.info("$TAG $METHOD_CALLED create()")
+            log.info("$PARAMS $model")
+            // casting model to entity
+            var newVisit = visitConverter.toEntity(model)
+            // getting all visits after today
+            val listOptional = visitRepository.getAllAfterToday()
+            // adding when validations
+            return when {
+                // newVisit is null
+                newVisit == null -> {
+                    BaseResult.NullOrEmptyData(ERROR_VISIT_ON_RANGE) // return
+                }
+                // date_start is greater than date_end
+                newVisit.date_start.after(newVisit.date_end) -> {
+                    BaseResult.NullOrEmptyData(ERROR_START_DATE_GREATER_THAN_END_DATE) // return
+                }
+                // else branch
+                else -> {
+                    val list: List<Visit> = listOptional.get()
+                    var onRange = false
+                    if (list.isNotEmpty()) {
+                        // for each for visits
+                        for (i in list) {
+                            // if some newVisit date is on range, newVisit can't save
+                            onRange = i.onRange(newVisit!!) || newVisit.onRange(i)
+                            if (onRange)
+                                break
+                        }
+                    }
+                    // if it isn't on range, let's go to save !!
+                    if (!onRange) {
+                        newVisit = visitRepository.save(newVisit)
+                        return BaseResult.Success(visitConverter.toModel(newVisit)) // return
+                    }
+                    log.info("$TAG onRange = $onRange")
+                    BaseResult.NullOrEmptyData(ERROR_VISIT_ON_RANGE) // return
+                }
+            }
 
-        if (result.isPresent && newVisit != null) {
-            val list: List<Visit> = result.get()
-            var onRange = false
-            // for each for visits
-            for (i in list) {
-                // if some newVisit date is on range, newVisit can't save
-                onRange = i.onRange(newVisit)
-                if (onRange)
-                    break
-            }
-            // if it isn't on range, let's go to save !!
-            if (!onRange) {
-                newVisit = visitRepository.save(newVisit)
-                BaseResult.Success(visitConverter.toModel(newVisit)) // return
-            }
+
+        } catch (ex: Exception) {
+            log.error("$TAG create(): Exception -> $ex")
+            return BaseResult.Error(ex, ERROR_VISIT_ON_RANGE) // return
         }
-        BaseResult.NullOrEmptyData() // return
-    } catch (ex: Exception) {
-        log.error("$TAG create(): Exception -> $ex")
-        BaseResult.Error(ex) // return
     }
 
     override fun delete(model: VisitModel): BaseResult<Boolean> = try {
-        log.debug("$TAG $METHOD_CALLED delete()")
-        log.debug("$PARAMS $model")
+        log.info("$TAG $METHOD_CALLED delete()")
+        log.info("$PARAMS $model")
         val entity = visitConverter.toEntity(model)
         if (entity?.id != null) {
             visitRepository.delete(entity)

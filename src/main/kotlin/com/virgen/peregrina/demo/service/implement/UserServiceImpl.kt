@@ -27,8 +27,8 @@ class UserServiceImpl : UserService {
     private lateinit var userRepository: UserRepository
 
     override fun signIn(firebaseUid: String): BaseResult<UserModel> = try {
-        log.debug("$TAG $METHOD_CALLED signIn()")
-        log.debug("$PARAMS $firebaseUid")
+        log.info("$TAG $METHOD_CALLED signIn()")
+        log.info("$PARAMS $firebaseUid")
         val result = userRepository.getReferenceByFirebaseUid(firebaseUid)
         if (result.isPresent) {
             val userModel = result.get().toModel()
@@ -42,8 +42,8 @@ class UserServiceImpl : UserService {
     }
 
     override fun create(model: UserModel): BaseResult<UserModel> = try {
-        log.debug("$TAG $METHOD_CALLED create()")
-        log.debug("$PARAMS $model")
+        log.info("$TAG $METHOD_CALLED create()")
+        log.info("$PARAMS $model")
         val result = userRepository.save(model.toEntity())
         BaseResult.Success(result.toModel())
     } catch (ex: Exception) {
@@ -52,8 +52,8 @@ class UserServiceImpl : UserService {
     }
 
     override fun delete(model: UserModel) = try {
-        log.debug("$METHOD_CALLED delete()")
-        log.debug("$PARAMS $model")
+        log.info("$METHOD_CALLED delete()")
+        log.info("$PARAMS $model")
         userRepository.delete(model.toEntity())
         BaseResult.Success(true)
     } catch (ex: Exception) {

@@ -27,8 +27,8 @@ class ReplicaServiceImpl : ReplicaService {
     private val log = LogFactory.getLog(ReplicaServiceImpl::class.java)
 
     override fun create(model: ReplicaModel): BaseResult<ReplicaModel> = try {
-        log.debug("$TAG $METHOD_CALLED create()")
-        log.debug("$PARAMS $model")
+        log.info("$TAG $METHOD_CALLED create()")
+        log.info("$PARAMS $model")
         val newReplica = replicaRepository.save(model.toEntity())
         BaseResult.Success(newReplica.toModel())
     } catch (ex: Exception) {

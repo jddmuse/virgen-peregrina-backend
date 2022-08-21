@@ -33,8 +33,8 @@ class ReplicaController {
 
     @PostMapping("/create")
     fun createReplica(@RequestBody model: ReplicaModel): ResponseEntity<BaseResponse<ReplicaModel>> = try {
-        log.debug("$TAG $METHOD_CALLED createReplica()")
-        log.debug("$PARAMS $model")
+        log.info("$TAG $METHOD_CALLED createReplica()")
+        log.info("$PARAMS $model")
         val result = replicaService.create(model)
         when (result) {
             is BaseResult.Success -> {

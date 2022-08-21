@@ -1,7 +1,9 @@
 package com.virgen.peregrina.demo.data.entity
 
-import com.virgen.peregrina.demo.data.converter.VisitConverter
-import com.virgen.peregrina.demo.data.model.VisitModel
+import com.virgen.peregrina.demo.service.implement.VisitServiceImpl
+import com.virgen.peregrina.demo.util.METHOD_CALLED
+import com.virgen.peregrina.demo.util.PARAMS
+import org.apache.commons.logging.LogFactory
 import java.util.*
 import javax.persistence.*
 
@@ -32,8 +34,8 @@ class Visit(
 ) {
 
     fun onRange(other: Visit): Boolean {
-        return (other.date_start.after(date_start) && other.date_end.before(date_start))
-                || (other.date_start.after(date_end) && other.date_end.before(date_end))
+        return (other.date_start.after(date_start) && other.date_start.before(date_end))
+                || (other.date_end.after(date_start) && other.date_end.before(date_end))
                 || other.date_start == date_start || other.date_end == date_end
                 || other.date_start == date_end || other.date_end == date_start
     }
