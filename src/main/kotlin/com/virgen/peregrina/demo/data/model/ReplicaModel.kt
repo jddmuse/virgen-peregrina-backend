@@ -3,10 +3,10 @@ package com.virgen.peregrina.demo.data.model
 import com.virgen.peregrina.demo.data.entity.Replica
 
 data class ReplicaModel(
-        val id: Long,
+        val id: Long? = null,
         val state: String,
         val requiredRestore: Boolean,
-        val photoUrl: String,
+        val photoUrl: String? = null,
         val code: String
 )
 

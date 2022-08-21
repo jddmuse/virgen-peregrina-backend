@@ -1,0 +1,50 @@
+package com.virgen.peregrina.demo.service.implement
+
+import com.virgen.peregrina.demo.data.entity.toEntity
+import com.virgen.peregrina.demo.data.model.ReplicaModel
+import com.virgen.peregrina.demo.data.model.toModel
+import com.virgen.peregrina.demo.repository.ReplicaRepository
+import com.virgen.peregrina.demo.service.ReplicaService
+import com.virgen.peregrina.demo.util.METHOD_CALLED
+import com.virgen.peregrina.demo.util.PARAMS
+import com.virgen.peregrina.demo.util.base.BaseResult
+import org.apache.commons.logging.LogFactory
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.beans.factory.annotation.Qualifier
+import org.springframework.stereotype.Service
+
+@Service("replicaService")
+class ReplicaServiceImpl : ReplicaService {
+
+    companion object {
+        private const val TAG = "ReplicaServiceImpl ->"
+    }
+
+    @Autowired
+    @Qualifier("replicaRepository")
+    private lateinit var replicaRepository: ReplicaRepository
+
+    private val log = LogFactory.getLog(ReplicaServiceImpl::class.java)
+
+    override fun create(model: ReplicaModel): BaseResult<ReplicaModel> = try {
+        log.debug("$TAG $METHOD_CALLED create()")
+        log.debug("$PARAMS $model")
+        val newReplica = replicaRepository.save(model.toEntity())
+        BaseResult.Success(newReplica.toModel())
+    } catch (ex: Exception) {
+        log.error("$TAG create(): Exception -> $ex")
+        BaseResult.Error(ex) // return
+    }
+
+    override fun delete(model: ReplicaModel): BaseResult<Boolean> {
+        TODO("Not yet implemented")
+    }
+
+    override fun get(model: ReplicaModel): BaseResult<ReplicaModel> {
+        TODO("Not yet implemented")
+    }
+
+    override fun getAll(): BaseResult<List<ReplicaModel>> {
+        TODO("Not yet implemented")
+    }
+}

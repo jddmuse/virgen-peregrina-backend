@@ -14,7 +14,7 @@ data class Replica(
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         @Column(unique = true, nullable = false, name = "repl_id")
-        val id: Long,
+        val id: Long? = null,
 
         @Column(name = "repl_state")
         val state:String,
@@ -23,7 +23,7 @@ data class Replica(
         val requiredRestore:Boolean,
 
         @Column(name = "repl_photo_url")
-        val photoUrl:String,
+        val photoUrl:String? = null,
 
         @Column(name = "repl_code")
         val code:String

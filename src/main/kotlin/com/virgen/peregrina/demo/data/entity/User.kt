@@ -14,7 +14,7 @@ data class User(
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         @Column(unique = true, nullable = false, name = "user_id")
-        val id: Long?,
+        val id: Long? = null,
 
         @Column(name = "user_firebase_uid", unique = true, nullable = false)
         val firebaseUid: String,
@@ -52,7 +52,6 @@ data class User(
 
 
 fun UserModel.toEntity() = User(
-        id = id,
         firebaseUid = firebaseUid,
         name = name,
         lastName = lastName,

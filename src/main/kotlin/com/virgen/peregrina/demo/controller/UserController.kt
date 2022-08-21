@@ -2,11 +2,10 @@ package com.virgen.peregrina.demo.controller
 
 import com.virgen.peregrina.demo.data.model.UserModel
 import com.virgen.peregrina.demo.service.UserService
-import com.virgen.peregrina.demo.service.implement.UserServiceImpl
 import com.virgen.peregrina.demo.util.METHOD_CALLED
 import com.virgen.peregrina.demo.util.PARAMS
 import com.virgen.peregrina.demo.util.base.BaseResponse
-import com.virgen.peregrina.demo.util.base.BaseResultService
+import com.virgen.peregrina.demo.util.base.BaseResult
 import org.apache.commons.logging.LogFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Qualifier
@@ -39,18 +38,18 @@ class UserController {
         log.debug("$PARAMS $userModel")
         val result = userService.create(userModel)
         return when (result) {
-            is BaseResultService.Success -> {
+            is BaseResult.Success -> {
                 ResponseEntity(BaseResponse(result.data), HttpStatus.OK)
             }
 
-            is BaseResultService.Error -> {
+            is BaseResult.Error -> {
                 ResponseEntity(BaseResponse(
                         error = result.exception,
                         message = result.exception.message
                 ), HttpStatus.OK)
             }
 
-            is BaseResultService.NullOrEmptyData -> {
+            is BaseResult.NullOrEmptyData -> {
                 ResponseEntity(BaseResponse(), HttpStatus.BAD_REQUEST)
             }
         }
@@ -62,15 +61,15 @@ class UserController {
         log.debug("$PARAMS firebaseId=$firebaseUid")
         val result = userService.signIn(firebaseUid)
         return when (result) {
-            is BaseResultService.Success -> {
+            is BaseResult.Success -> {
                 ResponseEntity(BaseResponse(result.data), HttpStatus.OK)
             }
 
-            is BaseResultService.NullOrEmptyData -> {
+            is BaseResult.NullOrEmptyData -> {
                 ResponseEntity(BaseResponse(message = "User didn't find with firebaseUid = $firebaseUid"), HttpStatus.BAD_REQUEST)
             }
 
-            is BaseResultService.Error -> {
+            is BaseResult.Error -> {
                 ResponseEntity(BaseResponse(error = result.exception), HttpStatus.INTERNAL_SERVER_ERROR)
             }
         }

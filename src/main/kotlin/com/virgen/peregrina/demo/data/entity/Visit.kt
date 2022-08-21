@@ -1,7 +1,7 @@
 package com.virgen.peregrina.demo.data.entity
 
+import com.virgen.peregrina.demo.data.converter.VisitConverter
 import com.virgen.peregrina.demo.data.model.VisitModel
-import java.text.SimpleDateFormat
 import java.util.*
 import javax.persistence.*
 
@@ -10,8 +10,8 @@ import javax.persistence.*
 class Visit(
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
-        @Column(unique = true, nullable = false)
-        val id: Long,
+        @Column(unique = true, nullable = false, name = "visi_id")
+        val id: Long? = null,
 
         @Column(name = "visi_date_start")
         val date_start: Date,
@@ -38,19 +38,4 @@ class Visit(
                 || other.date_start == date_end || other.date_end == date_start
     }
 
-
-}
-
-fun VisitModel.toEntity() = run {
-    val sdf = SimpleDateFormat("dd/MM/yyyy HH:mm")
-    val dateStart = sdf.parse(date_start)
-    val dateEnd = sdf.parse(date_end)
-    Visit(
-            id = id,
-            date_start = dateStart,
-            date_end = dateEnd,
-            description = description,
-            user = user.toEntity(),
-            replica = replica.toEntity()
-    )
 }

@@ -2,11 +2,10 @@ package com.virgen.peregrina.demo.controller
 
 import com.virgen.peregrina.demo.data.model.VisitModel
 import com.virgen.peregrina.demo.service.VisitService
-import com.virgen.peregrina.demo.service.implement.VisitServiceImpl
 import com.virgen.peregrina.demo.util.METHOD_CALLED
 import com.virgen.peregrina.demo.util.PARAMS
 import com.virgen.peregrina.demo.util.base.BaseResponse
-import com.virgen.peregrina.demo.util.base.BaseResultService
+import com.virgen.peregrina.demo.util.base.BaseResult
 import org.apache.commons.logging.LogFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Qualifier
@@ -34,18 +33,18 @@ class VisitController {
         log.debug("$PARAMS $visitModel")
         val result = visitService.create(visitModel)
         when (result) {
-            is BaseResultService.Success -> {
+            is BaseResult.Success -> {
                 ResponseEntity(BaseResponse(result.data), HttpStatus.OK)
             }
 
-            is BaseResultService.Error -> {
+            is BaseResult.Error -> {
                 ResponseEntity(BaseResponse(
                         error = result.exception,
-                        message = result.exception.message
+//                        message = result.exception.message
                 ), HttpStatus.OK)
             }
 
-            is BaseResultService.NullOrEmptyData -> {
+            is BaseResult.NullOrEmptyData -> {
                 ResponseEntity(BaseResponse(), HttpStatus.BAD_REQUEST)
             }
         }
@@ -53,27 +52,27 @@ class VisitController {
         log.error("$TAG create(): Exception -> $ex")
         ResponseEntity(BaseResponse(
                 error = ex,
-                message = ex.message
+//                message = ex.message
         ), HttpStatus.BAD_REQUEST)
     }
 
     @GetMapping("/login/get-all")
     fun getVisits(): ResponseEntity<BaseResponse<List<VisitModel>>> = try {
         log.debug("$TAG $METHOD_CALLED getVisits()")
-        val result: BaseResultService<List<VisitModel>> = visitService.getAll()
+        val result: BaseResult<List<VisitModel>> = visitService.getAll()
         when (result) {
-            is BaseResultService.Success -> {
+            is BaseResult.Success -> {
                 ResponseEntity(BaseResponse(result.data), HttpStatus.OK)
             }
 
-            is BaseResultService.Error -> {
+            is BaseResult.Error -> {
                 ResponseEntity(BaseResponse(
                         error = result.exception,
                         message = result.exception.message
                 ), HttpStatus.BAD_REQUEST)
             }
 
-            is BaseResultService.NullOrEmptyData -> {
+            is BaseResult.NullOrEmptyData -> {
                 ResponseEntity(BaseResponse(), HttpStatus.BAD_REQUEST)
             }
         }
@@ -81,7 +80,7 @@ class VisitController {
         log.error("$TAG create(): Exception -> $ex")
         ResponseEntity(BaseResponse(
                 error = ex,
-                message = ex.message
+//                message = ex.message
         ), HttpStatus.BAD_REQUEST)
     }
 
