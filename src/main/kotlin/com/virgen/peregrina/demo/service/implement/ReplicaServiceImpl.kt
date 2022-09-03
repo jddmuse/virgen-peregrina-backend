@@ -1,5 +1,6 @@
 package com.virgen.peregrina.demo.service.implement
 
+import com.virgen.peregrina.demo.data.entity.Replica
 import com.virgen.peregrina.demo.data.entity.toEntity
 import com.virgen.peregrina.demo.data.model.ReplicaModel
 import com.virgen.peregrina.demo.data.model.toModel
@@ -44,7 +45,13 @@ class ReplicaServiceImpl : ReplicaService {
         TODO("Not yet implemented")
     }
 
-    override fun getAll(): BaseResult<List<ReplicaModel>> {
-        TODO("Not yet implemented")
+    override fun getAll(): BaseResult<List<ReplicaModel>> = try {
+        val result: MutableList<Replica> = replicaRepository.findAll()
+        val data = result.map { it.toModel() }
+        BaseResult.Success(data) // return
+    } catch (ex: Exception) {
+        log.error("$TAG getAll(): Exception -> $ex")
+        BaseResult.Error(ex) // return
     }
+
 }

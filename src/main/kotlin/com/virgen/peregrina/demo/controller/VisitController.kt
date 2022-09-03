@@ -28,8 +28,8 @@ class VisitController {
     private lateinit var visitService: VisitService
 
     @PostMapping("/create")
-    fun createVisit(@RequestBody visitModel: VisitModel): ResponseEntity<BaseResponse<VisitModel>> = try {
-        log.info("$TAG $METHOD_CALLED signUp()")
+    fun create(@RequestBody visitModel: VisitModel): ResponseEntity<BaseResponse<VisitModel>> = try {
+        log.info("$TAG $METHOD_CALLED create()")
         log.info("$PARAMS $visitModel")
         val result = visitService.create(visitModel)
         when (result) {
@@ -57,10 +57,9 @@ class VisitController {
     }
 
     @GetMapping("/get-all")
-    fun getVisits(): ResponseEntity<BaseResponse<List<VisitModel>>> = try {
-        log.debug("$TAG $METHOD_CALLED getVisits()")
-        val result: BaseResult<List<VisitModel>> = visitService.getAll()
-        when (result) {
+    fun getAll(): ResponseEntity<BaseResponse<List<VisitModel>>> = try {
+        log.info("$TAG $METHOD_CALLED getAll()")
+        when (val result = visitService.getAll()) {
             is BaseResult.Success -> {
                 ResponseEntity(BaseResponse(result.data), HttpStatus.OK)
             }

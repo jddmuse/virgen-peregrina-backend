@@ -12,10 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/replica")
@@ -54,6 +51,33 @@ class ReplicaController {
         }
     } catch (ex: Exception) {
         log.error("$TAG createReplica(): Exception -> $ex")
+        ResponseEntity(BaseResponse(
+                error = ex,
+//                message = ex.message
+        ), HttpStatus.BAD_REQUEST)
+    }
+
+    @GetMapping("/get-all")
+    fun getAll(): ResponseEntity<BaseResponse<List<ReplicaModel>>> = try {
+        log.debug("$TAG, $METHOD_CALLED getAll()")
+        when (val result = replicaService.getAll()) {
+            is BaseResult.Success -> {
+                ResponseEntity(BaseResponse(result.data), HttpStatus.OK)
+            }
+
+            is BaseResult.Error -> {
+                ResponseEntity(BaseResponse(
+                        error = result.exception,
+//                        message = result.exception.message
+                ), HttpStatus.OK)
+            }
+
+            is BaseResult.NullOrEmptyData -> {
+                ResponseEntity(BaseResponse(message = result.message), HttpStatus.BAD_REQUEST)
+            }
+        }
+    } catch (ex: Exception) {
+        log.error("$TAG create(): Exception -> $ex")
         ResponseEntity(BaseResponse(
                 error = ex,
 //                message = ex.message

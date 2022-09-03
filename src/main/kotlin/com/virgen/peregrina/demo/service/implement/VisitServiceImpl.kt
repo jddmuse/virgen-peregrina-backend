@@ -107,7 +107,7 @@ class VisitServiceImpl : VisitService {
         val data = result.map { visitConverter.toModel(it)!! }
         BaseResult.Success(data) // return
     } catch (ex: Exception) {
-        log.error("$TAG create(): Exception -> $ex")
+        log.error("$TAG getAll(): Exception -> $ex")
         BaseResult.Error(ex) // return
     }
 

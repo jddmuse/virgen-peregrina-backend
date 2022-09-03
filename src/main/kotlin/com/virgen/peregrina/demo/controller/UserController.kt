@@ -33,7 +33,7 @@ class UserController {
     private lateinit var userService: UserService
 
     @PostMapping("/create")
-    fun signUp(@RequestBody userModel: UserModel): ResponseEntity<BaseResponse<UserModel>> {
+    fun create(@RequestBody userModel: UserModel): ResponseEntity<BaseResponse<UserModel>> {
         log.info("$TAG $METHOD_CALLED signUp()")
         log.info("$PARAMS $userModel")
         val result = userService.create(userModel)
@@ -56,7 +56,7 @@ class UserController {
     }
 
     @GetMapping("/login")
-    fun signIn(@PathVariable firebaseUid: String): ResponseEntity<BaseResponse<UserModel?>> {
+    fun login(@PathVariable firebaseUid: String): ResponseEntity<BaseResponse<UserModel?>> {
         log.info("$TAG $METHOD_CALLED signIn()")
         log.info("$PARAMS firebaseId=$firebaseUid")
         val result = userService.signIn(firebaseUid)
@@ -73,6 +73,33 @@ class UserController {
                 ResponseEntity(BaseResponse(error = result.exception), HttpStatus.INTERNAL_SERVER_ERROR)
             }
         }
+    }
+
+    @GetMapping("/get-all")
+    fun getAll(): ResponseEntity<BaseResponse<List<UserModel>>> = try {
+        log.info("$TAG $METHOD_CALLED getAll()")
+        when (val result = userService.getAll()) {
+            is BaseResult.Success -> {
+                ResponseEntity(BaseResponse(result.data), HttpStatus.OK)
+            }
+
+            is BaseResult.Error -> {
+                ResponseEntity(BaseResponse(
+                        error = result.exception,
+                        message = result.exception.message
+                ), HttpStatus.BAD_REQUEST)
+            }
+
+            is BaseResult.NullOrEmptyData -> {
+                ResponseEntity(BaseResponse(), HttpStatus.BAD_REQUEST)
+            }
+        }
+    } catch (ex: Exception) {
+        log.error("$TAG create(): Exception -> $ex")
+        ResponseEntity(BaseResponse(
+                error = ex,
+//                message = ex.message
+        ), HttpStatus.BAD_REQUEST)
     }
 
 }

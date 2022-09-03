@@ -37,7 +37,7 @@ class UserServiceImpl : UserService {
             BaseResult.NullOrEmptyData()
         }
     } catch (ex: Exception) {
-        log.error(ex)
+        log.error("signIn(): Exception -> $ex")
         BaseResult.Error(ex)
     }
 
@@ -47,7 +47,7 @@ class UserServiceImpl : UserService {
         val result = userRepository.save(model.toEntity())
         BaseResult.Success(result.toModel())
     } catch (ex: Exception) {
-        log.error("delete(): Exception -> $ex")
+        log.error("create(): Exception -> $ex")
         BaseResult.Error(ex)
     }
 
@@ -65,8 +65,13 @@ class UserServiceImpl : UserService {
         TODO("Not yet implemented")
     }
 
-    override fun getAll(): BaseResult<List<UserModel>> {
-        TODO("Not yet implemented")
+    override fun getAll(): BaseResult<List<UserModel>> = try {
+        val result = userRepository.findAll()
+        val data = result.map { it.toModel() }
+        BaseResult.Success(data)
+    } catch (ex: Exception) {
+        log.error("$TAG getAll(): Exception -> $ex")
+        BaseResult.Error(ex) // return
     }
 
 }
