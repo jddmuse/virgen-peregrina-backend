@@ -1,12 +1,10 @@
 package com.virgen.peregrina.demo.data.model
 
 import com.virgen.peregrina.demo.data.entity.User
-import java.io.Serializable
-import javax.persistence.metamodel.SingularAttribute
 
 data class UserModel(
         val id: Long? = null,
-        val firebaseUid: String,
+        val uuid: String,
         val name: String,
         val lastName: String?,
         val email: String,
@@ -21,7 +19,7 @@ data class UserModel(
 
 fun User.toModel() = UserModel(
         id = id,
-        firebaseUid = firebaseUid,
+        uuid = uuid,
         name = name,
         lastName = lastName,
         email = email,

@@ -1,6 +1,7 @@
 package com.virgen.peregrina.demo.controller
 
 import com.virgen.peregrina.demo.data.model.UserModel
+import com.virgen.peregrina.demo.data.request.LoginRequest
 import com.virgen.peregrina.demo.service.UserService
 import com.virgen.peregrina.demo.util.METHOD_CALLED
 import com.virgen.peregrina.demo.util.PARAMS
@@ -39,14 +40,20 @@ class UserController {
         val result = userService.create(userModel)
         return when (result) {
             is BaseResult.Success -> {
-                ResponseEntity(BaseResponse(result.data), HttpStatus.OK)
+                ResponseEntity(
+                        BaseResponse(result.data),
+                        HttpStatus.OK
+                )
             }
 
             is BaseResult.Error -> {
-                ResponseEntity(BaseResponse(
-                        error = result.exception,
-                        message = result.exception.message
-                ), HttpStatus.OK)
+                ResponseEntity(
+                        BaseResponse(
+                                error = result.exception.toString(),
+                                message = result.exception.message
+                        ),
+                        HttpStatus.OK
+                )
             }
 
             is BaseResult.NullOrEmptyData -> {
@@ -56,21 +63,29 @@ class UserController {
     }
 
     @GetMapping("/login")
-    fun login(@PathVariable firebaseUid: String): ResponseEntity<BaseResponse<UserModel?>> {
+    fun login(@RequestBody loginRequest: LoginRequest): ResponseEntity<BaseResponse<UserModel?>> {
         log.info("$TAG $METHOD_CALLED signIn()")
-        log.info("$PARAMS firebaseId=$firebaseUid")
-        val result = userService.signIn(firebaseUid)
-        return when (result) {
+        log.info("$PARAMS firebaseId=$loginRequest")
+        return when (val result = userService.signIn(loginRequest.uuid)) {
             is BaseResult.Success -> {
-                ResponseEntity(BaseResponse(result.data), HttpStatus.OK)
+                ResponseEntity(
+                        BaseResponse(result.data),
+                        HttpStatus.OK
+                )
             }
 
             is BaseResult.NullOrEmptyData -> {
-                ResponseEntity(BaseResponse(message = "User didn't find with firebaseUid = $firebaseUid"), HttpStatus.BAD_REQUEST)
+                ResponseEntity(
+                        BaseResponse(message = "User didn't find with firebaseUid = ${loginRequest.uuid}"),
+                        HttpStatus.BAD_REQUEST
+                )
             }
 
             is BaseResult.Error -> {
-                ResponseEntity(BaseResponse(error = result.exception), HttpStatus.INTERNAL_SERVER_ERROR)
+                ResponseEntity(
+                        BaseResponse(error = result.exception.toString()),
+                        HttpStatus.INTERNAL_SERVER_ERROR
+                )
             }
         }
     }
@@ -85,7 +100,7 @@ class UserController {
 
             is BaseResult.Error -> {
                 ResponseEntity(BaseResponse(
-                        error = result.exception,
+                        error = result.exception.toString(),
                         message = result.exception.message
                 ), HttpStatus.BAD_REQUEST)
             }
@@ -96,10 +111,13 @@ class UserController {
         }
     } catch (ex: Exception) {
         log.error("$TAG create(): Exception -> $ex")
-        ResponseEntity(BaseResponse(
-                error = ex,
-//                message = ex.message
-        ), HttpStatus.BAD_REQUEST)
+        ResponseEntity(
+                BaseResponse(
+                        error = ex.toString(),
+                        message = ex.message
+                ),
+                HttpStatus.BAD_REQUEST
+        )
     }
 
 }

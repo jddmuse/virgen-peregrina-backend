@@ -17,7 +17,7 @@ data class User(
         val id: Long? = null,
 
         @Column(name = "user_firebase_uid", unique = true, nullable = false)
-        val firebaseUid: String,
+        val uuid: String,
 
         @Column(name = "user_name")
         val name: String,
@@ -52,7 +52,7 @@ data class User(
 
 
 fun UserModel.toEntity() = User(
-        firebaseUid = firebaseUid,
+        uuid = uuid,
         name = name,
         lastName = lastName,
         email = email,
