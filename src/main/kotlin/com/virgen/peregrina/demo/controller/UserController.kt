@@ -62,7 +62,7 @@ class UserController {
         }
     }
 
-    @GetMapping("/login")
+    @PostMapping("/login")
     fun login(@RequestBody loginRequest: LoginRequest): ResponseEntity<BaseResponse<UserModel?>> {
         log.info("$TAG $METHOD_CALLED login()")
         log.info("$PARAMS loginRequest=$loginRequest")
