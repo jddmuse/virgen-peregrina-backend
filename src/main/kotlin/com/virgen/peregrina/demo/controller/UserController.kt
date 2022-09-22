@@ -64,8 +64,8 @@ class UserController {
 
     @GetMapping("/login")
     fun login(@RequestBody loginRequest: LoginRequest): ResponseEntity<BaseResponse<UserModel?>> {
-        log.info("$TAG $METHOD_CALLED signIn()")
-        log.info("$PARAMS firebaseId=$loginRequest")
+        log.info("$TAG $METHOD_CALLED login()")
+        log.info("$PARAMS loginRequest=$loginRequest")
         return when (val result = userService.signIn(loginRequest.uuid)) {
             is BaseResult.Success -> {
                 ResponseEntity(
