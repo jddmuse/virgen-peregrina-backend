@@ -39,10 +39,11 @@ class ReplicaController {
             }
 
             is BaseResult.Error -> {
-                ResponseEntity(BaseResponse(
-                        error = result.exception,
+                ResponseEntity(
+                        BaseResponse(
+                                error = result.exception.toString(),
 //                        message = result.exception.message
-                ), HttpStatus.INTERNAL_SERVER_ERROR)
+                        ), HttpStatus.INTERNAL_SERVER_ERROR)
             }
 
             is BaseResult.NullOrEmptyData -> {
@@ -51,10 +52,11 @@ class ReplicaController {
         }
     } catch (ex: Exception) {
         log.error("$TAG createReplica(): Exception -> $ex")
-        ResponseEntity(BaseResponse(
-                error = ex,
+        ResponseEntity(
+                BaseResponse(
+                        error = ex.toString(),
 //                message = ex.message
-        ), HttpStatus.BAD_REQUEST)
+                ), HttpStatus.BAD_REQUEST)
     }
 
     @GetMapping("/get-all")
@@ -66,10 +68,11 @@ class ReplicaController {
             }
 
             is BaseResult.Error -> {
-                ResponseEntity(BaseResponse(
-                        error = result.exception,
+                ResponseEntity(
+                        BaseResponse(
+                                error = result.exception.toString(),
 //                        message = result.exception.message
-                ), HttpStatus.OK)
+                        ), HttpStatus.OK)
             }
 
             is BaseResult.NullOrEmptyData -> {
@@ -78,10 +81,11 @@ class ReplicaController {
         }
     } catch (ex: Exception) {
         log.error("$TAG create(): Exception -> $ex")
-        ResponseEntity(BaseResponse(
-                error = ex,
+        ResponseEntity(
+                BaseResponse(
+                        error = ex.toString(),
 //                message = ex.message
-        ), HttpStatus.BAD_REQUEST)
+                ), HttpStatus.BAD_REQUEST)
     }
 
 }

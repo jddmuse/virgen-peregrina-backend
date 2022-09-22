@@ -31,29 +31,30 @@ class VisitController {
     fun create(@RequestBody visitModel: VisitModel): ResponseEntity<BaseResponse<VisitModel>> = try {
         log.info("$TAG $METHOD_CALLED create()")
         log.info("$PARAMS $visitModel")
-        val result = visitService.create(visitModel)
-        when (result) {
+        when (val result = visitService.create(visitModel)) {
             is BaseResult.Success -> {
-                ResponseEntity(BaseResponse(result.data), HttpStatus.OK)
+                ResponseEntity(
+                        BaseResponse(result.data), HttpStatus.OK
+                )
             }
 
             is BaseResult.Error -> {
-                ResponseEntity(BaseResponse(
-                        error = result.exception,
-//                        message = result.exception.message
-                ), HttpStatus.OK)
+                ResponseEntity(
+                        BaseResponse(error = result.exception.toString()), HttpStatus.OK
+                )
             }
 
             is BaseResult.NullOrEmptyData -> {
-                ResponseEntity(BaseResponse(message = result.message), HttpStatus.BAD_REQUEST)
+                ResponseEntity(
+                        BaseResponse(message = result.message), HttpStatus.BAD_REQUEST
+                )
             }
         }
     } catch (ex: Exception) {
         log.error("$TAG create(): Exception -> $ex")
-        ResponseEntity(BaseResponse(
-                error = ex,
-//                message = ex.message
-        ), HttpStatus.BAD_REQUEST)
+        ResponseEntity(
+                BaseResponse(error = ex.toString()), HttpStatus.BAD_REQUEST
+        )
     }
 
     @GetMapping("/get-all")
@@ -61,26 +62,29 @@ class VisitController {
         log.info("$TAG $METHOD_CALLED getAll()")
         when (val result = visitService.getAll()) {
             is BaseResult.Success -> {
-                ResponseEntity(BaseResponse(result.data), HttpStatus.OK)
+                ResponseEntity(
+                        BaseResponse(result.data), HttpStatus.OK
+                )
             }
 
             is BaseResult.Error -> {
-                ResponseEntity(BaseResponse(
-                        error = result.exception,
-                        message = result.exception.message
-                ), HttpStatus.BAD_REQUEST)
+                ResponseEntity(
+                        BaseResponse(error = result.exception.toString(), message = result.exception.message),
+                        HttpStatus.BAD_REQUEST
+                )
             }
 
             is BaseResult.NullOrEmptyData -> {
-                ResponseEntity(BaseResponse(), HttpStatus.BAD_REQUEST)
+                ResponseEntity(
+                        BaseResponse(), HttpStatus.BAD_REQUEST
+                )
             }
         }
     } catch (ex: Exception) {
         log.error("$TAG create(): Exception -> $ex")
-        ResponseEntity(BaseResponse(
-                error = ex,
-//                message = ex.message
-        ), HttpStatus.BAD_REQUEST)
+        ResponseEntity(
+                BaseResponse(error = ex.toString()), HttpStatus.BAD_REQUEST
+        )
     }
 
 }
