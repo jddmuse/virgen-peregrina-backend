@@ -40,7 +40,7 @@ class VisitServiceImpl : VisitService {
             log.info("$TAG $METHOD_CALLED create()")
             log.info("$PARAMS $model")
             // casting model to entity
-            var newVisit = visitConverter.toEntity(model)
+            var newVisit = visitConverter.toEntity(model).get()
             // getting all visits after today
             val listOptional = visitRepository.getAllAfterToday()
             // adding when validations
@@ -69,7 +69,7 @@ class VisitServiceImpl : VisitService {
                     // if it isn't on range, let's go to save !!
                     if (!onRange) {
                         newVisit = visitRepository.save(newVisit)
-                        return BaseResult.Success(visitConverter.toModel(newVisit)) // return
+                        return BaseResult.Success(visitConverter.toModel(newVisit).get()) // return
                     }
                     log.info("$TAG onRange = $onRange")
                     BaseResult.NullOrEmptyData(ERROR_VISIT_ON_RANGE) // return
@@ -86,7 +86,7 @@ class VisitServiceImpl : VisitService {
     override fun delete(model: VisitModel): BaseResult<Boolean> = try {
         log.info("$TAG $METHOD_CALLED delete()")
         log.info("$PARAMS $model")
-        val entity = visitConverter.toEntity(model)
+        val entity = visitConverter.toEntity(model).get()
         if (entity?.id != null) {
             visitRepository.delete(entity)
             BaseResult.Success(true) // return
@@ -97,14 +97,14 @@ class VisitServiceImpl : VisitService {
         BaseResult.Error(ex) // return
     }
 
-    override fun get(model: VisitModel): BaseResult<VisitModel> {
-        // pending for implementing
-        return BaseResult.NullOrEmptyData()
+    override fun get(id: Long): BaseResult<VisitModel> {
+        TODO("Not yet implemented")
     }
+
 
     override fun getAll(): BaseResult<List<VisitModel>> = try {
         val result: MutableList<Visit> = visitRepository.findAll()
-        val data = result.map { visitConverter.toModel(it)!! }
+        val data = result.map { visitConverter.toModel(it).get() }
         BaseResult.Success(data) // return
     } catch (ex: Exception) {
         log.error("$TAG getAll(): Exception -> $ex")

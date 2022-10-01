@@ -1,6 +1,9 @@
 package com.virgen.peregrina.demo.data.model
 
 import com.virgen.peregrina.demo.data.entity.User
+import com.virgen.peregrina.demo.util.getLog
+import java.lang.Exception
+import java.util.Optional
 
 data class UserModel(
         val id: Long? = null,
@@ -14,21 +17,27 @@ data class UserModel(
         val cellphone: String?,
         val telephone: String?,
         val photoUrl: String?,
-        val role: String
+        var replicas: List<ReplicaModel>? = null
 )
 
-fun User.toModel() = UserModel(
-        id = id,
-        uuid = uuid,
-        name = name,
-        lastName = lastName,
-        email = email,
-        address = address,
-        city = city,
-        country = country,
-        cellphone = cellphone,
-        telephone = telephone,
-        photoUrl = photoUrl,
-        role = role
-)
+fun User.toModel(): Optional<UserModel> = try {
+    val model = UserModel(
+            id = id,
+            uuid = uuid,
+            name = name,
+            lastName = lastName,
+            email = email,
+            address = address,
+            city = city,
+            country = country,
+            cellphone = cellphone,
+            telephone = telephone,
+            photoUrl = photoUrl,
+            replicas = replicas?.map { it.toModel().get() }
+    )
+    Optional.of(model)
+} catch (ex: Exception) {
+    getLog<UserModel>().info("User.toModel(): Exception -> $ex")
+    Optional.empty<UserModel>()
+}
 

@@ -13,7 +13,7 @@ interface UserRepository : JpaRepository<User, Long> {
             value = "SELECT * FROM public.user WHERE user_firebase_uid = :uid",
             nativeQuery = true
     )
-    fun getReferenceByFirebaseUid(uid: String): Optional<User>
+    fun getReferenceByUUID(uid: String): Optional<User>
 
 
 }

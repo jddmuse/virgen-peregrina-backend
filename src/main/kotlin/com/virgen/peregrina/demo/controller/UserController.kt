@@ -13,7 +13,6 @@ import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
@@ -35,10 +34,9 @@ class UserController {
 
     @PostMapping("/create")
     fun create(@RequestBody userModel: UserModel): ResponseEntity<BaseResponse<UserModel>> {
-        log.info("$TAG $METHOD_CALLED signUp()")
+        log.info("$TAG $METHOD_CALLED create()")
         log.info("$PARAMS $userModel")
-        val result = userService.create(userModel)
-        return when (result) {
+        return when (val result = userService.create(userModel)) {
             is BaseResult.Success -> {
                 ResponseEntity(
                         BaseResponse(result.data),
@@ -66,7 +64,7 @@ class UserController {
     fun login(@RequestBody loginRequest: LoginRequest): ResponseEntity<BaseResponse<UserModel?>> {
         log.info("$TAG $METHOD_CALLED login()")
         log.info("$PARAMS loginRequest=$loginRequest")
-        return when (val result = userService.signIn(loginRequest.uuid)) {
+        return when (val result = userService.login(loginRequest.uuid)) {
             is BaseResult.Success -> {
                 ResponseEntity(
                         BaseResponse(result.data),

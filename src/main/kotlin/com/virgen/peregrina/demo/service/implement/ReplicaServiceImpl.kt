@@ -28,10 +28,9 @@ class ReplicaServiceImpl : ReplicaService {
     private val log = LogFactory.getLog(ReplicaServiceImpl::class.java)
 
     override fun create(model: ReplicaModel): BaseResult<ReplicaModel> = try {
-        log.info("$TAG $METHOD_CALLED create()")
-        log.info("$PARAMS $model")
-        val newReplica = replicaRepository.save(model.toEntity())
-        BaseResult.Success(newReplica.toModel())
+        log.info("$TAG $METHOD_CALLED create() $PARAMS $model")
+        val newReplica = replicaRepository.save(model.toEntity().get())
+        BaseResult.Success(newReplica.toModel().get())
     } catch (ex: Exception) {
         log.error("$TAG create(): Exception -> $ex")
         BaseResult.Error(ex) // return
@@ -41,13 +40,13 @@ class ReplicaServiceImpl : ReplicaService {
         TODO("Not yet implemented")
     }
 
-    override fun get(model: ReplicaModel): BaseResult<ReplicaModel> {
+    override fun get(id: Long): BaseResult<ReplicaModel> {
         TODO("Not yet implemented")
     }
 
     override fun getAll(): BaseResult<List<ReplicaModel>> = try {
         val result: MutableList<Replica> = replicaRepository.findAll()
-        val data = result.map { it.toModel() }
+        val data = result.map { it.toModel().get() }
         BaseResult.Success(data) // return
     } catch (ex: Exception) {
         log.error("$TAG getAll(): Exception -> $ex")

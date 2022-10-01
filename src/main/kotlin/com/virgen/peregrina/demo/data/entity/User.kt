@@ -1,12 +1,11 @@
 package com.virgen.peregrina.demo.data.entity
 
 import com.virgen.peregrina.demo.data.model.UserModel
-import javax.persistence.Column
-import javax.persistence.Entity
-import javax.persistence.GeneratedValue
-import javax.persistence.GenerationType
-import javax.persistence.Id
-import javax.persistence.Table
+import com.virgen.peregrina.demo.service.implement.UserServiceImpl
+import com.virgen.peregrina.demo.util.getLog
+import org.apache.commons.logging.LogFactory
+import java.util.*
+import javax.persistence.*
 
 @Entity
 @Table(name = "user")
@@ -16,7 +15,7 @@ data class User(
         @Column(unique = true, nullable = false, name = "user_id")
         val id: Long? = null,
 
-        @Column(name = "user_firebase_uid", unique = true, nullable = false)
+        @Column(name = "user_uuid", unique = true, nullable = false)
         val uuid: String,
 
         @Column(name = "user_name")
@@ -46,21 +45,29 @@ data class User(
         @Column(name = "user_photo_url")
         val photoUrl: String?,
 
-        @Column(name = "user_role")
-        val role: String
+        @OneToMany(mappedBy = "user")
+        val replicas: List<Replica>?
 )
 
 
-fun UserModel.toEntity() = User(
-        uuid = uuid,
-        name = name,
-        lastName = lastName,
-        email = email,
-        address = address,
-        city = city,
-        country = country,
-        cellphone = cellphone,
-        telephone = telephone,
-        photoUrl = photoUrl,
-        role = role
-)
+fun UserModel.toEntity() = try {
+    val replicasAux = replicas?.map { it.toEntity().get() }
+    val entity = User(
+            uuid = uuid,
+            name = name,
+            lastName = lastName,
+            email = email,
+            address = address,
+            city = city,
+            country = country,
+            cellphone = cellphone,
+            telephone = telephone,
+            photoUrl = photoUrl,
+            replicas = replicasAux
+    )
+    Optional.of(entity)
+} catch (ex: Exception) {
+    getLog<UserModel>().info("UserModel.toEntity(): Exception -> $ex")
+    Optional.empty<User>()
+}
+

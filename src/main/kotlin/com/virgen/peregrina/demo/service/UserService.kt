@@ -6,5 +6,5 @@ import com.virgen.peregrina.demo.util.base.BaseResult
 
 interface UserService : Service<UserModel> {
 
-    fun signIn(firebaseUid:String):BaseResult<UserModel>
+    fun login(firebaseUid:String):BaseResult<UserModel>
 }
