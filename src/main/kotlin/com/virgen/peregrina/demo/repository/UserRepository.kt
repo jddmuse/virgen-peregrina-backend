@@ -10,7 +10,7 @@ import java.util.*
 interface UserRepository : JpaRepository<User, Long> {
 
     @Query(
-            value = "SELECT * FROM public.user WHERE user_firebase_uid = :uid",
+            value = "SELECT * FROM public.user WHERE user_uuid = :uid",
             nativeQuery = true
     )
     fun getReferenceByUUID(uid: String): Optional<User>

@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController
 class UserController {
 
     companion object {
-        private const val TAG = "UserController ->"
+        private const val TAG = "[UserController] ->"
     }
 
     private val log = LogFactory.getLog(UserController::class.java)
@@ -48,14 +48,19 @@ class UserController {
                 ResponseEntity(
                         BaseResponse(
                                 error = result.exception.toString(),
-                                message = result.exception.message
+                                message = "An internal error has occurred"
                         ),
-                        HttpStatus.OK
+                        HttpStatus.INTERNAL_SERVER_ERROR
                 )
             }
 
             is BaseResult.NullOrEmptyData -> {
-                ResponseEntity(BaseResponse(), HttpStatus.BAD_REQUEST)
+                ResponseEntity(
+                        BaseResponse(
+                                message = "An internal error has occurred, try it again"
+                        ),
+                        HttpStatus.BAD_REQUEST
+                )
             }
         }
     }
@@ -74,14 +79,17 @@ class UserController {
 
             is BaseResult.NullOrEmptyData -> {
                 ResponseEntity(
-                        BaseResponse(message = "User didn't find with firebaseUid = ${loginRequest.uuid}"),
+                        BaseResponse(message = "It could not find an user with UUID = ${loginRequest.uuid}"),
                         HttpStatus.BAD_REQUEST
                 )
             }
 
             is BaseResult.Error -> {
                 ResponseEntity(
-                        BaseResponse(error = result.exception.toString()),
+                        BaseResponse(
+                                error = result.exception.toString(),
+                                message = "An internal error has occurred"
+                        ),
                         HttpStatus.INTERNAL_SERVER_ERROR
                 )
             }
@@ -99,7 +107,7 @@ class UserController {
             is BaseResult.Error -> {
                 ResponseEntity(BaseResponse(
                         error = result.exception.toString(),
-                        message = result.exception.message
+                        message = "An internal error has occurred"
                 ), HttpStatus.BAD_REQUEST)
             }
 
@@ -112,7 +120,7 @@ class UserController {
         ResponseEntity(
                 BaseResponse(
                         error = ex.toString(),
-                        message = ex.message
+                        message = "An internal error has occurred"
                 ),
                 HttpStatus.BAD_REQUEST
         )
