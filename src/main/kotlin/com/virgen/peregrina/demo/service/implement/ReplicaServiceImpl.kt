@@ -1,15 +1,14 @@
 package com.virgen.peregrina.demo.service.implement
 
+import com.virgen.peregrina.demo.data.converter.ReplicaConverter
 import com.virgen.peregrina.demo.data.entity.Replica
-import com.virgen.peregrina.demo.data.entity.toEntity
 import com.virgen.peregrina.demo.data.model.ReplicaModel
-import com.virgen.peregrina.demo.data.model.toModel
 import com.virgen.peregrina.demo.repository.ReplicaRepository
 import com.virgen.peregrina.demo.service.ReplicaService
 import com.virgen.peregrina.demo.util.METHOD_CALLED
 import com.virgen.peregrina.demo.util.PARAMS
 import com.virgen.peregrina.demo.util.base.BaseResult
-import org.apache.commons.logging.LogFactory
+import com.virgen.peregrina.demo.util.getLog
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.stereotype.Service
@@ -25,12 +24,16 @@ class ReplicaServiceImpl : ReplicaService {
     @Qualifier("replicaRepository")
     private lateinit var replicaRepository: ReplicaRepository
 
-    private val log = LogFactory.getLog(ReplicaServiceImpl::class.java)
+    @Autowired
+    @Qualifier("replicaConverter")
+    private lateinit var replicaConverter: ReplicaConverter
+
+    private val log = getLog<ReplicaServiceImpl>()
 
     override fun create(model: ReplicaModel): BaseResult<ReplicaModel> = try {
         log.info("$TAG $METHOD_CALLED create() $PARAMS $model")
-        val newReplica = replicaRepository.save(model.toEntity().get())
-        BaseResult.Success(newReplica.toModel().get())
+        val newReplica = replicaRepository.save(replicaConverter.toEntity(model).get())
+        BaseResult.Success(replicaConverter.toModel(newReplica).get())
     } catch (ex: Exception) {
         log.error("$TAG create(): Exception -> $ex")
         BaseResult.Error(ex) // return
@@ -46,7 +49,7 @@ class ReplicaServiceImpl : ReplicaService {
 
     override fun getAll(): BaseResult<List<ReplicaModel>> = try {
         val result: MutableList<Replica> = replicaRepository.findAll()
-        val data = result.map { it.toModel().get() }
+        val data = result.map { replicaConverter.toModel(it).get() }
         BaseResult.Success(data) // return
     } catch (ex: Exception) {
         log.error("$TAG getAll(): Exception -> $ex")

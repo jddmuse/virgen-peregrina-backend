@@ -1,10 +1,5 @@
 package com.virgen.peregrina.demo.data.entity
 
-import com.virgen.peregrina.demo.data.model.UserModel
-import com.virgen.peregrina.demo.service.implement.UserServiceImpl
-import com.virgen.peregrina.demo.util.getLog
-import org.apache.commons.logging.LogFactory
-import java.util.*
 import javax.persistence.*
 
 @Entity
@@ -48,26 +43,3 @@ data class User(
         @OneToMany(mappedBy = "user")
         val replicas: List<Replica>?
 )
-
-
-fun UserModel.toEntity() = try {
-    val replicasAux = replicas?.map { it.toEntity().get() }
-    val entity = User(
-            uuid = uuid,
-            name = name,
-            lastName = lastName,
-            email = email,
-            address = address,
-            city = city,
-            country = country,
-            cellphone = cellphone,
-            telephone = telephone,
-            photoUrl = photoUrl,
-            replicas = replicasAux
-    )
-    Optional.of(entity)
-} catch (ex: Exception) {
-    getLog<UserModel>().info("UserModel.toEntity(): Exception -> $ex")
-    Optional.empty<User>()
-}
-

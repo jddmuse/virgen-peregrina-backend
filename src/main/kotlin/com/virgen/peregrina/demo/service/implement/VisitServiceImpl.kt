@@ -2,9 +2,7 @@ package com.virgen.peregrina.demo.service.implement
 
 import com.virgen.peregrina.demo.data.converter.VisitConverter
 import com.virgen.peregrina.demo.data.entity.Visit
-import com.virgen.peregrina.demo.data.entity.toEntity
 import com.virgen.peregrina.demo.data.model.VisitModel
-import com.virgen.peregrina.demo.data.model.toModel
 import com.virgen.peregrina.demo.repository.VisitRepository
 import com.virgen.peregrina.demo.service.VisitService
 import com.virgen.peregrina.demo.util.ERROR_START_DATE_GREATER_THAN_END_DATE
@@ -16,7 +14,6 @@ import org.apache.commons.logging.LogFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.stereotype.Service
-import java.lang.Exception
 
 @Service("visitService")
 class VisitServiceImpl : VisitService {

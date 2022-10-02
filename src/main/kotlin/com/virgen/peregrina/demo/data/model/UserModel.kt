@@ -20,24 +20,3 @@ data class UserModel(
         var replicas: List<ReplicaModel>? = null
 )
 
-fun User.toModel(): Optional<UserModel> = try {
-    val model = UserModel(
-            id = id,
-            uuid = uuid,
-            name = name,
-            lastName = lastName,
-            email = email,
-            address = address,
-            city = city,
-            country = country,
-            cellphone = cellphone,
-            telephone = telephone,
-            photoUrl = photoUrl,
-            replicas = replicas?.map { it.toModel().get() }
-    )
-    Optional.of(model)
-} catch (ex: Exception) {
-    getLog<UserModel>().info("User.toModel(): Exception -> $ex")
-    Optional.empty<UserModel>()
-}
-
