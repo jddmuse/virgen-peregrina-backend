@@ -1,13 +1,11 @@
 package com.virgen.peregrina.demo.controller
 
-import com.virgen.peregrina.demo.data.entity.Replica
-import com.virgen.peregrina.demo.data.model.ReplicaModel
-import com.virgen.peregrina.demo.service.ReplicaService
-import com.virgen.peregrina.demo.util.METHOD_CALLED
+import com.virgen.peregrina.demo.data.model.TestimonyModel
+import com.virgen.peregrina.demo.service.TestimonyService
 import com.virgen.peregrina.demo.util.PARAMS
 import com.virgen.peregrina.demo.util.base.BaseResponse
 import com.virgen.peregrina.demo.util.base.BaseResult
-import org.apache.commons.logging.LogFactory
+import com.virgen.peregrina.demo.util.getLog
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.http.HttpStatus
@@ -15,33 +13,37 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
 @RestController
-@RequestMapping("/replica")
-class ReplicaController {
-
-    companion object {
-        private const val TAG = "ReplicaController ->"
-    }
-
-    private val log = LogFactory.getLog(ReplicaController::class.java)
+@RequestMapping("/testimony")
+class TestimonyController {
 
     @Autowired
-    @Qualifier("replicaService")
-    private lateinit var replicaService: ReplicaService
+    @Qualifier("testimonyService")
+    private lateinit var testimonyService: TestimonyService
+
+    companion object {
+        private const val TAG = "TestimonyController ->"
+    }
+
+    private val log = getLog<TestimonyController>()
 
     @PostMapping("/create")
-    fun createReplica(@RequestBody model: ReplicaModel): ResponseEntity<BaseResponse<ReplicaModel>> = try {
-        log.info("$TAG $METHOD_CALLED createReplica()")
-        log.info("$PARAMS $model")
-        when (val result = replicaService.create(model)) {
+    fun createTestimony(
+        @RequestBody model: TestimonyModel
+    ): ResponseEntity<BaseResponse<TestimonyModel>> = try {
+        log.info("$TAG createTestimony() $PARAMS $model")
+        when (val result = testimonyService.create(model)) {
             is BaseResult.Success -> {
-                ResponseEntity(BaseResponse(result.data), HttpStatus.OK)
+                ResponseEntity(
+                    BaseResponse(
+                        data = result.data
+                    ), HttpStatus.OK
+                )
             }
 
             is BaseResult.Error -> {
                 ResponseEntity(
                     BaseResponse(
-                        error = result.exception.toString(),
-//                        message = result.exception.message
+                        error = result.exception.toString()
                     ), HttpStatus.INTERNAL_SERVER_ERROR
                 )
             }
@@ -51,21 +53,29 @@ class ReplicaController {
             }
         }
     } catch (ex: Exception) {
-        log.error("$TAG createReplica(): Exception -> $ex")
+        log.error("$TAG createTestimony(): Exception -> $ex")
         ResponseEntity(
             BaseResponse(
-                error = ex.toString(),
-//                message = ex.message
-            ), HttpStatus.BAD_REQUEST
+                error = ex.toString()
+            ), HttpStatus.INTERNAL_SERVER_ERROR
         )
     }
 
-    @GetMapping("/get-all")
-    fun getAll(): ResponseEntity<BaseResponse<List<ReplicaModel>>> = try {
-        log.debug("$TAG, $METHOD_CALLED getAll()")
-        when (val result = replicaService.getAll()) {
+
+//    fun getAll() {
+//
+//    }
+
+    @GetMapping("/get-all/{replica_id}")
+    fun getAll(
+        @PathVariable replica_id: Long
+    ) = try {
+        when (val result = testimonyService.getAll(replica_id)) {
             is BaseResult.Success -> {
-                ResponseEntity(BaseResponse(result.data), HttpStatus.OK)
+                ResponseEntity(
+                    BaseResponse(data = result.data),
+                    HttpStatus.OK
+                )
             }
 
             is BaseResult.Error -> {
@@ -78,7 +88,10 @@ class ReplicaController {
             }
 
             is BaseResult.NullOrEmptyData -> {
-                ResponseEntity(BaseResponse(message = result.message), HttpStatus.BAD_REQUEST)
+                ResponseEntity(
+                    BaseResponse(message = result.message),
+                    HttpStatus.BAD_REQUEST
+                )
             }
         }
     } catch (ex: Exception) {
@@ -90,5 +103,6 @@ class ReplicaController {
             ), HttpStatus.BAD_REQUEST
         )
     }
+
 
 }
