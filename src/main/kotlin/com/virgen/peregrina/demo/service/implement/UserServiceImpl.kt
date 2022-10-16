@@ -50,6 +50,16 @@ class UserServiceImpl : UserService {
         BaseResult.Error(ex)
     }
 
+    override fun getAllPilgrims(): BaseResult<List<UserModel>> = try {
+        log.info("$TAG $METHOD_CALLED getAllPilgrims()")
+        val result = userRepository.getAllPilgrims().get()
+        val list = result.map { userConverter.toModel(it).get() }
+        BaseResult.Success(list)
+    } catch (ex: Exception) {
+        log.error("$TAG getAllPilgrims(): Exception -> $ex")
+        BaseResult.Error(ex)
+    }
+
     override fun create(userModel: UserModel): BaseResult<UserModel> = try {
         log.info("$TAG $METHOD_CALLED create() $PARAMS $userModel")
 

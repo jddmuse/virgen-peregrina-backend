@@ -7,6 +7,7 @@ import com.virgen.peregrina.demo.util.METHOD_CALLED
 import com.virgen.peregrina.demo.util.PARAMS
 import com.virgen.peregrina.demo.util.base.BaseResponse
 import com.virgen.peregrina.demo.util.base.BaseResult
+import org.apache.catalina.User
 import org.apache.commons.logging.LogFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Qualifier
@@ -32,6 +33,38 @@ class UserController {
     @Qualifier("userService")
     private lateinit var userService: UserService
 
+    @GetMapping("/get-all-pilgrims")
+    fun getAllPilgrims(): ResponseEntity<BaseResponse<List<UserModel>>> {
+        log.info("$TAG $METHOD_CALLED getAllPilgrims()")
+        return when (val result = userService.getAllPilgrims()) {
+            is BaseResult.Success -> {
+                ResponseEntity(
+                    BaseResponse(result.data),
+                    HttpStatus.OK
+                )
+            }
+
+            is BaseResult.Error -> {
+                ResponseEntity(
+                    BaseResponse(
+                        error = result.exception.toString(),
+                        message = "An internal error has occurred"
+                    ),
+                    HttpStatus.INTERNAL_SERVER_ERROR
+                )
+            }
+
+            is BaseResult.NullOrEmptyData -> {
+                ResponseEntity(
+                    BaseResponse(
+                        message = "An internal error has occurred, try it again"
+                    ),
+                    HttpStatus.BAD_REQUEST
+                )
+            }
+        }
+    }
+
     @PostMapping("/create")
     fun create(@RequestBody userModel: UserModel): ResponseEntity<BaseResponse<UserModel>> {
         log.info("$TAG $METHOD_CALLED create()")
@@ -39,27 +72,27 @@ class UserController {
         return when (val result = userService.create(userModel)) {
             is BaseResult.Success -> {
                 ResponseEntity(
-                        BaseResponse(result.data),
-                        HttpStatus.OK
+                    BaseResponse(result.data),
+                    HttpStatus.OK
                 )
             }
 
             is BaseResult.Error -> {
                 ResponseEntity(
-                        BaseResponse(
-                                error = result.exception.toString(),
-                                message = "An internal error has occurred"
-                        ),
-                        HttpStatus.INTERNAL_SERVER_ERROR
+                    BaseResponse(
+                        error = result.exception.toString(),
+                        message = "An internal error has occurred"
+                    ),
+                    HttpStatus.INTERNAL_SERVER_ERROR
                 )
             }
 
             is BaseResult.NullOrEmptyData -> {
                 ResponseEntity(
-                        BaseResponse(
-                                message = "An internal error has occurred, try it again"
-                        ),
-                        HttpStatus.BAD_REQUEST
+                    BaseResponse(
+                        message = "An internal error has occurred, try it again"
+                    ),
+                    HttpStatus.BAD_REQUEST
                 )
             }
         }
@@ -72,25 +105,25 @@ class UserController {
         return when (val result = userService.login(loginRequest.uuid)) {
             is BaseResult.Success -> {
                 ResponseEntity(
-                        BaseResponse(result.data),
-                        HttpStatus.OK
+                    BaseResponse(result.data),
+                    HttpStatus.OK
                 )
             }
 
             is BaseResult.NullOrEmptyData -> {
                 ResponseEntity(
-                        BaseResponse(message = "It could not find an user with UUID = ${loginRequest.uuid}"),
-                        HttpStatus.BAD_REQUEST
+                    BaseResponse(message = "It could not find an user with UUID = ${loginRequest.uuid}"),
+                    HttpStatus.BAD_REQUEST
                 )
             }
 
             is BaseResult.Error -> {
                 ResponseEntity(
-                        BaseResponse(
-                                error = result.exception.toString(),
-                                message = "An internal error has occurred"
-                        ),
-                        HttpStatus.INTERNAL_SERVER_ERROR
+                    BaseResponse(
+                        error = result.exception.toString(),
+                        message = "An internal error has occurred"
+                    ),
+                    HttpStatus.INTERNAL_SERVER_ERROR
                 )
             }
         }
@@ -105,10 +138,12 @@ class UserController {
             }
 
             is BaseResult.Error -> {
-                ResponseEntity(BaseResponse(
+                ResponseEntity(
+                    BaseResponse(
                         error = result.exception.toString(),
                         message = "An internal error has occurred"
-                ), HttpStatus.BAD_REQUEST)
+                    ), HttpStatus.BAD_REQUEST
+                )
             }
 
             is BaseResult.NullOrEmptyData -> {
@@ -118,11 +153,11 @@ class UserController {
     } catch (ex: Exception) {
         log.error("$TAG create(): Exception -> $ex")
         ResponseEntity(
-                BaseResponse(
-                        error = ex.toString(),
-                        message = "An internal error has occurred"
-                ),
-                HttpStatus.BAD_REQUEST
+            BaseResponse(
+                error = ex.toString(),
+                message = "An internal error has occurred"
+            ),
+            HttpStatus.BAD_REQUEST
         )
     }
 
