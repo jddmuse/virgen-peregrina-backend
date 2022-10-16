@@ -27,18 +27,19 @@ class UserConverter : Converter<UserModel, User> {
         }
         val entity = model.run {
             User(
-                    id = id,
-                    uuid = uuid,
-                    name = name,
-                    lastName = lastName,
-                    email = email,
-                    address = address,
-                    city = city,
-                    country = country,
-                    cellphone = cellphone,
-                    telephone = telephone,
-                    photoUrl = photoUrl,
-                    replicas = replicasAux
+                id = id,
+                uuid = uuid,
+                name = name,
+                lastName = lastName,
+                email = email,
+                address = address,
+                city = city,
+                country = country,
+                cellphone = cellphone,
+                telephone = telephone,
+                photoUrl = photoUrl,
+                replicas = replicasAux,
+                isPilgrim = isPilgrim
             )
         }
         Optional.of(entity)
@@ -50,20 +51,21 @@ class UserConverter : Converter<UserModel, User> {
     override fun toModel(entity: User): Optional<UserModel> = try {
         val model = entity.run {
             UserModel(
-                    id = id,
-                    uuid = uuid,
-                    name = name,
-                    lastName = lastName,
-                    email = email,
-                    address = address,
-                    city = city,
-                    country = country,
-                    cellphone = cellphone,
-                    telephone = telephone,
-                    photoUrl = photoUrl,
-                    replicas = replicas?.map {
-                        replicaConverter.toModel(it).get()
-                    }
+                id = id,
+                uuid = uuid,
+                name = name,
+                lastName = lastName,
+                email = email,
+                address = address,
+                city = city,
+                country = country,
+                cellphone = cellphone,
+                telephone = telephone,
+                photoUrl = photoUrl,
+                replicas = replicas?.map {
+                    replicaConverter.toModel(it).get()
+                },
+                isPilgrim = isPilgrim
             )
         }
         Optional.of(model)
