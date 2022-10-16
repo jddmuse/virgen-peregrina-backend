@@ -5,7 +5,6 @@ data class TestimonyModel(
     var date: String? = null,
     val user_id: Long,
     val user_name: String?,
-    val replica_id: Long,
-    val replica_code: String?,
+    val pilgrimage_id: Long,
     val value: String
 )

@@ -21,11 +21,11 @@ data class Testimony(
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(
-        foreignKey = ForeignKey(name = "testimony_replica_fkey"),
-        name = "repl_id",
-        referencedColumnName = "repl_id"
+        foreignKey = ForeignKey(name = "testimony_pilgrimage_fkey"),
+        name = "pilg_id",
+        referencedColumnName = "pilg_id"
     )
-    val replica: Replica,
+    val pilgrimage: Pilgrimage,
 
     @Column(name = "test_date")
     val date: Date?,

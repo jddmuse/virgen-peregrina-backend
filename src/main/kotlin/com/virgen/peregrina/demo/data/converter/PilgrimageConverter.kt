@@ -1,12 +1,13 @@
 package com.virgen.peregrina.demo.data.converter
 
-import com.virgen.peregrina.demo.data.entity.Visit
-import com.virgen.peregrina.demo.data.model.VisitModel
+import com.virgen.peregrina.demo.data.entity.Pilgrimage
+import com.virgen.peregrina.demo.data.model.PilgrimageModel
 import com.virgen.peregrina.demo.repository.ReplicaRepository
 import com.virgen.peregrina.demo.repository.UserRepository
 import com.virgen.peregrina.demo.util.component.Converter
 import com.virgen.peregrina.demo.util.METHOD_CALLED
 import com.virgen.peregrina.demo.util.PARAMS
+import com.virgen.peregrina.demo.util.PILGRIMAGE_CONVERTER_NAME
 import org.apache.commons.logging.LogFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Qualifier
@@ -14,13 +15,13 @@ import org.springframework.stereotype.Component
 import java.text.SimpleDateFormat
 import java.util.*
 
-@Component("visitConverter")
-class VisitConverter : Converter<VisitModel, Visit> {
+@Component(PILGRIMAGE_CONVERTER_NAME)
+class PilgrimageConverter : Converter<PilgrimageModel, Pilgrimage> {
     companion object {
         private const val TAG = "VisitConverter ->"
     }
 
-    private val log = LogFactory.getLog(VisitConverter::class.java)
+    private val log = LogFactory.getLog(PilgrimageConverter::class.java)
 
     @Autowired
     @Qualifier("userRepository")
@@ -31,7 +32,7 @@ class VisitConverter : Converter<VisitModel, Visit> {
     private lateinit var replicaRepository: ReplicaRepository
 
 
-    override fun toEntity(model: VisitModel): Optional<Visit> = try {
+    override fun toEntity(model: PilgrimageModel): Optional<Pilgrimage> = try {
         log.debug("$TAG $METHOD_CALLED model2Entity()")
         log.debug("$PARAMS $model")
         model.run {
@@ -39,14 +40,14 @@ class VisitConverter : Converter<VisitModel, Visit> {
             val dateStart = sdf.parse(date_start)
             val dateEnd = sdf.parse(date_end)
 
-            val user = userRepository.getReferenceById(userId)
-            val replica = replicaRepository.getReferenceById(replicaId)
+            val user = userRepository.getReferenceById(user_id)
+            val replica = replicaRepository.getReferenceById(replica_id)
 
-            val entity = Visit(
+            val entity = Pilgrimage(
                     id = id,
                     date_start = dateStart,
                     date_end = dateEnd,
-                    description = description,
+                    description = intention,
                     user = user,
                     replica = replica
             )
@@ -54,29 +55,29 @@ class VisitConverter : Converter<VisitModel, Visit> {
         }
     } catch (ex: Exception) {
         log.error("$TAG model2Entity(): Exception -> $ex")
-        Optional.empty<Visit>()
+        Optional.empty<Pilgrimage>()
     }
 
-    override fun toModel(entity: Visit): Optional<VisitModel> = try {
+    override fun toModel(entity: Pilgrimage): Optional<PilgrimageModel> = try {
         log.debug("$TAG $METHOD_CALLED entity2Model()")
         log.debug("$PARAMS $entity")
         entity.run {
             val sdf = SimpleDateFormat("dd/MM/yyyy")
             val dateStart: String = sdf.format(date_start)
             val dateEnd: String = sdf.format(date_end)
-            val data = VisitModel(
+            val data = PilgrimageModel(
                     id = id,
                     date_start = dateStart,
                     date_end = dateEnd,
-                    description = description,
-                    userId = user.id!!,
-                    replicaId = replica.id!!
+                    intention = description,
+                    user_id = user.id!!,
+                    replica_id = replica.id!!
             )
             Optional.of(data)
         }
     } catch (ex: Exception) {
         log.error("$TAG entity2Model(): Exception -> $ex")
-        Optional.empty<VisitModel>()
+        Optional.empty<PilgrimageModel>()
     }
 
 

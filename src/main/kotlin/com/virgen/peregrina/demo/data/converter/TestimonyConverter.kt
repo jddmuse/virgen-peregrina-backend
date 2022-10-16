@@ -2,8 +2,10 @@ package com.virgen.peregrina.demo.data.converter
 
 import com.virgen.peregrina.demo.data.entity.Testimony
 import com.virgen.peregrina.demo.data.model.TestimonyModel
+import com.virgen.peregrina.demo.repository.PilgrimageRepository
 import com.virgen.peregrina.demo.repository.ReplicaRepository
 import com.virgen.peregrina.demo.repository.UserRepository
+import com.virgen.peregrina.demo.util.PILGRIMAGE_REPOSITORY_NAME
 import com.virgen.peregrina.demo.util.component.Converter
 import com.virgen.peregrina.demo.util.getLog
 import org.springframework.beans.factory.annotation.Autowired
@@ -20,8 +22,9 @@ class TestimonyConverter : Converter<TestimonyModel, Testimony> {
     private lateinit var userRepository: UserRepository
 
     @Autowired
-    @Qualifier("replicaRepository")
-    private lateinit var replicaRepository: ReplicaRepository
+    @Qualifier(PILGRIMAGE_REPOSITORY_NAME)
+    private lateinit var pilgrimageRepository: PilgrimageRepository
+
 
     companion object {
         private const val TAG = "[TestimonyConverter] ->"
@@ -30,13 +33,13 @@ class TestimonyConverter : Converter<TestimonyModel, Testimony> {
     override fun toEntity(model: TestimonyModel): Optional<Testimony> = try {
         val sdf = SimpleDateFormat("dd/MM/yyyy")
         val user = userRepository.getReferenceById(model.user_id)
-        val replica = replicaRepository.getReferenceById(model.replica_id)
+        val pilgrimage = pilgrimageRepository.getReferenceById(model.pilgrimage_id)
 
         val entity = model.run {
             Testimony(
                 id = id,
                 user = user,
-                replica = replica,
+                pilgrimage = pilgrimage,
                 date = sdf.parse(date),
                 value = value
             )
@@ -56,8 +59,7 @@ class TestimonyConverter : Converter<TestimonyModel, Testimony> {
                 date = sdf.format(date),
                 user_id = user.id!!,
                 user_name = user.name,
-                replica_id = replica.id!!,
-                replica_code = replica.code,
+                pilgrimage_id = pilgrimage.id!!,
                 value = value
             )
         }
