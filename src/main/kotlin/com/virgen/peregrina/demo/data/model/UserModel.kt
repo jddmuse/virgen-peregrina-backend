@@ -7,7 +7,7 @@ import java.util.Optional
 
 data class UserModel(
     val id: Long? = null,
-    val uuid: String,
+    val uuid: String?,
     val name: String,
     val lastName: String?,
     val email: String,

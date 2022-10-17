@@ -34,7 +34,15 @@ class Pilgrimage(
         name = "user_id",
         referencedColumnName = "user_id"
     )
-    val user: User
+    val user: User,
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(
+        foreignKey = ForeignKey(name = "pilgrimage_user_receiver_fkey"),
+        name = "user_id_receiver",
+        referencedColumnName = "user_id"
+    )
+    val receiver_user: User
 ) {
 
     fun onRange(other: Pilgrimage): Boolean {

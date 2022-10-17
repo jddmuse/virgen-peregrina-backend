@@ -11,7 +11,7 @@ data class User(
     val id: Long? = null,
 
     @Column(name = "user_uuid", unique = true, nullable = false)
-    val uuid: String,
+    val uuid: String?,
 
     @Column(name = "user_name")
     val name: String,

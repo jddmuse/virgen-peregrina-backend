@@ -41,20 +41,22 @@ class PilgrimageConverter : Converter<PilgrimageModel, Pilgrimage> {
             val dateEnd = sdf.parse(date_end)
 
             val user = userRepository.getReferenceById(user_id)
+            val receiver_user = userRepository.getReferenceById(receiver_user_id)
             val replica = replicaRepository.getReferenceById(replica_id)
 
             val entity = Pilgrimage(
-                    id = id,
-                    date_start = dateStart,
-                    date_end = dateEnd,
-                    description = intention,
-                    user = user,
-                    replica = replica
+                id = id,
+                date_start = dateStart,
+                date_end = dateEnd,
+                description = intention,
+                user = user,
+                replica = replica,
+                receiver_user = receiver_user
             )
             Optional.of(entity)
         }
     } catch (ex: Exception) {
-        log.error("$TAG model2Entity(): Exception -> $ex")
+        log.error("$TAG toEntity(): Exception -> $ex")
         Optional.empty<Pilgrimage>()
     }
 
@@ -66,17 +68,18 @@ class PilgrimageConverter : Converter<PilgrimageModel, Pilgrimage> {
             val dateStart: String = sdf.format(date_start)
             val dateEnd: String = sdf.format(date_end)
             val data = PilgrimageModel(
-                    id = id,
-                    date_start = dateStart,
-                    date_end = dateEnd,
-                    intention = description,
-                    user_id = user.id!!,
-                    replica_id = replica.id!!
+                id = id,
+                date_start = dateStart,
+                date_end = dateEnd,
+                intention = description,
+                user_id = user.id!!,
+                replica_id = replica.id!!,
+                receiver_user_id = receiver_user.id!!
             )
             Optional.of(data)
         }
     } catch (ex: Exception) {
-        log.error("$TAG entity2Model(): Exception -> $ex")
+        log.error("$TAG toModel(): Exception -> $ex")
         Optional.empty<PilgrimageModel>()
     }
 
