@@ -10,7 +10,7 @@ data class User(
     @Column(unique = true, nullable = false, name = "user_id")
     val id: Long? = null,
 
-    @Column(name = "user_uuid", unique = true, nullable = false)
+    @Column(name = "user_uuid", unique = true, nullable = true)
     val uuid: String?,
 
     @Column(name = "user_name")
