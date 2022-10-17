@@ -28,12 +28,12 @@ class ReplicaConverter : Converter<ReplicaModel, Replica> {
         val user = userRepository.getReferenceById(model.user_id)
         val entity = model.run {
             Replica(
-                    id = id,
-                    required_restore = required_restore,
-                    photo_url = photo_url,
-                    code = code,
-                    received_date = sdf.parse(received_date),
-                    user = user
+                id = id,
+                required_restore = required_restore,
+                photo_url = photo_url,
+                code = code,
+                received_date = sdf.parse(received_date),
+                user = user
             )
         }
         Optional.of(entity)
@@ -46,13 +46,17 @@ class ReplicaConverter : Converter<ReplicaModel, Replica> {
         val sdf = SimpleDateFormat("dd/MM/yyyy")
         val model = entity.run {
             ReplicaModel(
-                    id = id,
-                    required_restore = required_restore,
-                    photo_url = photo_url,
-                    code = code,
-                    received_date = sdf.format(received_date),
-                    user_id = user.id!!,
-                    user_name = user.name
+                id = id,
+                required_restore = required_restore,
+                photo_url = photo_url,
+                code = code,
+                received_date = sdf.format(received_date),
+                user_id = user.id!!,
+                user_name = user.name,
+                user_cellphone = user.cellphone,
+                user_country = user.country,
+                user_city = user.city,
+                user_email = user.email
             )
         }
         Optional.of(model)
