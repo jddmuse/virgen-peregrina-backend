@@ -8,6 +8,7 @@ import com.virgen.peregrina.demo.util.component.Converter
 import com.virgen.peregrina.demo.util.METHOD_CALLED
 import com.virgen.peregrina.demo.util.PARAMS
 import com.virgen.peregrina.demo.util.PILGRIMAGE_CONVERTER_NAME
+import com.virgen.peregrina.demo.util.PilgrimageState
 import org.apache.commons.logging.LogFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Qualifier
@@ -63,6 +64,7 @@ class PilgrimageConverter : Converter<PilgrimageModel, Pilgrimage> {
     override fun toModel(entity: Pilgrimage): Optional<PilgrimageModel> = try {
         log.debug("$TAG $METHOD_CALLED entity2Model()")
         log.debug("$PARAMS $entity")
+        val currentDate = Calendar.getInstance().time
         entity.run {
             val sdf = SimpleDateFormat("dd/MM/yyyy")
             val dateStart: String = sdf.format(date_start)
@@ -74,7 +76,16 @@ class PilgrimageConverter : Converter<PilgrimageModel, Pilgrimage> {
                 intention = description,
                 user_id = user.id!!,
                 replica_id = replica.id!!,
-                receiver_user_id = receiver_user.id!!
+                receiver_user_id = receiver_user.id!!,
+                isFinished = currentDate.after(date_end) || currentDate.equals(date_end),
+                city = receiver_user.city ?: "",
+                country = receiver_user.country ?: "",
+                state = when {
+                    currentDate.after(date_end) || currentDate.equals(date_end) -> PilgrimageState.FINISHED
+                    currentDate.before(date_start) -> PilgrimageState.PENDING
+                    currentDate.equals(date_start) || (currentDate.after(date_start) && currentDate.before(date_end)) -> PilgrimageState.IN_PROGRESS
+                    else -> ""
+                }
             )
             Optional.of(data)
         }

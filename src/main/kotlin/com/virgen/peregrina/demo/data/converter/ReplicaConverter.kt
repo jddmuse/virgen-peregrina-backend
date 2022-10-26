@@ -3,7 +3,10 @@ package com.virgen.peregrina.demo.data.converter
 import com.virgen.peregrina.demo.data.entity.Replica
 import com.virgen.peregrina.demo.data.model.ReplicaModel
 import com.virgen.peregrina.demo.data.model.UserModel
+import com.virgen.peregrina.demo.repository.PilgrimageRepository
+import com.virgen.peregrina.demo.repository.ReplicaRepository
 import com.virgen.peregrina.demo.repository.UserRepository
+import com.virgen.peregrina.demo.util.PILGRIMAGE_REPOSITORY_NAME
 import com.virgen.peregrina.demo.util.component.Converter
 import com.virgen.peregrina.demo.util.getLog
 import org.springframework.beans.factory.annotation.Autowired
@@ -22,6 +25,10 @@ class ReplicaConverter : Converter<ReplicaModel, Replica> {
     @Autowired
     @Qualifier("userRepository")
     private lateinit var userRepository: UserRepository
+
+    @Autowired
+    @Qualifier(PILGRIMAGE_REPOSITORY_NAME)
+    private lateinit var pilgrimageRepository: PilgrimageRepository
 
     override fun toEntity(model: ReplicaModel): Optional<Replica> = try {
         val sdf = SimpleDateFormat("dd/MM/yyyy")
@@ -44,6 +51,8 @@ class ReplicaConverter : Converter<ReplicaModel, Replica> {
 
     override fun toModel(entity: Replica): Optional<ReplicaModel> = try {
         val sdf = SimpleDateFormat("dd/MM/yyyy")
+        val pilgrimage = pilgrimageRepository.getLastByReplicaId(entity.id!!)
+        val available = pilgrimage.isEmpty
         val model = entity.run {
             ReplicaModel(
                 id = id,
@@ -56,12 +65,13 @@ class ReplicaConverter : Converter<ReplicaModel, Replica> {
                 user_cellphone = user.cellphone,
                 user_country = user.country,
                 user_city = user.city,
-                user_email = user.email
+                user_email = user.email,
+                isAvailable = available
             )
         }
         Optional.of(model)
     } catch (ex: Exception) {
-        getLog<UserModel>().info("$TAG toEntity(): Exception -> $ex")
+        getLog<UserModel>().info("$TAG toModel(): Exception -> $ex")
         Optional.empty<ReplicaModel>()
     }
 

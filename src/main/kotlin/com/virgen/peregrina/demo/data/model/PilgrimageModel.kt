@@ -7,5 +7,9 @@ data class PilgrimageModel(
     val intention: String,
     val user_id: Long,
     val replica_id: Long,
-    val receiver_user_id: Long
+    val receiver_user_id: Long,
+    val isFinished: Boolean = false,
+    val city: String = "",
+    val country: String = "",
+    val state: String = ""
 )
