@@ -29,5 +29,8 @@ data class Replica(
         name = "user_id",
         referencedColumnName = "user_id"
     )
-    val user: User
+    val user: User,
+
+    @OneToMany(mappedBy = "replica")
+    val pilgrimages: List<Pilgrimage>?
 )

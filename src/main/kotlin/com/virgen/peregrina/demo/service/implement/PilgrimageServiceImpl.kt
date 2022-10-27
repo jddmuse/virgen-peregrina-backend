@@ -29,6 +29,17 @@ class PilgrimageServiceImpl : PilgrimageService {
     @Qualifier(PILGRIMAGE_CONVERTER_NAME)
     private lateinit var pilgrimageConverter: PilgrimageConverter
 
+
+    override fun getAllByUserId(user_id: Long): BaseResult<List<PilgrimageModel>> {
+        try {
+            // pending
+            return BaseResult.NullOrEmptyData()
+        } catch (ex: Exception) {
+            log.error("$TAG getAllByUserId(): Exception -> $ex")
+            return BaseResult.Error(ex, "")
+        }
+    }
+
     override fun create(model: PilgrimageModel): BaseResult<PilgrimageModel> {
         try {
             log.info("$TAG $METHOD_CALLED create()")
@@ -104,5 +115,6 @@ class PilgrimageServiceImpl : PilgrimageService {
         log.error("$TAG getAll(): Exception -> $ex")
         BaseResult.Error(ex) // return
     }
+
 
 }

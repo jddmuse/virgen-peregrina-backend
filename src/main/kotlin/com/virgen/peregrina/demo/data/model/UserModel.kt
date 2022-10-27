@@ -18,6 +18,7 @@ data class UserModel(
     val telephone: String?,
     val photoUrl: String?,
     var replicas: List<ReplicaModel>? = null,
-    val isPilgrim: Boolean?
+    val isPilgrim: Boolean?,
+    val pilgrimages: List<PilgrimageModel> = emptyList()
 )
 

@@ -13,11 +13,11 @@ interface UserRepository : JpaRepository<User, Long> {
         value = "SELECT * FROM public.user WHERE user_uuid = :uid",
         nativeQuery = true
     )
-    fun getReferenceByUUID(uid: String): Optional<User>
+    fun getReferenceByUUID(uid: String): Optional<User?>
 
     @Query(
         value = "SELECT * FROM public.user WHERE user_is_pilgrim = true",
         nativeQuery = true
     )
-    fun getAllPilgrims(): Optional<List<User>>
+    fun getAllPilgrims(): Optional<List<User>?>
 }

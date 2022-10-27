@@ -44,5 +44,8 @@ data class User(
     val replicas: List<Replica>?,
 
     @Column(name = "user_is_pilgrim")
-    val isPilgrim: Boolean?
+    val isPilgrim: Boolean?,
+
+    @OneToMany(mappedBy = "user")
+    val pilgrimages: List<Pilgrimage>?
 )

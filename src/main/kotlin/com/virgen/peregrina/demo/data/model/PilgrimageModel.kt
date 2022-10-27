@@ -11,5 +11,6 @@ data class PilgrimageModel(
     val isFinished: Boolean = false,
     val city: String = "",
     val country: String = "",
-    val state: String = ""
+    val state: String = "",
+    val replica_is_returned: Boolean = false
 )

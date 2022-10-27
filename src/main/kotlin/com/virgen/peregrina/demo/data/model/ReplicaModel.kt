@@ -12,6 +12,7 @@ data class ReplicaModel(
     var user_country: String? = null,
     var user_city: String? = null,
     var user_email: String? = null,
-    var isAvailable: Boolean = true
+    var isAvailable: Boolean = true,
+    val pilgrimages: List<PilgrimageModel> = emptyList()
 )
 

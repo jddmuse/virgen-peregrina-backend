@@ -4,8 +4,8 @@ import com.virgen.peregrina.demo.data.entity.Replica
 import com.virgen.peregrina.demo.data.model.ReplicaModel
 import com.virgen.peregrina.demo.data.model.UserModel
 import com.virgen.peregrina.demo.repository.PilgrimageRepository
-import com.virgen.peregrina.demo.repository.ReplicaRepository
 import com.virgen.peregrina.demo.repository.UserRepository
+import com.virgen.peregrina.demo.util.PILGRIMAGE_CONVERTER_NAME
 import com.virgen.peregrina.demo.util.PILGRIMAGE_REPOSITORY_NAME
 import com.virgen.peregrina.demo.util.component.Converter
 import com.virgen.peregrina.demo.util.getLog
@@ -30,6 +30,10 @@ class ReplicaConverter : Converter<ReplicaModel, Replica> {
     @Qualifier(PILGRIMAGE_REPOSITORY_NAME)
     private lateinit var pilgrimageRepository: PilgrimageRepository
 
+    @Autowired
+    @Qualifier(PILGRIMAGE_CONVERTER_NAME)
+    private lateinit var pilgrimageConverter: PilgrimageConverter
+
     override fun toEntity(model: ReplicaModel): Optional<Replica> = try {
         val sdf = SimpleDateFormat("dd/MM/yyyy")
         val user = userRepository.getReferenceById(model.user_id)
@@ -40,7 +44,8 @@ class ReplicaConverter : Converter<ReplicaModel, Replica> {
                 photo_url = photo_url,
                 code = code,
                 received_date = sdf.parse(received_date),
-                user = user
+                user = user,
+                pilgrimages = pilgrimages.map { pilgrimageConverter.toEntity(it).get() }
             )
         }
         Optional.of(entity)
@@ -51,7 +56,7 @@ class ReplicaConverter : Converter<ReplicaModel, Replica> {
 
     override fun toModel(entity: Replica): Optional<ReplicaModel> = try {
         val sdf = SimpleDateFormat("dd/MM/yyyy")
-        val pilgrimage = pilgrimageRepository.getLastByReplicaId(entity.id!!)
+        val pilgrimage = pilgrimageRepository.getInProgressPilgrimageByReplica(entity.id!!)
         val available = pilgrimage.isEmpty
         val model = entity.run {
             ReplicaModel(
@@ -66,7 +71,10 @@ class ReplicaConverter : Converter<ReplicaModel, Replica> {
                 user_country = user.country,
                 user_city = user.city,
                 user_email = user.email,
-                isAvailable = available
+                isAvailable = available,
+                pilgrimages = pilgrimages?.map {
+                    pilgrimageConverter.toModel(it).get()
+                } ?: emptyList()
             )
         }
         Optional.of(model)

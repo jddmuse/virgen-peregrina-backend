@@ -42,7 +42,10 @@ class Pilgrimage(
         name = "user_id_receiver",
         referencedColumnName = "user_id"
     )
-    val receiver_user: User
+    val receiver_user: User,
+
+    @Column(name = "pilg_is_returned")
+    val replica_is_returned: Boolean = false
 ) {
 
     fun onRange(other: Pilgrimage): Boolean {

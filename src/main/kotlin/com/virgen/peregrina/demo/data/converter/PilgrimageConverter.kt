@@ -52,7 +52,8 @@ class PilgrimageConverter : Converter<PilgrimageModel, Pilgrimage> {
                 description = intention,
                 user = user,
                 replica = replica,
-                receiver_user = receiver_user
+                receiver_user = receiver_user,
+                replica_is_returned = replica_is_returned
             )
             Optional.of(entity)
         }
@@ -85,7 +86,8 @@ class PilgrimageConverter : Converter<PilgrimageModel, Pilgrimage> {
                     currentDate.before(date_start) -> PilgrimageState.PENDING
                     currentDate.equals(date_start) || (currentDate.after(date_start) && currentDate.before(date_end)) -> PilgrimageState.IN_PROGRESS
                     else -> ""
-                }
+                },
+                replica_is_returned = replica_is_returned
             )
             Optional.of(data)
         }
