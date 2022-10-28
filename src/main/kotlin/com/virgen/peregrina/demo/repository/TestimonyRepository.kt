@@ -17,5 +17,13 @@ interface TestimonyRepository : JpaRepository<Testimony, Long> {
     )
     fun getAllByReplica(replica_id: Long): Optional<List<Testimony>?>
 
+    @Query(
+        value = "SELECT * FROM public.testimony t" +
+                " JOIN public.pilgrimage p ON p.pilg_id = t.pilg_id" +
+                " WHERE p.pilg_id = :pilgrimage_id",
+        nativeQuery = true
+    )
+    fun getTestimonyByPilgrimage(pilgrimage_id: Long): Optional<Testimony?>
+
 
 }

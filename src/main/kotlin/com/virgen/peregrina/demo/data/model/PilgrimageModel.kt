@@ -12,5 +12,6 @@ data class PilgrimageModel(
     val city: String = "",
     val country: String = "",
     val state: String = "",
-    val replica_is_returned: Boolean = false
+    val replica_is_returned: Boolean = false,
+    val have_testimony: Boolean = false
 )

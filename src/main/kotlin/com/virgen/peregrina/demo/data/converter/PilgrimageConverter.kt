@@ -3,6 +3,7 @@ package com.virgen.peregrina.demo.data.converter
 import com.virgen.peregrina.demo.data.entity.Pilgrimage
 import com.virgen.peregrina.demo.data.model.PilgrimageModel
 import com.virgen.peregrina.demo.repository.ReplicaRepository
+import com.virgen.peregrina.demo.repository.TestimonyRepository
 import com.virgen.peregrina.demo.repository.UserRepository
 import com.virgen.peregrina.demo.util.component.Converter
 import com.virgen.peregrina.demo.util.METHOD_CALLED
@@ -31,6 +32,10 @@ class PilgrimageConverter : Converter<PilgrimageModel, Pilgrimage> {
     @Autowired
     @Qualifier("replicaRepository")
     private lateinit var replicaRepository: ReplicaRepository
+
+    @Autowired
+    @Qualifier("testimonyRepository")
+    private lateinit var testimonyRepository: TestimonyRepository
 
 
     override fun toEntity(model: PilgrimageModel): Optional<Pilgrimage> = try {
@@ -66,6 +71,7 @@ class PilgrimageConverter : Converter<PilgrimageModel, Pilgrimage> {
         log.debug("$TAG $METHOD_CALLED entity2Model()")
         log.debug("$PARAMS $entity")
         val currentDate = Calendar.getInstance().time
+        val testimony = testimonyRepository.getTestimonyByPilgrimage(entity.id!!)
         entity.run {
             val sdf = SimpleDateFormat("dd/MM/yyyy")
             val dateStart: String = sdf.format(date_start)
@@ -87,7 +93,8 @@ class PilgrimageConverter : Converter<PilgrimageModel, Pilgrimage> {
                     currentDate.equals(date_start) || (currentDate.after(date_start) && currentDate.before(date_end)) -> PilgrimageState.IN_PROGRESS
                     else -> ""
                 },
-                replica_is_returned = replica_is_returned
+                replica_is_returned = replica_is_returned,
+                have_testimony = testimony.isPresent
             )
             Optional.of(data)
         }
