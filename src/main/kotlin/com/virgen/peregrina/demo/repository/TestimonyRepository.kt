@@ -12,10 +12,10 @@ interface TestimonyRepository : JpaRepository<Testimony, Long> {
     @Query(
         value = "SELECT * FROM public.testimony t " +
                 " JOIN public.pilgrimage p ON p.pilg_id = t.pilg_id" +
-                " WHEN p.repl_id = :replica_id",
+                " WHERE p.repl_id = :replica_id",
         nativeQuery = true
     )
-    fun getAllByReplica(replica_id: Long): Optional<List<Testimony>>
+    fun getAllByReplica(replica_id: Long): Optional<List<Testimony>?>
 
 
 }
