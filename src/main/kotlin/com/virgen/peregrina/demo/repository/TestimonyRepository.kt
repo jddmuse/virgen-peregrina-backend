@@ -10,7 +10,9 @@ import java.util.Optional
 interface TestimonyRepository : JpaRepository<Testimony, Long> {
 
     @Query(
-        value = "SELECT * FROM public.testimony t WHERE t.repl_id = :replica_id",
+        value = "SELECT * FROM public.testimony t " +
+                " JOIN public.pilgrimage p ON p.pilg_id = t.pilg_id" +
+                " WHEN p.repl_id = :replica_id",
         nativeQuery = true
     )
     fun getAllByReplica(replica_id: Long): Optional<List<Testimony>>
