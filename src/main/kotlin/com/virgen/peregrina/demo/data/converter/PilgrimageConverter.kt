@@ -94,7 +94,16 @@ class PilgrimageConverter : Converter<PilgrimageModel, Pilgrimage> {
                     else -> ""
                 },
                 replica_is_returned = replica_is_returned,
-                have_testimony = testimony.isPresent
+                have_testimony = testimony.isPresent,
+                receiver_user_name = receiver_user.name,
+                receiver_user_telephone = receiver_user.telephone ?: "",
+                receiver_user_email = receiver_user.email,
+
+                replica_owner_user_id = replica.user.id,
+                replica_owner_name_id = replica.user.name,
+                replica_owner_user_email = replica.user.email,
+                replica_owner_user_telephone = replica.user.telephone ?: "",
+                replica_code = replica.code
             )
             Optional.of(data)
         }
