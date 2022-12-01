@@ -33,7 +33,7 @@ class TestimonyServiceImpl : TestimonyService {
 
     override fun create(model: TestimonyModel): BaseResult<TestimonyModel> = try {
         log.info("$TAG $METHOD_CALLED create() $PARAMS $model")
-        model.date = getCurrentDate()
+//        model.date = getCurrentDate()
         val newEntity = testimonyRepository.save(testimonyConverter.toEntity(model).get())
         BaseResult.Success(testimonyConverter.toModel(newEntity).get())
     } catch (ex: Exception) {
