@@ -116,5 +116,14 @@ class PilgrimageServiceImpl : PilgrimageService {
         BaseResult.Error(ex) // return
     }
 
+    override fun getAllWithLimit(limit: Int): BaseResult<List<PilgrimageModel>> = try {
+        val result = pilgrimageRepository.findAllWithLimit(limit).get()
+        val data = result.map { pilgrimageConverter.toModel(it).get() }
+        BaseResult.Success(data) // return
+    } catch (ex: Exception) {
+        log.error("$TAG getAll(): Exception -> $ex")
+        BaseResult.Error(ex) // return
+    }
+
 
 }

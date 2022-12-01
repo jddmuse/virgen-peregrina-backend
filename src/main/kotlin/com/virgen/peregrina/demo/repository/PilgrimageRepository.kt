@@ -93,4 +93,10 @@ interface PilgrimageRepository : JpaRepository<Pilgrimage, Long> {
     )
     fun getAllByUserId(user_id: Long): Optional<List<Pilgrimage>?>
 
+    @Query(
+        value = "SELECT * FROM public.pilgrimage p ORDER BY p.pilg_id DESC LIMIT :limit",
+        nativeQuery = true
+    )
+    fun findAllWithLimit(limit: Int = 30): Optional<List<Pilgrimage>?>
+
 }

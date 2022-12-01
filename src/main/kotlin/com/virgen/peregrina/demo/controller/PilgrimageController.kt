@@ -35,26 +35,26 @@ class PilgrimageController {
         when (val result = pilgrimageService.create(pilgrimageModel)) {
             is BaseResult.Success -> {
                 ResponseEntity(
-                        BaseResponse(result.data), HttpStatus.OK
+                    BaseResponse(result.data), HttpStatus.OK
                 )
             }
 
             is BaseResult.Error -> {
                 ResponseEntity(
-                        BaseResponse(error = result.exception.toString()), HttpStatus.OK
+                    BaseResponse(error = result.exception.toString()), HttpStatus.OK
                 )
             }
 
             is BaseResult.NullOrEmptyData -> {
                 ResponseEntity(
-                        BaseResponse(message = result.message), HttpStatus.BAD_REQUEST
+                    BaseResponse(message = result.message), HttpStatus.BAD_REQUEST
                 )
             }
         }
     } catch (ex: Exception) {
         log.error("$TAG create(): Exception -> $ex")
         ResponseEntity(
-                BaseResponse(error = ex.toString()), HttpStatus.BAD_REQUEST
+            BaseResponse(error = ex.toString()), HttpStatus.BAD_REQUEST
         )
     }
 
@@ -64,27 +64,59 @@ class PilgrimageController {
         when (val result = pilgrimageService.getAll()) {
             is BaseResult.Success -> {
                 ResponseEntity(
-                        BaseResponse(result.data), HttpStatus.OK
+                    BaseResponse(result.data), HttpStatus.OK
                 )
             }
 
             is BaseResult.Error -> {
                 ResponseEntity(
-                        BaseResponse(error = result.exception.toString(), message = result.exception.message),
-                        HttpStatus.BAD_REQUEST
+                    BaseResponse(error = result.exception.toString(), message = result.exception.message),
+                    HttpStatus.BAD_REQUEST
                 )
             }
 
             is BaseResult.NullOrEmptyData -> {
                 ResponseEntity(
-                        BaseResponse(), HttpStatus.BAD_REQUEST
+                    BaseResponse(), HttpStatus.BAD_REQUEST
                 )
             }
         }
     } catch (ex: Exception) {
         log.error("$TAG create(): Exception -> $ex")
         ResponseEntity(
-                BaseResponse(error = ex.toString()), HttpStatus.BAD_REQUEST
+            BaseResponse(error = ex.toString()), HttpStatus.BAD_REQUEST
+        )
+    }
+
+    @GetMapping("/get-all-limit/{limit}")
+    fun getAllWithLimit(
+        @PathVariable limit: Int = 30
+    ): ResponseEntity<BaseResponse<List<PilgrimageModel>>> = try {
+        log.info("$TAG $METHOD_CALLED getAllWithLimit()")
+        when (val result = pilgrimageService.getAllWithLimit(limit)) {
+            is BaseResult.Success -> {
+                ResponseEntity(
+                    BaseResponse(result.data), HttpStatus.OK
+                )
+            }
+
+            is BaseResult.Error -> {
+                ResponseEntity(
+                    BaseResponse(error = result.exception.toString(), message = result.exception.message),
+                    HttpStatus.BAD_REQUEST
+                )
+            }
+
+            is BaseResult.NullOrEmptyData -> {
+                ResponseEntity(
+                    BaseResponse(), HttpStatus.BAD_REQUEST
+                )
+            }
+        }
+    } catch (ex: Exception) {
+        log.error("$TAG create(): Exception -> $ex")
+        ResponseEntity(
+            BaseResponse(error = ex.toString()), HttpStatus.BAD_REQUEST
         )
     }
 
