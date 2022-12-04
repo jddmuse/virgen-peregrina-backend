@@ -161,4 +161,36 @@ class UserController {
         )
     }
 
+    @PostMapping("/update")
+    fun update(@RequestBody userModel: UserModel): ResponseEntity<BaseResponse<UserModel>> {
+        log.info("$TAG $METHOD_CALLED update()")
+        log.info("$PARAMS $userModel")
+        return when (val result = userService.update(userModel)) {
+            is BaseResult.Success -> {
+                ResponseEntity(
+                    BaseResponse(result.data),
+                    HttpStatus.OK
+                )
+            }
+
+            is BaseResult.Error -> {
+                ResponseEntity(
+                    BaseResponse(
+                        error = result.exception.toString(),
+                        message = "An internal error has occurred"
+                    ),
+                    HttpStatus.INTERNAL_SERVER_ERROR
+                )
+            }
+
+            is BaseResult.NullOrEmptyData -> {
+                ResponseEntity(
+                    BaseResponse(
+                        message = "An internal error has occurred, try it again"
+                    ),
+                    HttpStatus.BAD_REQUEST
+                )
+            }
+        }
+    }
 }

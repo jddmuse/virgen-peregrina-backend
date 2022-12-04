@@ -60,6 +60,16 @@ class UserServiceImpl : UserService {
         BaseResult.Error(ex)
     }
 
+    override fun update(model: UserModel): BaseResult<UserModel> = try {
+        log.info("$TAG $METHOD_CALLED update() $PARAMS $model")
+        val entity = userConverter.toEntity(model).get()
+        userRepository.save(entity)
+        BaseResult.Success(userConverter.toModel(entity).get())
+    } catch (ex: Exception) {
+        log.error("$TAG update(): Exception -> $ex")
+        BaseResult.Error(ex)
+    }
+
     override fun create(userModel: UserModel): BaseResult<UserModel> = try {
         log.info("$TAG $METHOD_CALLED create() $PARAMS $userModel")
 
@@ -104,7 +114,6 @@ class UserServiceImpl : UserService {
         BaseResult.Error(ex)
     }
 
-
     override fun getAll(): BaseResult<List<UserModel>> = try {
         val result = userRepository.findAll()
         val data = result.map {
@@ -115,5 +124,6 @@ class UserServiceImpl : UserService {
         log.error("$TAG getAll(): Exception -> $ex")
         BaseResult.Error(ex) // return
     }
+
 
 }

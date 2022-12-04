@@ -7,4 +7,6 @@ import com.virgen.peregrina.demo.util.base.BaseResult
 interface UserService : Service<UserModel> {
     fun login(firebaseUid: String): BaseResult<UserModel>
     fun getAllPilgrims(): BaseResult<List<UserModel>>
+
+    fun update(model: UserModel): BaseResult<UserModel>
 }
