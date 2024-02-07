@@ -34,61 +34,51 @@ class ReplicaController {
         log.info("$PARAMS $model")
         when (val result = replicaService.create(model)) {
             is BaseResult.Success -> {
-                ResponseEntity(BaseResponse(result.data), HttpStatus.OK)
+                val successMessage = "Réplica creada exitosamente"
+                ResponseEntity(BaseResponse(result.data, successMessage), HttpStatus.OK)
             }
 
             is BaseResult.Error -> {
-                ResponseEntity(
-                    BaseResponse(
-                        error = result.exception.toString(),
-//                        message = result.exception.message
-                    ), HttpStatus.INTERNAL_SERVER_ERROR
-                )
+                val errorMessage = "Error al crear la réplica: ${result.exception.message}"
+                ResponseEntity(BaseResponse(error = errorMessage), HttpStatus.INTERNAL_SERVER_ERROR)
             }
 
             is BaseResult.NullOrEmptyData -> {
-                ResponseEntity(BaseResponse(), HttpStatus.BAD_REQUEST)
+                val badRequestMessage = "Datos inválidos proporcionados para la creación de la réplica"
+                ResponseEntity(BaseResponse(message = badRequestMessage), HttpStatus.BAD_REQUEST)
             }
         }
     } catch (ex: Exception) {
-        log.error("$TAG createReplica(): Exception -> $ex")
-        ResponseEntity(
-            BaseResponse(
-                error = ex.toString(),
-//                message = ex.message
-            ), HttpStatus.BAD_REQUEST
-        )
+        log.error("$TAG createReplica(): Excepción -> $ex")
+        val errorMessage = "Error interno del servidor: ${ex.message}"
+        ResponseEntity(BaseResponse(error = errorMessage), HttpStatus.INTERNAL_SERVER_ERROR)
     }
+
 
     @GetMapping("/get-all")
     fun getAll(): ResponseEntity<BaseResponse<List<ReplicaModel>>> = try {
         log.debug("$TAG, $METHOD_CALLED getAll()")
         when (val result = replicaService.getAll()) {
             is BaseResult.Success -> {
-                ResponseEntity(BaseResponse(result.data), HttpStatus.OK)
+                val successMessage = "Réplicas obtenidas exitosamente"
+                ResponseEntity(BaseResponse(result.data, successMessage), HttpStatus.OK)
             }
 
             is BaseResult.Error -> {
-                ResponseEntity(
-                    BaseResponse(
-                        error = result.exception.toString(),
-//                        message = result.exception.message
-                    ), HttpStatus.OK
-                )
+                val errorMessage = "Error interno al obtener réplicas: ${result.exception.message}"
+                ResponseEntity(BaseResponse(error = errorMessage), HttpStatus.INTERNAL_SERVER_ERROR)
             }
 
             is BaseResult.NullOrEmptyData -> {
-                ResponseEntity(BaseResponse(message = result.message), HttpStatus.BAD_REQUEST)
+                val badRequestMessage = "No se encontraron réplicas"
+                ResponseEntity(BaseResponse(message = badRequestMessage), HttpStatus.BAD_REQUEST)
             }
         }
     } catch (ex: Exception) {
-        log.error("$TAG create(): Exception -> $ex")
-        ResponseEntity(
-            BaseResponse(
-                error = ex.toString(),
-//                message = ex.message
-            ), HttpStatus.BAD_REQUEST
-        )
+        log.error("$TAG getAll(): Excepción -> $ex")
+        val errorMessage = "Error interno del servidor al obtener réplicas: ${ex.message}"
+        ResponseEntity(BaseResponse(error = errorMessage), HttpStatus.INTERNAL_SERVER_ERROR)
     }
+
 
 }

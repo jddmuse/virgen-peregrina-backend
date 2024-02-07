@@ -34,90 +34,79 @@ class PilgrimageController {
         log.info("$PARAMS $pilgrimageModel")
         when (val result = pilgrimageService.create(pilgrimageModel)) {
             is BaseResult.Success -> {
-                ResponseEntity(
-                    BaseResponse(result.data), HttpStatus.OK
-                )
+                val successMessage = "Peregrinación creada exitosamente"
+                ResponseEntity(BaseResponse(result.data, successMessage), HttpStatus.OK)
             }
 
             is BaseResult.Error -> {
-                ResponseEntity(
-                    BaseResponse(error = result.exception.toString()), HttpStatus.OK
-                )
+                val errorMessage = "Error interno al crear la peregrinación: ${result.exception.message}"
+                ResponseEntity(BaseResponse(error = errorMessage), HttpStatus.INTERNAL_SERVER_ERROR)
             }
 
             is BaseResult.NullOrEmptyData -> {
-                ResponseEntity(
-                    BaseResponse(message = result.message), HttpStatus.BAD_REQUEST
-                )
+                val badRequestMessage = "Datos inválidos proporcionados para la creación de la peregrinación"
+                ResponseEntity(BaseResponse(message = badRequestMessage), HttpStatus.BAD_REQUEST)
             }
         }
     } catch (ex: Exception) {
-        log.error("$TAG create(): Exception -> $ex")
-        ResponseEntity(
-            BaseResponse(error = ex.toString()), HttpStatus.BAD_REQUEST
-        )
+        log.error("$TAG create(): Excepción -> $ex")
+        val errorMessage = "Error interno del servidor: ${ex.message}"
+        ResponseEntity(BaseResponse(error = errorMessage), HttpStatus.BAD_REQUEST)
     }
+
 
     @GetMapping("/get-all")
     fun getAll(): ResponseEntity<BaseResponse<List<PilgrimageModel>>> = try {
         log.info("$TAG $METHOD_CALLED getAll()")
         when (val result = pilgrimageService.getAll()) {
             is BaseResult.Success -> {
-                ResponseEntity(
-                    BaseResponse(result.data), HttpStatus.OK
-                )
+                val successMessage = "Todas las peregrinaciones fueron obtenidas exitosamente"
+                ResponseEntity(BaseResponse(result.data, successMessage), HttpStatus.OK)
             }
 
             is BaseResult.Error -> {
-                ResponseEntity(
-                    BaseResponse(error = result.exception.toString(), message = result.exception.message),
-                    HttpStatus.BAD_REQUEST
-                )
+                val errorMessage = "Error al obtener todas las peregrinaciones: ${result.exception.message}"
+                ResponseEntity(BaseResponse(error = errorMessage), HttpStatus.BAD_REQUEST)
             }
 
             is BaseResult.NullOrEmptyData -> {
-                ResponseEntity(
-                    BaseResponse(), HttpStatus.BAD_REQUEST
-                )
+                val badRequestMessage = "No se encontraron peregrinaciones"
+                ResponseEntity(BaseResponse(message = badRequestMessage), HttpStatus.BAD_REQUEST)
             }
         }
     } catch (ex: Exception) {
-        log.error("$TAG create(): Exception -> $ex")
-        ResponseEntity(
-            BaseResponse(error = ex.toString()), HttpStatus.BAD_REQUEST
-        )
+        log.error("$TAG getAll(): Excepción -> $ex")
+        val errorMessage = "Error interno del servidor al obtener todas las peregrinaciones: ${ex.message}"
+        ResponseEntity(BaseResponse(error = errorMessage), HttpStatus.BAD_REQUEST)
     }
+
 
     @GetMapping("/get-all-limit/{limit}")
     fun getAllWithLimit(
-        @PathVariable limit: Int = 30
+            @PathVariable limit: Int = 30
     ): ResponseEntity<BaseResponse<List<PilgrimageModel>>> = try {
         log.info("$TAG $METHOD_CALLED getAllWithLimit()")
         when (val result = pilgrimageService.getAllWithLimit(limit)) {
             is BaseResult.Success -> {
-                ResponseEntity(
-                    BaseResponse(result.data), HttpStatus.OK
-                )
+                val successMessage = "Todas las peregrinaciones obtenidas exitosamente con límite: $limit"
+                ResponseEntity(BaseResponse(result.data, successMessage), HttpStatus.OK)
             }
 
             is BaseResult.Error -> {
-                ResponseEntity(
-                    BaseResponse(error = result.exception.toString(), message = result.exception.message),
-                    HttpStatus.BAD_REQUEST
-                )
+                val errorMessage = "Error al obtener todas las peregrinaciones con límite $limit: ${result.exception.message}"
+                ResponseEntity(BaseResponse(error = errorMessage), HttpStatus.BAD_REQUEST)
             }
 
             is BaseResult.NullOrEmptyData -> {
-                ResponseEntity(
-                    BaseResponse(), HttpStatus.BAD_REQUEST
-                )
+                val badRequestMessage = "No se encontraron peregrinaciones con el límite $limit"
+                ResponseEntity(BaseResponse(message = badRequestMessage), HttpStatus.BAD_REQUEST)
             }
         }
     } catch (ex: Exception) {
-        log.error("$TAG create(): Exception -> $ex")
-        ResponseEntity(
-            BaseResponse(error = ex.toString()), HttpStatus.BAD_REQUEST
-        )
+        log.error("$TAG getAllWithLimit(): Excepción -> $ex")
+        val errorMessage = "Error interno del servidor al obtener todas las peregrinaciones con límite $limit: ${ex.message}"
+        ResponseEntity(BaseResponse(error = errorMessage), HttpStatus.BAD_REQUEST)
     }
+
 
 }
