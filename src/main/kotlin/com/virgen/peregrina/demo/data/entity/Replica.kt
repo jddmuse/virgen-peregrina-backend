@@ -11,6 +11,9 @@ data class Replica(
     @Column(unique = true, nullable = false, name = "repl_id")
     val id: Long? = null,
 
+    @Column(name = "repl_name")
+    val repl_name: String,
+
     @Column(name = "repl_required_restore")
     val required_restore: Boolean,
 
@@ -30,6 +33,7 @@ data class Replica(
         referencedColumnName = "user_id"
     )
     val user: User,
+
 
     @OneToMany(mappedBy = "replica")
     val pilgrimages: List<Pilgrimage>?

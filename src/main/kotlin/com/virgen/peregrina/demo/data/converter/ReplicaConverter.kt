@@ -35,17 +35,18 @@ class ReplicaConverter : Converter<ReplicaModel, Replica> {
     private lateinit var pilgrimageConverter: PilgrimageConverter
 
     override fun toEntity(model: ReplicaModel): Optional<Replica> = try {
-        val sdf = SimpleDateFormat("dd/MM/yyyy")
+        val sdf = SimpleDateFormat("yyyy-MM-dd") // Ajuste al formato de fecha del JSON
         val user = userRepository.getReferenceById(model.user_id)
         val entity = model.run {
             Replica(
                 id = id,
+                repl_name = repl_name,
                 required_restore = required_restore,
                 photo_url = photo_url,
                 code = code,
                 received_date = sdf.parse(received_date),
                 user = user,
-                pilgrimages = pilgrimages.map { pilgrimageConverter.toEntity(it).get() }
+                pilgrimages = pilgrimages.map { pilgrimageConverter.toEntity(it).orElseThrow() } // Manejo seguro de Optional
             )
         }
         Optional.of(entity)
@@ -55,12 +56,13 @@ class ReplicaConverter : Converter<ReplicaModel, Replica> {
     }
 
     override fun toModel(entity: Replica): Optional<ReplicaModel> = try {
-        val sdf = SimpleDateFormat("dd/MM/yyyy")
+        val sdf = SimpleDateFormat("yyyy-MM-dd") // Ajuste al formato de fecha del JSON
         val pilgrimage = pilgrimageRepository.getInProgressPilgrimageByReplica(entity.id!!)
-        val available = pilgrimage.isEmpty
+        val available = pilgrimage.isEmpty()
         val model = entity.run {
             ReplicaModel(
                 id = id,
+                repl_name = repl_name,
                 required_restore = required_restore,
                 photo_url = photo_url,
                 code = code,
@@ -72,9 +74,9 @@ class ReplicaConverter : Converter<ReplicaModel, Replica> {
                 user_city = user.city,
                 user_email = user.email,
                 isAvailable = available,
-                pilgrimages = pilgrimages?.map {
-                    pilgrimageConverter.toModel(it).get()
-                } ?: emptyList()
+
+                pilgrimages = pilgrimages?.map { pilgrimageConverter.toModel(it)?.orElse(null) }
+                    ?.filterNotNull() ?: emptyList()
             )
         }
         Optional.of(model)
@@ -82,6 +84,4 @@ class ReplicaConverter : Converter<ReplicaModel, Replica> {
         getLog<UserModel>().info("$TAG toModel(): Exception -> $ex")
         Optional.empty<ReplicaModel>()
     }
-
-
 }

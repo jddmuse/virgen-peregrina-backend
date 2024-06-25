@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/replica")
+@CrossOrigin(origins = ["http://127.0.0.1:5500"])  // Permite solicitudes desde http://127.0.0.1:5500
 class ReplicaController {
 
     companion object {

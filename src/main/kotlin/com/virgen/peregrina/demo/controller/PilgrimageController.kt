@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/pilgrimage")
+@CrossOrigin(origins = ["http://127.0.0.1:5500"])  // Permite solicitudes desde http://127.0.0.1:5500
+
 class PilgrimageController {
 
     companion object {
@@ -47,7 +49,7 @@ class PilgrimageController {
                 val badRequestMessage = "Datos inválidos proporcionados para la creación de la peregrinación"
                 ResponseEntity(BaseResponse(message = badRequestMessage), HttpStatus.BAD_REQUEST)
             }
-        }
+        }   
     } catch (ex: Exception) {
         log.error("$TAG create(): Excepción -> $ex")
         val errorMessage = "Error interno del servidor: ${ex.message}"

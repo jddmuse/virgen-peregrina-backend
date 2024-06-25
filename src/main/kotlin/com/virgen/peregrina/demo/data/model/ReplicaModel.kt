@@ -2,6 +2,7 @@ package com.virgen.peregrina.demo.data.model
 
 data class ReplicaModel(
     val id: Long? = null,
+    val repl_name: String,
     val required_restore: Boolean = false,
     val photo_url: String? = null,
     val code: String,

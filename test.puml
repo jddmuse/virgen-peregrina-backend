@@ -1,0 +1,354 @@
+@startuml
+class com.virgen.peregrina.demo.service.implement.UserServiceImpl$Companion {
+-  TAG
+}
+
+class com.virgen.peregrina.demo.service.implement.UserServiceImpl {
+-  log
+- UserRepository userRepository
+- ReplicaService replicaService
+- UserConverter userConverter
++ BaseResult<UserModel> login(String)
++ BaseResult<List<UserModel>> getAllPilgrims()
++ BaseResult<UserModel> update(UserModel)
++ BaseResult<UserModel> create(UserModel)
++ void delete(UserModel)
++ BaseResult<UserModel> get(Long)
++ BaseResult<List<UserModel>> getAll()
+}
+
+
+class com.virgen.peregrina.demo.data.converter.BlogPostConverter {
+- UserRepository userRepository
++ BlogPostDTO toDTO(BlogPost)
++ BlogPost toEntity(BlogPostDTO)
+}
+
+
+class com.virgen.peregrina.demo.controller.PilgrimageController$Companion {
+-  TAG
+}
+
+class com.virgen.peregrina.demo.controller.PilgrimageController {
+-  log
+- PilgrimageService pilgrimageService
++ ResponseEntity<BaseResponse<PilgrimageModel>> create(PilgrimageModel)
++ ResponseEntity<BaseResponse<List<PilgrimageModel>>> getAll()
++ void getAllWithLimit(void)
++ void null()
++ void null()
+}
+
+
+interface com.virgen.peregrina.demo.repository.PilgrimageRepository {
++ Optional<List<Pilgrimage>?> getAllAfterToday(Date)
++ Optional<Pilgrimage?> getInProgressPilgrimageByReplica(Long)
++ Optional<Pilgrimage?> getInProgressPilgrimageByUser(Long)
++ Optional<Pilgrimage?> getInProgressPilgrimageByReplicaOwnerUser(Long)
++ Optional<Pilgrimage?> getFinishedPilgrimageAndUnreturnedReplicaByReplicaOwnerUser(Long)
++ Optional<Pilgrimage?> getFinishedPilgrimageAndUnreturnedReplicaByUser(Long)
++ Optional<List<Pilgrimage>?> getAllByUserId(Long)
++ Optional<List<Pilgrimage>?> findAllWithLimit(Int)
+}
+
+class com.virgen.peregrina.demo.controller.UserController$Companion {
+-  TAG
+}
+
+class com.virgen.peregrina.demo.controller.UserController {
+-  log
+- UserService userService
++ ResponseEntity<BaseResponse<List<UserModel>>> getAllPilgrims()
++ ResponseEntity<BaseResponse<UserModel>> create(UserModel)
++ ResponseEntity<BaseResponse<UserModel?>> login(LoginRequest)
++ ResponseEntity<BaseResponse<List<UserModel>>> getAll()
++ ResponseEntity<BaseResponse<UserModel>> update(UserModel)
+}
+
+
+class com.virgen.peregrina.demo.service.implement.ReplicaServiceImpl$Companion {
+-  TAG
+}
+
+class com.virgen.peregrina.demo.service.implement.ReplicaServiceImpl {
+- ReplicaRepository replicaRepository
+- ReplicaConverter replicaConverter
+-  log
++ BaseResult<ReplicaModel> create(ReplicaModel)
++ BaseResult<Boolean> delete(ReplicaModel)
++ BaseResult<ReplicaModel> get(Long)
++ BaseResult<List<ReplicaModel>> getAll()
+}
+
+
+class com.virgen.peregrina.demo.controller.BlogPostController {
+- BlogPostService blogPostService
++ ResponseEntity<BlogPostDTO> createBlogPost(BlogPostDTO)
++ ResponseEntity<BlogPostDTO> getBlogPostById(Long)
++ ResponseEntity<List<BlogPostDTO>> getAllBlogPosts()
++ ResponseEntity<BlogPostDTO> updateBlogPost(Long,BlogPostDTO)
++ ResponseEntity<Void> deleteBlogPost(Long)
+}
+
+
+interface com.virgen.peregrina.demo.service.ReplicaService {
+}
+class com.virgen.peregrina.demo.data.converter.UserConverter$Companion {
+-  TAG
+}
+
+class com.virgen.peregrina.demo.data.converter.UserConverter {
+- ReplicaConverter replicaConverter
+- PilgrimageConverter pilgrimageConverter
++ Optional<User> toEntity(UserModel)
++ Optional<UserModel> toModel(User)
+}
+
+
+interface com.virgen.peregrina.demo.util.component.Service {
++ BaseResult<T> create(T)
++ BaseResult<Boolean> delete(T)
++ BaseResult<T> get(Long)
++ BaseResult<List<T>> getAll()
+}
+
+class com.virgen.peregrina.demo.DemoApplication {
+}
+interface com.virgen.peregrina.demo.repository.TestimonyRepository {
++ Optional<List<Testimony>?> getAllByReplica(Long)
++ Optional<Testimony?> getTestimonyByPilgrimage(Long)
+}
+
+interface com.virgen.peregrina.demo.repository.BlogPostRepository {
+}
+interface com.virgen.peregrina.demo.repository.ReplicaRepository {
+}
+class com.virgen.peregrina.demo.data.model.TestimonyModel {
+}
+class com.virgen.peregrina.demo.util.base.BaseResponse {
+}
+class com.virgen.peregrina.demo.data.entity.Replica {
+}
+class com.virgen.peregrina.demo.service.implement.BlogPostServiceImpl {
+- BlogPostRepository blogPostRepository
+- BlogPostConverter blogPostConverter
+- UserRepository userRepository
++ BlogPostDTO createBlogPost(BlogPostDTO)
++ BlogPostDTO getBlogPostById(Long)
++ List<BlogPostDTO> getAllBlogPosts()
++ BlogPostDTO updateBlogPost(Long,BlogPostDTO)
++ void deleteBlogPost(Long)
+}
+
+
+class com.virgen.peregrina.demo.data.converter.ReplicaConverter$Companion {
+-  TAG
+}
+
+class com.virgen.peregrina.demo.data.converter.ReplicaConverter {
+- UserRepository userRepository
+- PilgrimageRepository pilgrimageRepository
+- PilgrimageConverter pilgrimageConverter
++ Optional<Replica> toEntity(ReplicaModel)
++ Optional<ReplicaModel> toModel(Replica)
+}
+
+
+class com.virgen.peregrina.demo.service.implement.PilgrimageServiceImpl$Companion {
+-  TAG
+}
+
+class com.virgen.peregrina.demo.service.implement.PilgrimageServiceImpl {
+-  log
+- PilgrimageRepository pilgrimageRepository
+- PilgrimageConverter pilgrimageConverter
++ BaseResult<List<PilgrimageModel>> getAllByUserId(Long)
++ BaseResult<PilgrimageModel> create(PilgrimageModel)
++ BaseResult<Boolean> delete(PilgrimageModel)
++ BaseResult<PilgrimageModel> get(Long)
++ BaseResult<List<PilgrimageModel>> getAll()
++ BaseResult<List<PilgrimageModel>> getAllWithLimit(Int)
+}
+
+
+class com.virgen.peregrina.demo.data.entity.Pilgrimage {
+}
+class com.virgen.peregrina.demo.data.entity.User {
+}
+class com.virgen.peregrina.demo.util.PilgrimageState {
++  FINISHED
++  PENDING
++  IN_PROGRESS
+}
+
+interface com.virgen.peregrina.demo.service.TestimonyService {
++ BaseResult<List<TestimonyModel>> getAll(Long)
+}
+
+class com.virgen.peregrina.demo.data.model.PilgrimageModel {
+}
+interface com.virgen.peregrina.demo.service.BlogPostService {
++ BlogPostDTO createBlogPost(BlogPostDTO)
++ BlogPostDTO getBlogPostById(Long)
++ List<BlogPostDTO> getAllBlogPosts()
++ BlogPostDTO updateBlogPost(Long,BlogPostDTO)
++ void deleteBlogPost(Long)
+}
+
+class com.virgen.peregrina.demo.data.entity.Testimony {
+}
+class com.virgen.peregrina.demo.data.entity.BlogPost {
++ Long? id
++ String? title
++ String? content
++ String? imageUrl
++ User? user
++ LocalDateTime? createdAt
+}
+
+class com.virgen.peregrina.demo.data.model.UserModel {
+}
+interface com.virgen.peregrina.demo.util.component.Converter {
++ Optional<V> toEntity(T)
++ Optional<T> toModel(V)
+}
+
+class com.virgen.peregrina.demo.data.request.LoginRequest {
+}
+class com.virgen.peregrina.demo.data.converter.PilgrimageConverter$Companion {
+-  TAG
+}
+
+class com.virgen.peregrina.demo.data.converter.PilgrimageConverter {
+-  log
+- UserRepository userRepository
+- ReplicaRepository replicaRepository
+- TestimonyRepository testimonyRepository
++ Optional<Pilgrimage> toEntity(PilgrimageModel)
++ Optional<PilgrimageModel> toModel(Pilgrimage)
+}
+
+
+class com.virgen.peregrina.demo.controller.TestimonyController$Companion {
+-  TAG
+}
+
+class com.virgen.peregrina.demo.controller.TestimonyController {
+- TestimonyService testimonyService
+-  log
++ void createTestimony(void)
++ void null()
++ void null()
++ void getAll(void)
++ void null()
++ void null()
+}
+
+
+class com.virgen.peregrina.demo.data.model.ReplicaModel {
+}
+interface com.virgen.peregrina.demo.service.UserService {
++ BaseResult<UserModel> login(String)
++ BaseResult<List<UserModel>> getAllPilgrims()
++ BaseResult<UserModel> update(UserModel)
+}
+
+class com.virgen.peregrina.demo.util.base.BaseResult$Success {
+}
+class com.virgen.peregrina.demo.util.base.BaseResult$Error {
+}
+class com.virgen.peregrina.demo.util.base.BaseResult$NullOrEmptyData {
+}
+class com.virgen.peregrina.demo.util.base.BaseResult {
+}
+interface com.virgen.peregrina.demo.repository.UserRepository {
++ Optional<User?> getReferenceByUUID(String)
++ Optional<List<User>?> getAllPilgrims()
+}
+
+class com.virgen.peregrina.demo.data.converter.TestimonyConverter$Companion {
+-  TAG
+}
+
+class com.virgen.peregrina.demo.data.converter.TestimonyConverter {
+- UserRepository userRepository
+- PilgrimageRepository pilgrimageRepository
++ Optional<Testimony> toEntity(TestimonyModel)
++ Optional<TestimonyModel> toModel(Testimony)
+}
+
+
+class com.virgen.peregrina.demo.controller.ReplicaController$Companion {
+-  TAG
+}
+
+class com.virgen.peregrina.demo.controller.ReplicaController {
+-  log
+- ReplicaService replicaService
++ ResponseEntity<BaseResponse<ReplicaModel>> createReplica(ReplicaModel)
++ ResponseEntity<BaseResponse<List<ReplicaModel>>> getAll()
+}
+
+
+interface com.virgen.peregrina.demo.service.PilgrimageService {
++ BaseResult<List<PilgrimageModel>> getAllByUserId(Long)
++ BaseResult<List<PilgrimageModel>> getAllWithLimit(Int)
+}
+
+class com.virgen.peregrina.demo.data.model.BlogPostDTO {
+}
+class com.virgen.peregrina.demo.service.implement.TestimonyServiceImpl$Companion {
+-  TAG
+}
+
+class com.virgen.peregrina.demo.service.implement.TestimonyServiceImpl {
+- TestimonyRepository testimonyRepository
+- TestimonyConverter testimonyConverter
+-  log
++ BaseResult<TestimonyModel> create(TestimonyModel)
++ BaseResult<Boolean> delete(TestimonyModel)
++ BaseResult<TestimonyModel> get(Long)
++ BaseResult<List<TestimonyModel>> getAll()
++ BaseResult<List<TestimonyModel>> getAll(Long)
+}
+
+
+
+
+com.virgen.peregrina.demo.service.implement.UserServiceImpl +.. com.virgen.peregrina.demo.service.implement.UserServiceImpl$Companion
+com.virgen.peregrina.demo.service.UserService <|.. com.virgen.peregrina.demo.service.implement.UserServiceImpl
+com.virgen.peregrina.demo.controller.PilgrimageController +.. com.virgen.peregrina.demo.controller.PilgrimageController$Companion
+org.springframework.data.jpa.repository.JpaRepository <|.. com.virgen.peregrina.demo.repository.PilgrimageRepository
+com.virgen.peregrina.demo.controller.UserController +.. com.virgen.peregrina.demo.controller.UserController$Companion
+com.virgen.peregrina.demo.service.implement.ReplicaServiceImpl +.. com.virgen.peregrina.demo.service.implement.ReplicaServiceImpl$Companion
+com.virgen.peregrina.demo.service.ReplicaService <|.. com.virgen.peregrina.demo.service.implement.ReplicaServiceImpl
+com.virgen.peregrina.demo.util.component.Service <|.. com.virgen.peregrina.demo.service.ReplicaService
+com.virgen.peregrina.demo.data.converter.UserConverter +.. com.virgen.peregrina.demo.data.converter.UserConverter$Companion
+com.virgen.peregrina.demo.util.component.Converter <|.. com.virgen.peregrina.demo.data.converter.UserConverter
+org.springframework.data.jpa.repository.JpaRepository <|.. com.virgen.peregrina.demo.repository.TestimonyRepository
+org.springframework.data.jpa.repository.JpaRepository <|.. com.virgen.peregrina.demo.repository.BlogPostRepository
+org.springframework.data.jpa.repository.JpaRepository <|.. com.virgen.peregrina.demo.repository.ReplicaRepository
+com.virgen.peregrina.demo.service.BlogPostService <|.. com.virgen.peregrina.demo.service.implement.BlogPostServiceImpl
+com.virgen.peregrina.demo.data.converter.ReplicaConverter +.. com.virgen.peregrina.demo.data.converter.ReplicaConverter$Companion
+com.virgen.peregrina.demo.util.component.Converter <|.. com.virgen.peregrina.demo.data.converter.ReplicaConverter
+com.virgen.peregrina.demo.service.implement.PilgrimageServiceImpl +.. com.virgen.peregrina.demo.service.implement.PilgrimageServiceImpl$Companion
+com.virgen.peregrina.demo.service.PilgrimageService <|.. com.virgen.peregrina.demo.service.implement.PilgrimageServiceImpl
+com.virgen.peregrina.demo.util.component.Service <|.. com.virgen.peregrina.demo.service.TestimonyService
+com.virgen.peregrina.demo.data.converter.PilgrimageConverter +.. com.virgen.peregrina.demo.data.converter.PilgrimageConverter$Companion
+com.virgen.peregrina.demo.util.component.Converter <|.. com.virgen.peregrina.demo.data.converter.PilgrimageConverter
+com.virgen.peregrina.demo.controller.TestimonyController +.. com.virgen.peregrina.demo.controller.TestimonyController$Companion
+com.virgen.peregrina.demo.util.component.Service <|.. com.virgen.peregrina.demo.service.UserService
+com.virgen.peregrina.demo.util.base.BaseResult +.. com.virgen.peregrina.demo.util.base.BaseResult$Success
+com.virgen.peregrina.demo.util.base.BaseResult <|-- com.virgen.peregrina.demo.util.base.BaseResult$Success
+com.virgen.peregrina.demo.util.base.BaseResult +.. com.virgen.peregrina.demo.util.base.BaseResult$Error
+com.virgen.peregrina.demo.util.base.BaseResult <|-- com.virgen.peregrina.demo.util.base.BaseResult$Error
+com.virgen.peregrina.demo.util.base.BaseResult +.. com.virgen.peregrina.demo.util.base.BaseResult$NullOrEmptyData
+com.virgen.peregrina.demo.util.base.BaseResult <|-- com.virgen.peregrina.demo.util.base.BaseResult$NullOrEmptyData
+org.springframework.data.jpa.repository.JpaRepository <|.. com.virgen.peregrina.demo.repository.UserRepository
+com.virgen.peregrina.demo.data.converter.TestimonyConverter +.. com.virgen.peregrina.demo.data.converter.TestimonyConverter$Companion
+com.virgen.peregrina.demo.util.component.Converter <|.. com.virgen.peregrina.demo.data.converter.TestimonyConverter
+com.virgen.peregrina.demo.controller.ReplicaController +.. com.virgen.peregrina.demo.controller.ReplicaController$Companion
+com.virgen.peregrina.demo.util.component.Service <|.. com.virgen.peregrina.demo.service.PilgrimageService
+com.virgen.peregrina.demo.service.implement.TestimonyServiceImpl +.. com.virgen.peregrina.demo.service.implement.TestimonyServiceImpl$Companion
+com.virgen.peregrina.demo.service.TestimonyService <|.. com.virgen.peregrina.demo.service.implement.TestimonyServiceImpl
+@enduml

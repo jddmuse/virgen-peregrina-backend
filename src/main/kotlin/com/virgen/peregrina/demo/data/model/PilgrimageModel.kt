@@ -24,6 +24,7 @@ data class PilgrimageModel(
     val replica_owner_name_id: String = "",
     val replica_owner_user_email: String = "",
     val replica_owner_user_telephone: String = "",
+    val replica_name: String? = null,
 
     val replica_code: String = ""
 )

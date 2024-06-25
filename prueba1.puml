@@ -1,0 +1,378 @@
+@startuml
+class Contact {
+}
+class UserServiceImpl$Companion {
+-  TAG
+}
+
+class UserServiceImpl {
+-  log
+- UserRepository userRepository
+- ReplicaService replicaService
+- UserConverter userConverter
++ BaseResult<UserModel> login(String)
++ BaseResult<List<UserModel>> getAllPilgrims()
++ BaseResult<UserModel> update(UserModel)
++ BaseResult<UserModel> create(UserModel)
++ void delete(UserModel)
++ BaseResult<UserModel> get(Long)
++ BaseResult<List<UserModel>> getAll()
+}
+
+
+class BlogPostConverter {
+- UserRepository userRepository
++ BlogPostDTO toDTO(BlogPost)
++ BlogPost toEntity(BlogPostDTO)
+}
+
+
+interface PilgrimageRepository {
++ Optional<List<Pilgrimage>?> getAllAfterToday(Date)
++ Optional<Pilgrimage?> getInProgressPilgrimageByReplica(Long)
++ Optional<Pilgrimage?> getInProgressPilgrimageByUser(Long)
++ Optional<Pilgrimage?> getInProgressPilgrimageByReplicaOwnerUser(Long)
++ Optional<Pilgrimage?> getFinishedPilgrimageAndUnreturnedReplicaByReplicaOwnerUser(Long)
++ Optional<Pilgrimage?> getFinishedPilgrimageAndUnreturnedReplicaByUser(Long)
++ Optional<List<Pilgrimage>?> getAllByUserId(Long)
++ Optional<List<Pilgrimage>?> findAllWithLimit(Int)
+}
+
+class UserController$Companion {
+-  TAG
+}
+
+class UserController {
+-  log
+- UserService userService
++ ResponseEntity<BaseResponse<List<UserModel>>> getAllPilgrims()
++ ResponseEntity<BaseResponse<UserModel>> create(UserModel)
++ ResponseEntity<BaseResponse<UserModel?>> login(LoginRequest)
++ ResponseEntity<BaseResponse<List<UserModel>>> getAll()
++ ResponseEntity<BaseResponse<UserModel>> update(UserModel)
+}
+
+
+interface ContactService {
++ List<ContactDTO> getAllContacts()
++ ContactDTO? getContactById(Long)
++ ContactDTO createContact(ContactDTO)
++ ContactDTO? updateContact(Long,ContactDTO)
++ void deleteContact(Long)
+}
+
+class ContactController {
+}
+interface ReplicaService {
+}
+class UserConverter$Companion {
+-  TAG
+}
+
+class UserConverter {
+- ReplicaConverter replicaConverter
+- PilgrimageConverter pilgrimageConverter
++ Optional<User> toEntity(UserModel)
++ Optional<UserModel> toModel(User)
+}
+
+
+interface Service {
++ BaseResult<T> create(T)
++ BaseResult<Boolean> delete(T)
++ BaseResult<T> get(Long)
++ BaseResult<List<T>> getAll()
+}
+
+class DemoApplication {
+}
+class TestimonyModel {
+}
+class Replica {
+}
+class BlogPostServiceImpl {
+- BlogPostRepository blogPostRepository
+- BlogPostConverter blogPostConverter
+- UserRepository userRepository
++ BlogPostDTO createBlogPost(BlogPostDTO)
++ BlogPostDTO getBlogPostById(Long)
++ List<BlogPostDTO> getAllBlogPosts()
++ BlogPostDTO updateBlogPost(Long,BlogPostDTO)
++ void deleteBlogPost(Long)
+}
+
+
+class PilgrimageServiceImpl$Companion {
+-  TAG
+}
+
+class PilgrimageServiceImpl {
+-  log
+- PilgrimageRepository pilgrimageRepository
+- PilgrimageConverter pilgrimageConverter
++ BaseResult<List<PilgrimageModel>> getAllByUserId(Long)
++ BaseResult<PilgrimageModel> create(PilgrimageModel)
++ BaseResult<Boolean> delete(PilgrimageModel)
++ BaseResult<PilgrimageModel> get(Long)
++ BaseResult<List<PilgrimageModel>> getAll()
++ BaseResult<List<PilgrimageModel>> getAllWithLimit(Int)
+}
+
+
+class Pilgrimage {
+}
+class PilgrimageState {
++  FINISHED
++  PENDING
++  IN_PROGRESS
+}
+
+class PilgrimageModel {
+}
+class Testimony {
+}
+class BlogPost {
++ Long? id
++ String? title
++ String? content
++ String? imageUrl
++ User? user
++ LocalDateTime? createdAt
+}
+
+class UserModel {
+}
+interface Converter {
++ Optional<V> toEntity(T)
++ Optional<T> toModel(V)
+}
+
+class LoginRequest {
+}
+interface ContactRepository {
+}
+class PilgrimageConverter$Companion {
+-  TAG
+}
+
+class PilgrimageConverter {
+-  log
+- UserRepository userRepository
+- ReplicaRepository replicaRepository
+- TestimonyRepository testimonyRepository
++ Optional<Pilgrimage> toEntity(PilgrimageModel)
++ Optional<PilgrimageModel> toModel(Pilgrimage)
+}
+
+
+class ReplicaModel {
+}
+interface UserService {
++ BaseResult<UserModel> login(String)
++ BaseResult<List<UserModel>> getAllPilgrims()
++ BaseResult<UserModel> update(UserModel)
+}
+
+class BaseResult$Success {
+}
+class BaseResult$Error {
+}
+class BaseResult$NullOrEmptyData {
+}
+class BaseResult {
+}
+interface UserRepository {
++ Optional<User?> getReferenceByUUID(String)
++ Optional<List<User>?> getAllPilgrims()
+}
+
+class TestimonyConverter$Companion {
+-  TAG
+}
+
+class TestimonyConverter {
+- UserRepository userRepository
+- PilgrimageRepository pilgrimageRepository
++ Optional<Testimony> toEntity(TestimonyModel)
++ Optional<TestimonyModel> toModel(Testimony)
+}
+
+
+class ReplicaController$Companion {
+-  TAG
+}
+
+class ReplicaController {
+-  log
+- ReplicaService replicaService
++ ResponseEntity<BaseResponse<ReplicaModel>> createReplica(ReplicaModel)
++ ResponseEntity<BaseResponse<List<ReplicaModel>>> getAll()
+}
+
+
+class ContactDTO {
+}
+class PilgrimageController$Companion {
+-  TAG
+}
+
+class PilgrimageController {
+-  log
+- PilgrimageService pilgrimageService
++ ResponseEntity<BaseResponse<PilgrimageModel>> create(PilgrimageModel)
++ ResponseEntity<BaseResponse<List<PilgrimageModel>>> getAll()
++ void getAllWithLimit(void)
++ void null()
++ void null()
+}
+
+
+class ReplicaServiceImpl$Companion {
+-  TAG
+}
+
+class ReplicaServiceImpl {
+- ReplicaRepository replicaRepository
+- ReplicaConverter replicaConverter
+-  log
++ BaseResult<ReplicaModel> create(ReplicaModel)
++ BaseResult<Boolean> delete(ReplicaModel)
++ BaseResult<ReplicaModel> get(Long)
++ BaseResult<List<ReplicaModel>> getAll()
+}
+
+
+class BlogPostController {
+- BlogPostService blogPostService
++ ResponseEntity<BlogPostDTO> createBlogPost(BlogPostDTO)
++ ResponseEntity<BlogPostDTO> getBlogPostById(Long)
++ ResponseEntity<List<BlogPostDTO>> getAllBlogPosts()
++ ResponseEntity<BlogPostDTO> updateBlogPost(Long,BlogPostDTO)
++ ResponseEntity<Void> deleteBlogPost(Long)
+}
+
+
+interface TestimonyRepository {
++ Optional<List<Testimony>?> getAllByReplica(Long)
++ Optional<Testimony?> getTestimonyByPilgrimage(Long)
+}
+
+interface BlogPostRepository {
+}
+interface ReplicaRepository {
+}
+class BaseResponse {
+}
+class ReplicaConverter$Companion {
+-  TAG
+}
+
+class ReplicaConverter {
+- UserRepository userRepository
+- PilgrimageRepository pilgrimageRepository
+- PilgrimageConverter pilgrimageConverter
++ Optional<Replica> toEntity(ReplicaModel)
++ Optional<ReplicaModel> toModel(Replica)
+}
+
+
+class User {
+}
+interface TestimonyService {
++ BaseResult<List<TestimonyModel>> getAll(Long)
+}
+
+class ContactServiceImpl {
+}
+class ContactConverter {
++ ContactDTO entityToDTO(Contact)
++ Contact dtoToEntity(ContactDTO)
+}
+
+interface BlogPostService {
++ BlogPostDTO createBlogPost(BlogPostDTO)
++ BlogPostDTO getBlogPostById(Long)
++ List<BlogPostDTO> getAllBlogPosts()
++ BlogPostDTO updateBlogPost(Long,BlogPostDTO)
++ void deleteBlogPost(Long)
+}
+
+class TestimonyController$Companion {
+-  TAG
+}
+
+class TestimonyController {
+- TestimonyService testimonyService
+-  log
++ void createTestimony(void)
++ void null()
++ void null()
++ void getAll(void)
++ void null()
++ void null()
+}
+
+
+interface PilgrimageService {
++ BaseResult<List<PilgrimageModel>> getAllByUserId(Long)
++ BaseResult<List<PilgrimageModel>> getAllWithLimit(Int)
+}
+
+class BlogPostDTO {
+}
+class TestimonyServiceImpl$Companion {
+-  TAG
+}
+
+class TestimonyServiceImpl {
+- TestimonyRepository testimonyRepository
+- TestimonyConverter testimonyConverter
+-  log
++ BaseResult<TestimonyModel> create(TestimonyModel)
++ BaseResult<Boolean> delete(TestimonyModel)
++ BaseResult<TestimonyModel> get(Long)
++ BaseResult<List<TestimonyModel>> getAll()
++ BaseResult<List<TestimonyModel>> getAll(Long)
+}
+
+
+
+
+UserServiceImpl +.. UserServiceImpl$Companion
+UserService <|.. UserServiceImpl
+JpaRepository <|.. PilgrimageRepository
+UserController +.. UserController$Companion
+Service <|.. ReplicaService
+UserConverter +.. UserConverter$Companion
+Converter <|.. UserConverter
+BlogPostService <|.. BlogPostServiceImpl
+PilgrimageServiceImpl +.. PilgrimageServiceImpl$Companion
+PilgrimageService <|.. PilgrimageServiceImpl
+JpaRepository <|.. ContactRepository
+PilgrimageConverter +.. PilgrimageConverter$Companion
+Converter <|.. PilgrimageConverter
+Service <|.. UserService
+BaseResult +.. BaseResult$Success
+BaseResult <|-- BaseResult$Success
+BaseResult +.. BaseResult$Error
+BaseResult <|-- BaseResult$Error
+BaseResult +.. BaseResult$NullOrEmptyData
+BaseResult <|-- BaseResult$NullOrEmptyData
+JpaRepository <|.. UserRepository
+TestimonyConverter +.. TestimonyConverter$Companion
+Converter <|.. TestimonyConverter
+ReplicaController +.. ReplicaController$Companion
+PilgrimageController +.. PilgrimageController$Companion
+ReplicaServiceImpl +.. ReplicaServiceImpl$Companion
+ReplicaService <|.. ReplicaServiceImpl
+JpaRepository <|.. TestimonyRepository
+JpaRepository <|.. BlogPostRepository
+JpaRepository <|.. ReplicaRepository
+ReplicaConverter +.. ReplicaConverter$Companion
+Converter <|.. ReplicaConverter
+Service <|.. TestimonyService
+TestimonyController +.. TestimonyController$Companion
+Service <|.. PilgrimageService
+TestimonyServiceImpl +.. TestimonyServiceImpl$Companion
+TestimonyService <|.. TestimonyServiceImpl
+@enduml

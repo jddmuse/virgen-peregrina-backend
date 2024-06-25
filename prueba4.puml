@@ -1,0 +1,169 @@
+@startuml
+class com.virgen.peregrina.demo.data.entity.Contact {
+}
+class com.virgen.peregrina.demo.service.implement.UserServiceImpl$Companion {
+}
+class com.virgen.peregrina.demo.service.implement.UserServiceImpl {
+}
+class com.virgen.peregrina.demo.data.converter.BlogPostConverter {
+}
+interface com.virgen.peregrina.demo.repository.PilgrimageRepository {
+}
+class com.virgen.peregrina.demo.controller.UserController$Companion {
+}
+class com.virgen.peregrina.demo.controller.UserController {
+}
+interface com.virgen.peregrina.demo.service.ContactService {
+}
+class com.virgen.peregrina.demo.controller.ContactController {
+}
+interface com.virgen.peregrina.demo.service.ReplicaService {
+}
+class com.virgen.peregrina.demo.data.converter.UserConverter$Companion {
+}
+class com.virgen.peregrina.demo.data.converter.UserConverter {
+}
+interface com.virgen.peregrina.demo.util.component.Service {
+}
+class com.virgen.peregrina.demo.DemoApplication {
+}
+class com.virgen.peregrina.demo.data.model.TestimonyModel {
+}
+class com.virgen.peregrina.demo.data.entity.Replica {
+}
+class com.virgen.peregrina.demo.service.implement.BlogPostServiceImpl {
+}
+class com.virgen.peregrina.demo.service.implement.PilgrimageServiceImpl$Companion {
+}
+class com.virgen.peregrina.demo.service.implement.PilgrimageServiceImpl {
+}
+class com.virgen.peregrina.demo.data.entity.Pilgrimage {
+}
+class com.virgen.peregrina.demo.util.PilgrimageState {
+}
+class com.virgen.peregrina.demo.data.model.PilgrimageModel {
+}
+class com.virgen.peregrina.demo.data.entity.Testimony {
+}
+class com.virgen.peregrina.demo.data.entity.BlogPost {
+}
+class com.virgen.peregrina.demo.data.model.UserModel {
+}
+interface com.virgen.peregrina.demo.util.component.Converter {
+}
+class com.virgen.peregrina.demo.data.request.LoginRequest {
+}
+interface com.virgen.peregrina.demo.repository.ContactRepository {
+}
+class com.virgen.peregrina.demo.data.converter.PilgrimageConverter$Companion {
+}
+class com.virgen.peregrina.demo.data.converter.PilgrimageConverter {
+}
+class com.virgen.peregrina.demo.data.model.ReplicaModel {
+}
+interface com.virgen.peregrina.demo.service.UserService {
+}
+class com.virgen.peregrina.demo.util.base.BaseResult$Success {
+}
+class com.virgen.peregrina.demo.util.base.BaseResult$Error {
+}
+class com.virgen.peregrina.demo.util.base.BaseResult$NullOrEmptyData {
+}
+class com.virgen.peregrina.demo.util.base.BaseResult {
+}
+interface com.virgen.peregrina.demo.repository.UserRepository {
+}
+class com.virgen.peregrina.demo.data.converter.TestimonyConverter$Companion {
+}
+class com.virgen.peregrina.demo.data.converter.TestimonyConverter {
+}
+class com.virgen.peregrina.demo.controller.ReplicaController$Companion {
+}
+class com.virgen.peregrina.demo.controller.ReplicaController {
+}
+class com.virgen.peregrina.demo.data.model.ContactDTO {
+}
+class com.virgen.peregrina.demo.controller.PilgrimageController$Companion {
+}
+class com.virgen.peregrina.demo.controller.PilgrimageController {
+}
+class com.virgen.peregrina.demo.service.implement.ReplicaServiceImpl$Companion {
+}
+class com.virgen.peregrina.demo.service.implement.ReplicaServiceImpl {
+}
+class com.virgen.peregrina.demo.controller.BlogPostController {
+}
+interface com.virgen.peregrina.demo.repository.TestimonyRepository {
+}
+interface com.virgen.peregrina.demo.repository.BlogPostRepository {
+}
+interface com.virgen.peregrina.demo.repository.ReplicaRepository {
+}
+class com.virgen.peregrina.demo.util.base.BaseResponse {
+}
+class com.virgen.peregrina.demo.data.converter.ReplicaConverter$Companion {
+}
+class com.virgen.peregrina.demo.data.converter.ReplicaConverter {
+}
+class com.virgen.peregrina.demo.data.entity.User {
+}
+interface com.virgen.peregrina.demo.service.TestimonyService {
+}
+class com.virgen.peregrina.demo.service.implement.ContactServiceImpl {
+}
+class com.virgen.peregrina.demo.data.converter.ContactConverter {
+}
+interface com.virgen.peregrina.demo.service.BlogPostService {
+}
+class com.virgen.peregrina.demo.controller.TestimonyController$Companion {
+}
+class com.virgen.peregrina.demo.controller.TestimonyController {
+}
+interface com.virgen.peregrina.demo.service.PilgrimageService {
+}
+class com.virgen.peregrina.demo.data.model.BlogPostDTO {
+}
+class com.virgen.peregrina.demo.service.implement.TestimonyServiceImpl$Companion {
+}
+class com.virgen.peregrina.demo.service.implement.TestimonyServiceImpl {
+}
+
+
+com.virgen.peregrina.demo.service.implement.UserServiceImpl +.. com.virgen.peregrina.demo.service.implement.UserServiceImpl$Companion
+com.virgen.peregrina.demo.service.UserService <|.. com.virgen.peregrina.demo.service.implement.UserServiceImpl
+org.springframework.data.jpa.repository.JpaRepository <|.. com.virgen.peregrina.demo.repository.PilgrimageRepository
+com.virgen.peregrina.demo.controller.UserController +.. com.virgen.peregrina.demo.controller.UserController$Companion
+com.virgen.peregrina.demo.util.component.Service <|.. com.virgen.peregrina.demo.service.ReplicaService
+com.virgen.peregrina.demo.data.converter.UserConverter +.. com.virgen.peregrina.demo.data.converter.UserConverter$Companion
+com.virgen.peregrina.demo.util.component.Converter <|.. com.virgen.peregrina.demo.data.converter.UserConverter
+com.virgen.peregrina.demo.service.BlogPostService <|.. com.virgen.peregrina.demo.service.implement.BlogPostServiceImpl
+com.virgen.peregrina.demo.service.implement.PilgrimageServiceImpl +.. com.virgen.peregrina.demo.service.implement.PilgrimageServiceImpl$Companion
+com.virgen.peregrina.demo.service.PilgrimageService <|.. com.virgen.peregrina.demo.service.implement.PilgrimageServiceImpl
+org.springframework.data.jpa.repository.JpaRepository <|.. com.virgen.peregrina.demo.repository.ContactRepository
+com.virgen.peregrina.demo.data.converter.PilgrimageConverter +.. com.virgen.peregrina.demo.data.converter.PilgrimageConverter$Companion
+com.virgen.peregrina.demo.util.component.Converter <|.. com.virgen.peregrina.demo.data.converter.PilgrimageConverter
+com.virgen.peregrina.demo.util.component.Service <|.. com.virgen.peregrina.demo.service.UserService
+com.virgen.peregrina.demo.util.base.BaseResult +.. com.virgen.peregrina.demo.util.base.BaseResult$Success
+com.virgen.peregrina.demo.util.base.BaseResult <|-- com.virgen.peregrina.demo.util.base.BaseResult$Success
+com.virgen.peregrina.demo.util.base.BaseResult +.. com.virgen.peregrina.demo.util.base.BaseResult$Error
+com.virgen.peregrina.demo.util.base.BaseResult <|-- com.virgen.peregrina.demo.util.base.BaseResult$Error
+com.virgen.peregrina.demo.util.base.BaseResult +.. com.virgen.peregrina.demo.util.base.BaseResult$NullOrEmptyData
+com.virgen.peregrina.demo.util.base.BaseResult <|-- com.virgen.peregrina.demo.util.base.BaseResult$NullOrEmptyData
+org.springframework.data.jpa.repository.JpaRepository <|.. com.virgen.peregrina.demo.repository.UserRepository
+com.virgen.peregrina.demo.data.converter.TestimonyConverter +.. com.virgen.peregrina.demo.data.converter.TestimonyConverter$Companion
+com.virgen.peregrina.demo.util.component.Converter <|.. com.virgen.peregrina.demo.data.converter.TestimonyConverter
+com.virgen.peregrina.demo.controller.ReplicaController +.. com.virgen.peregrina.demo.controller.ReplicaController$Companion
+com.virgen.peregrina.demo.controller.PilgrimageController +.. com.virgen.peregrina.demo.controller.PilgrimageController$Companion
+com.virgen.peregrina.demo.service.implement.ReplicaServiceImpl +.. com.virgen.peregrina.demo.service.implement.ReplicaServiceImpl$Companion
+com.virgen.peregrina.demo.service.ReplicaService <|.. com.virgen.peregrina.demo.service.implement.ReplicaServiceImpl
+org.springframework.data.jpa.repository.JpaRepository <|.. com.virgen.peregrina.demo.repository.TestimonyRepository
+org.springframework.data.jpa.repository.JpaRepository <|.. com.virgen.peregrina.demo.repository.BlogPostRepository
+org.springframework.data.jpa.repository.JpaRepository <|.. com.virgen.peregrina.demo.repository.ReplicaRepository
+com.virgen.peregrina.demo.data.converter.ReplicaConverter +.. com.virgen.peregrina.demo.data.converter.ReplicaConverter$Companion
+com.virgen.peregrina.demo.util.component.Converter <|.. com.virgen.peregrina.demo.data.converter.ReplicaConverter
+com.virgen.peregrina.demo.util.component.Service <|.. com.virgen.peregrina.demo.service.TestimonyService
+com.virgen.peregrina.demo.controller.TestimonyController +.. com.virgen.peregrina.demo.controller.TestimonyController$Companion
+com.virgen.peregrina.demo.util.component.Service <|.. com.virgen.peregrina.demo.service.PilgrimageService
+com.virgen.peregrina.demo.service.implement.TestimonyServiceImpl +.. com.virgen.peregrina.demo.service.implement.TestimonyServiceImpl$Companion
+com.virgen.peregrina.demo.service.TestimonyService <|.. com.virgen.peregrina.demo.service.implement.TestimonyServiceImpl
+@enduml
