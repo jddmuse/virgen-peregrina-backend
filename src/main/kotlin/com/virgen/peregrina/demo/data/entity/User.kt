@@ -1,51 +1,73 @@
 package com.virgen.peregrina.demo.data.entity
 
+import com.virgen.peregrina.demo.data.model.UserModel
+import com.virgen.peregrina.demo.data.model.toEntity
 import javax.persistence.*
 
 @Entity
-@Table(name = "user")
+@Table(name = "USER")
 data class User(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(unique = true, nullable = false, name = "user_id")
+    @Column(unique = true, nullable = false, name = "ID")
     val id: Long? = null,
 
-    @Column(name = "user_uuid", unique = true, nullable = true)
-    val uuid: String?,
+//    @Column(name = "user_uuid", unique = true, nullable = true)
+//    val uuid: String?,
 
-    @Column(name = "user_name")
+    @Column(name = "NAME")
     val name: String,
 
-    @Column(name = "user_last_name")
-    val lastName: String?,
+    @Column(name = "LAST_NAME")
+    val lastName: String,
 
-    @Column(name = "user_email")
+    @Column(name = "EMAIL", unique = true, nullable = false)
     val email: String,
 
-    @Column(name = "user_address")
-    val address: String?,
+    @Column(name = "ADDRESS")
+    val address: String,
 
-    @Column(name = "user_city")
-    val city: String?,
+    @Column(name = "CITY")
+    val city: String,
 
-    @Column(name = "user_country")
-    val country: String?,
+    @Column(name = "COUNTRY")
+    val country: String,
 
-    @Column(name = "user_cellphone")
-    val cellphone: String?,
+    @Column(name = "PHONE")
+    val cellphone: String,
 
-    @Column(name = "user_telephone")
+    @Column(name = "HOME_PHONE")
     val telephone: String?,
 
-    @Column(name = "user_photo_url")
+    @Column(name = "PHOTO_URL")
     val photoUrl: String?,
 
-    @OneToMany(mappedBy = "user")
-    val replicas: List<Replica>?,
+    @Column(name = "PASS")
+    val pass: String
 
-    @Column(name = "user_is_pilgrim")
-    val isPilgrim: Boolean?,
+//    @OneToMany(mappedBy = "USER")
+//    val replicas: List<Replica>?,
 
-    @OneToMany(mappedBy = "user")
-    val pilgrimages: List<Pilgrimage>?
+//    @Column(name = "user_is_pilgrim")
+//    val isPilgrim: Boolean?,
+
+//    @OneToMany(mappedBy = "USER")
+//    val pilgrimages: List<Pilgrimage>?
 )
+
+
+fun User.toModel(): UserModel {
+    return UserModel(
+        id = this.id!!,
+        name = this.name,
+        lastName = this.lastName,
+        email = this.email,
+        address = this.address,
+        city = this.city,
+        country = this.country,
+        cellphone = this.cellphone,
+        telephone = this.telephone,
+        photoUrl = this.photoUrl,
+        pass = this.pass
+    )
+}

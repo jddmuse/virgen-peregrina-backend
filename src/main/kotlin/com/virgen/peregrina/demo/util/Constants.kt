@@ -16,9 +16,3 @@ const val N_A = "N/A"
 const val PILGRIMAGE_REPOSITORY_NAME = "pilgrimageRepository"
 const val PILGRIMAGE_SERVICE_NAME = "pilgrimageService"
 const val PILGRIMAGE_CONVERTER_NAME = "pilgrimageConverter"
-
-object PilgrimageState {
-    const val FINISHED = "Finished"
-    const val PENDING = "Pending"
-    const val IN_PROGRESS = "In Progress"
-}

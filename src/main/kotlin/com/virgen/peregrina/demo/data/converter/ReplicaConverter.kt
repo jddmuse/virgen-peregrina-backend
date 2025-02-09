@@ -34,54 +34,53 @@ class ReplicaConverter : Converter<ReplicaModel, Replica> {
     @Qualifier(PILGRIMAGE_CONVERTER_NAME)
     private lateinit var pilgrimageConverter: PilgrimageConverter
 
-    override fun toEntity(model: ReplicaModel): Optional<Replica> = try {
-        val sdf = SimpleDateFormat("dd/MM/yyyy")
-        val user = userRepository.getReferenceById(model.user_id)
-        val entity = model.run {
-            Replica(
-                id = id,
-                required_restore = required_restore,
-                photo_url = photo_url,
-                code = code,
-                received_date = sdf.parse(received_date),
-                user = user,
-                pilgrimages = pilgrimages.map { pilgrimageConverter.toEntity(it).get() }
-            )
-        }
-        Optional.of(entity)
-    } catch (ex: Exception) {
-        getLog<UserModel>().info("$TAG toEntity(): Exception -> $ex")
-        Optional.empty<Replica>()
-    }
-
-    override fun toModel(entity: Replica): Optional<ReplicaModel> = try {
-        val sdf = SimpleDateFormat("dd/MM/yyyy")
-        val pilgrimage = pilgrimageRepository.getInProgressPilgrimageByReplica(entity.id!!)
-        val available = pilgrimage.isEmpty
-        val model = entity.run {
-            ReplicaModel(
-                id = id,
-                required_restore = required_restore,
-                photo_url = photo_url,
-                code = code,
-                received_date = sdf.format(received_date),
-                user_id = user.id!!,
-                user_name = user.name,
-                user_cellphone = user.cellphone,
-                user_country = user.country,
-                user_city = user.city,
-                user_email = user.email,
-                isAvailable = available,
-                pilgrimages = pilgrimages?.map {
-                    pilgrimageConverter.toModel(it).get()
-                } ?: emptyList()
-            )
-        }
-        Optional.of(model)
-    } catch (ex: Exception) {
-        getLog<UserModel>().info("$TAG toModel(): Exception -> $ex")
-        Optional.empty<ReplicaModel>()
-    }
-
+//    override fun toEntity(model: ReplicaModel): Optional<Replica> = try {
+//        val sdf = SimpleDateFormat("dd/MM/yyyy")
+//        val user = userRepository.getReferenceById(model.user_id)
+//        val entity = model.run {
+//            Replica(
+//                id = id,
+////                required_restore = true,
+//                photo_url = photo_url,
+//                code = code,
+////                received_date = Date(),
+//                user = user,
+////                pilgrimages = pilgrimages.map { pilgrimageConverter.toEntity(it).get() },
+//                birthdate = Date()
+//            )
+//        }
+//        Optional.of(entity)
+//    } catch (ex: Exception) {
+//        getLog<UserModel>().info("$TAG toEntity(): Exception -> $ex")
+//        Optional.empty<Replica>()
+//    }
+//
+//    override fun toModel(entity: Replica): Optional<ReplicaModel> = try {
+//        val sdf = SimpleDateFormat("dd/MM/yyyy")
+//        val pilgrimage = pilgrimageRepository.getInProgressPilgrimageByReplica(entity.id!!)
+//        val available = pilgrimage.isEmpty
+//        val model = entity.run {
+//            ReplicaModel(
+//                id = id,
+//                required_restore = true,
+//                photo_url = photo_url,
+//                code = code,
+//                received_date = "",
+//                user_id = user.id!!,
+//                user_name = user.name,
+//                user_cellphone = user.cellphone,
+//                user_country = user.country,
+//                user_city = user.city,
+//                user_email = user.email,
+//                isAvailable = available,
+//                pilgrimages =  emptyList()
+//            )
+//        }
+//        Optional.of(model)
+//    } catch (ex: Exception) {
+//        getLog<UserModel>().info("$TAG toModel(): Exception -> $ex")
+//        Optional.empty<ReplicaModel>()
+//    }
+//
 
 }

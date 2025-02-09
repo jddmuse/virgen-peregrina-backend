@@ -25,60 +25,58 @@ class UserConverter : Converter<UserModel, User> {
     @Qualifier(PILGRIMAGE_CONVERTER_NAME)
     private lateinit var pilgrimageConverter: PilgrimageConverter
 
-    override fun toEntity(model: UserModel): Optional<User> = try {
-        val replicasAux = model.replicas?.map {
-            replicaConverter.toEntity(it).get()
-        }
-        val entity = model.run {
-            User(
-                id = id,
-                uuid = uuid,
-                name = name,
-                lastName = lastName,
-                email = email,
-                address = address,
-                city = city,
-                country = country,
-                cellphone = cellphone,
-                telephone = telephone,
-                photoUrl = photoUrl,
-                replicas = replicasAux,
-                isPilgrim = isPilgrim,
-                pilgrimages = pilgrimages.map { pilgrimageConverter.toEntity(it).get() }
-            )
-        }
-        Optional.of(entity)
-    } catch (ex: Exception) {
-        getLog<UserModel>().info("$TAG toEntity(): Exception -> $ex")
-        Optional.empty<User>()
-    }
-
-    override fun toModel(entity: User): Optional<UserModel> = try {
-        val model = entity.run {
-            UserModel(
-                id = id,
-                uuid = uuid,
-                name = name,
-                lastName = lastName,
-                email = email,
-                address = address,
-                city = city,
-                country = country,
-                cellphone = cellphone,
-                telephone = telephone,
-                photoUrl = photoUrl,
-                replicas = replicas?.map {
-                    replicaConverter.toModel(it).get()
-                },
-                isPilgrim = isPilgrim,
-                pilgrimages = pilgrimages?.map {
-                    pilgrimageConverter.toModel(it).get()
-                } ?: emptyList()
-            )
-        }
-        Optional.of(model)
-    } catch (ex: java.lang.Exception) {
-        getLog<UserModel>().info("$TAG toModel(): Exception -> $ex")
-        Optional.empty<UserModel>()
-    }
+//    override fun toEntity(model: UserModel): Optional<User> = try {
+//        val replicasAux = model.replicas?.map {
+//            replicaConverter.toEntity(it).get()
+//        }
+//        val entity = model.run {
+//            User(
+//                id = id,
+////                uuid = uuid,
+//                name = name,
+//                lastName = lastName,
+//                email = email,
+//                address = address,
+//                city = city,
+//                country = country,
+//                cellphone = cellphone,
+//                telephone = telephone,
+//                photoUrl = photoUrl,
+////                replicas = replicasAux,
+////                isPilgrim = isPilgrim,
+////                pilgrimages = pilgrimages.map { pilgrimageConverter.toEntity(it).get() }
+//            )
+//        }
+//        Optional.of(entity)
+//    } catch (ex: Exception) {
+//        getLog<UserModel>().info("$TAG toEntity(): Exception -> $ex")
+//        Optional.empty<User>()
+//    }
+//
+//    override fun toModel(entity: User): Optional<UserModel> = try {
+//        val model = entity.run {
+//            UserModel(
+//                id = id,
+////                uuid = uuid,
+//                name = name,
+//                lastName = lastName,
+//                email = email,
+//                address = address,
+//                city = city,
+//                country = country,
+//                cellphone = cellphone,
+//                telephone = telephone,
+//                photoUrl = photoUrl,
+//                replicas = emptyList(),
+////                isPilgrim = isPilgrim,
+//                pilgrimages =  emptyList(),
+//                isPilgrim = false,
+//                uuid = ""
+//            )
+//        }
+//        Optional.of(model)
+//    } catch (ex: java.lang.Exception) {
+//        getLog<UserModel>().info("$TAG toModel(): Exception -> $ex")
+//        Optional.empty<UserModel>()
+//    }
 }

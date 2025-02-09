@@ -30,44 +30,44 @@ class TestimonyConverter : Converter<TestimonyModel, Testimony> {
         private const val TAG = "[TestimonyConverter] ->"
     }
 
-    override fun toEntity(model: TestimonyModel): Optional<Testimony> = try {
-        val sdf = SimpleDateFormat("dd/MM/yyyy")
-        val user = userRepository.getReferenceById(model.user_id)
-        val pilgrimage = pilgrimageRepository.getReferenceById(model.pilgrimage_id)
-
-        val entity = model.run {
-            Testimony(
-                id = id,
-                user = user,
-                pilgrimage = pilgrimage,
-                date = sdf.parse(date),
-                value = value
-            )
-        }
-        Optional.of(entity)
-    } catch (ex: Exception) {
-        getLog<TestimonyConverter>().info("$TAG toEntity(): Exception -> $ex")
-        Optional.empty<Testimony>()
-    }
-
-
-    override fun toModel(entity: Testimony): Optional<TestimonyModel> = try {
-        val sdf = SimpleDateFormat("dd/MM/yyyy")
-        val model = entity.run {
-            TestimonyModel(
-                id = id,
-                date = sdf.format(date),
-                user_id = user.id!!,
-                user_name = user.name,
-                pilgrimage_id = pilgrimage.id!!,
-                value = value
-            )
-        }
-        Optional.of(model)
-    } catch (ex: Exception) {
-        getLog<TestimonyConverter>().info("$TAG toEntity(): Exception -> $ex")
-        Optional.empty<TestimonyModel>()
-    }
+//    override fun toEntity(model: TestimonyModel): Optional<Testimony> = try {
+//        val sdf = SimpleDateFormat("dd/MM/yyyy")
+//        val user = userRepository.getReferenceById(model.user_id)
+//        val pilgrimage = pilgrimageRepository.getReferenceById(model.pilgrimage_id)
+//
+//        val entity = model.run {
+//            Testimony(
+////                id = id,
+////                user = user,
+//                pilgrimage = pilgrimage,
+//                date = sdf.parse(date),
+//                value = value
+//            )
+//        }
+//        Optional.of(entity)
+//    } catch (ex: Exception) {
+//        getLog<TestimonyConverter>().info("$TAG toEntity(): Exception -> $ex")
+//        Optional.empty<Testimony>()
+//    }
+//
+//
+//    override fun toModel(entity: Testimony): Optional<TestimonyModel> = try {
+//        val sdf = SimpleDateFormat("dd/MM/yyyy")
+//        val model = entity.run {
+//            TestimonyModel(
+//                id = -1,
+//                date = sdf.format(date),
+//                user_id = -1,
+//                user_name = "",
+//                pilgrimage_id = pilgrimage.id!!,
+//                value = value
+//            )
+//        }
+//        Optional.of(model)
+//    } catch (ex: Exception) {
+//        getLog<TestimonyConverter>().info("$TAG toEntity(): Exception -> $ex")
+//        Optional.empty<TestimonyModel>()
+//    }
 
 
 }

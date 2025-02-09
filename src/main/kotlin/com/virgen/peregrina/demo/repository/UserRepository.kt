@@ -9,15 +9,19 @@ import java.util.*
 @Repository("userRepository")
 interface UserRepository : JpaRepository<User, Long> {
 
-    @Query(
-        value = "SELECT * FROM public.user WHERE user_uuid = :uid",
-        nativeQuery = true
-    )
-    fun getReferenceByUUID(uid: String): Optional<User?>
+//    @Query(
+//        value = "SELECT * FROM public.user WHERE user_uuid = :uid",
+//        nativeQuery = true
+//    )
+//    fun getReferenceByUUID(uid: String): Optional<User?>
+//
+//    @Query(
+//        value = "SELECT * FROM public.user WHERE user_is_pilgrim = true",
+//        nativeQuery = true
+//    )
+//    fun getAllPilgrims(): Optional<List<User>?>
 
-    @Query(
-        value = "SELECT * FROM public.user WHERE user_is_pilgrim = true",
-        nativeQuery = true
-    )
-    fun getAllPilgrims(): Optional<List<User>?>
+    fun findByEmailAndPass(email: String, pass: String): List<User>?
+
+
 }
