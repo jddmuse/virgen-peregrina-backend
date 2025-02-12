@@ -1,4 +1,4 @@
-package com.virgen.peregrina.demo.controller
+package com.virgen.peregrina.demo.controller.util
 
 import com.virgen.peregrina.demo.util.base.BaseApiResponse
 import com.virgen.peregrina.demo.util.base.BaseServiceResponse

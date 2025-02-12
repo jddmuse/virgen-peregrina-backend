@@ -5,17 +5,12 @@ import com.virgen.peregrina.demo.data.model.PilgrimageModel
 import com.virgen.peregrina.demo.repository.ReplicaRepository
 import com.virgen.peregrina.demo.repository.TestimonyRepository
 import com.virgen.peregrina.demo.repository.UserRepository
-import com.virgen.peregrina.demo.util.component.Converter
-import com.virgen.peregrina.demo.util.METHOD_CALLED
-import com.virgen.peregrina.demo.util.PARAMS
 import com.virgen.peregrina.demo.util.PILGRIMAGE_CONVERTER_NAME
-import com.virgen.peregrina.demo.util.PilgrimageState
+import com.virgen.peregrina.demo.util.component.Converter
 import org.apache.commons.logging.LogFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.stereotype.Component
-import java.text.SimpleDateFormat
-import java.util.*
 
 @Component(PILGRIMAGE_CONVERTER_NAME)
 class PilgrimageConverter : Converter<PilgrimageModel, Pilgrimage> {

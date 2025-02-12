@@ -1,6 +1,5 @@
 package com.virgen.peregrina.demo.data.model
 
-import com.virgen.peregrina.demo.data.entity.User
 import java.util.*
 
 data class ReplicaModel(
@@ -8,5 +7,6 @@ data class ReplicaModel(
     val photoUrl: String?,
     val code: String,
     val birthdate: Date,
-    val user: UserModel
+    val user: UserModel,
+    val pilgrimages: List<PilgrimageModel>?
 )

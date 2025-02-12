@@ -2,6 +2,7 @@ package com.virgen.peregrina.demo.data.entity
 
 import com.virgen.peregrina.demo.data.model.ReplicaModel
 import com.virgen.peregrina.demo.data.model.UserModel
+import org.hibernate.annotations.Where
 import java.util.*
 import javax.persistence.*
 
@@ -33,8 +34,9 @@ data class Replica(
     )
     val user: User,
 
-//    @OneToMany(mappedBy = "REPLICA")
-//    val pilgrimages: List<Pilgrimage>?
+    @OneToMany(mappedBy = "replica", cascade = [CascadeType.ALL], fetch = FetchType.LAZY)
+    @Where(clause = "END_DATE >= CURRENT_DATE")
+    val pilgrimages: List<Pilgrimage>? = null
 )
 
 
@@ -44,6 +46,7 @@ fun Replica.toModel(): ReplicaModel {
         photoUrl = photoUrl,
         code = code,
         birthdate = birthdate,
-        user = user.toModel()
+        user = user.toModel(),
+        pilgrimages = pilgrimages?.map { it.toModel() } ?: emptyList()
     )
 }

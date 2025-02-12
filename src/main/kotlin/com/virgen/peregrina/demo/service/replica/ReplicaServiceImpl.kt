@@ -5,13 +5,17 @@ import com.virgen.peregrina.demo.data.entity.Replica
 import com.virgen.peregrina.demo.data.entity.toModel
 import com.virgen.peregrina.demo.data.model.ReplicaModel
 import com.virgen.peregrina.demo.data.request.CreateReplicaRequest
+import com.virgen.peregrina.demo.repository.PilgrimageRepository
 import com.virgen.peregrina.demo.repository.ReplicaRepository
 import com.virgen.peregrina.demo.repository.UserRepository
 import com.virgen.peregrina.demo.util.base.BaseServiceResponse
 import com.virgen.peregrina.demo.util.getLog
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Qualifier
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
+
 
 @Service("replicaService")
 class ReplicaServiceImpl : ReplicaService {
@@ -27,6 +31,10 @@ class ReplicaServiceImpl : ReplicaService {
     @Autowired
     @Qualifier("userRepository")
     private lateinit var userRepository: UserRepository
+
+    @Autowired
+    @Qualifier("pilgrimageRepository")
+    private lateinit var pilgrimageRepository: PilgrimageRepository
 
     @Autowired
     @Qualifier("replicaConverter")
@@ -50,6 +58,17 @@ class ReplicaServiceImpl : ReplicaService {
         } catch (ex:Exception) {
             log.error("$TAG create(): Exception -> $ex")
             return BaseServiceResponse.Error(ex, "No se pudo crear la replica")
+        }
+    }
+
+    override fun findAll(pageable: Pageable): BaseServiceResponse<Page<ReplicaModel>> {
+        return try {
+            val result = replicaRepository.findAll(pageable)
+                .map { it.toModel() }
+            BaseServiceResponse.Success(result)
+        } catch (ex:Exception) {
+            log.error("$TAG findAll(): Exception -> $ex")
+            BaseServiceResponse.Error(ex)
         }
     }
 

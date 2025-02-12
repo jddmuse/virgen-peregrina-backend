@@ -1,6 +1,7 @@
 package com.virgen.peregrina.demo.data.entity
 
 import com.virgen.peregrina.demo.data.model.PilgrimageModel
+import java.time.LocalDate
 import java.util.*
 import javax.persistence.*
 
@@ -13,10 +14,10 @@ class Pilgrimage(
     val id: Long? = null,
 
     @Column(name = "START_DATE")
-    val startDate: Date,
+    val startDate: LocalDate,
 
     @Column(name = "END_DATE")
-    val endDate: Date,
+    val endDate: LocalDate,
 
     @Column(name = "INTENTION")
     val description: String,
@@ -51,13 +52,13 @@ class Pilgrimage(
     @Column(name = "STATUS")
     val status: String
 ) {
-
-    fun onRange(other: Pilgrimage): Boolean {
-        return (other.startDate.after(startDate) && other.startDate.before(endDate))
-                || (other.endDate.after(startDate) && other.endDate.before(endDate))
-                || other.startDate == startDate || other.endDate == endDate
-                || other.startDate == endDate || other.endDate == startDate
-    }
+//
+//    fun onRange(other: Pilgrimage): Boolean {
+//        return (other.startDate.after(startDate) && other.startDate.before(endDate))
+//                || (other.endDate.after(startDate) && other.endDate.before(endDate))
+//                || other.startDate == startDate || other.endDate == endDate
+//                || other.startDate == endDate || other.endDate == startDate
+//    }
 
 }
 enum class EnumPilgrimageStatus {

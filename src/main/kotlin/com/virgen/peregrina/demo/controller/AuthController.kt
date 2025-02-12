@@ -1,7 +1,7 @@
 package com.virgen.peregrina.demo.controller
 
+import com.virgen.peregrina.demo.controller.util.ControllerHelper
 import com.virgen.peregrina.demo.data.model.LoginModel
-import com.virgen.peregrina.demo.data.model.UserModel
 import com.virgen.peregrina.demo.data.request.LoginRequest
 import com.virgen.peregrina.demo.service.auth.AuthService
 import com.virgen.peregrina.demo.util.base.BaseApiResponse
@@ -22,7 +22,7 @@ class AuthController {
     }
 
     @Autowired
-    @Qualifier("userService")
+    @Qualifier("authService")
     private lateinit var authService: AuthService
 
     @PostMapping("/login")

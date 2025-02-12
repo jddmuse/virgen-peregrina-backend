@@ -1,6 +1,5 @@
 package com.virgen.peregrina.demo.service.pilgrimage
 
-import com.virgen.peregrina.demo.data.converter.PilgrimageConverter
 import com.virgen.peregrina.demo.data.entity.EnumPilgrimageStatus
 import com.virgen.peregrina.demo.data.entity.Pilgrimage
 import com.virgen.peregrina.demo.data.entity.toModel
@@ -8,11 +7,14 @@ import com.virgen.peregrina.demo.data.model.PilgrimageModel
 import com.virgen.peregrina.demo.repository.PilgrimageRepository
 import com.virgen.peregrina.demo.repository.ReplicaRepository
 import com.virgen.peregrina.demo.repository.UserRepository
-import com.virgen.peregrina.demo.util.*
+import com.virgen.peregrina.demo.util.PILGRIMAGE_REPOSITORY_NAME
+import com.virgen.peregrina.demo.util.PILGRIMAGE_SERVICE_NAME
 import com.virgen.peregrina.demo.util.base.BaseServiceResponse
 import org.apache.commons.logging.LogFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Qualifier
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 
 @Service(PILGRIMAGE_SERVICE_NAME)
@@ -36,9 +38,19 @@ class PilgrimageServiceImpl : PilgrimageService {
     @Qualifier("replicaRepository")
     private lateinit var replicaRepository: ReplicaRepository
 
-    @Autowired
-    @Qualifier(PILGRIMAGE_CONVERTER_NAME)
-    private lateinit var pilgrimageConverter: PilgrimageConverter
+//    @Autowired
+//    @Qualifier(PILGRIMAGE_CONVERTER_NAME)
+//    private lateinit var pilgrimageConverter: PilgrimageConverter
+
+    override fun findAll(pageable: Pageable): BaseServiceResponse<Page<PilgrimageModel>> {
+        return try {
+            val result = pilgrimageRepository.findAll(pageable).map { it.toModel() }
+            BaseServiceResponse.Success(result)
+        } catch (ex: Exception) {
+            log.error("$TAG create(): Excepción -> $ex")
+            BaseServiceResponse.Error(ex)
+        }
+    }
 
     override fun create(model: PilgrimageModel): BaseServiceResponse<PilgrimageModel> {
         try {
@@ -63,6 +75,7 @@ class PilgrimageServiceImpl : PilgrimageService {
             return BaseServiceResponse.Error(ex)
         }
     }
+
 
 
 //    override fun getAllByUserId(user_id: Long): BaseServiceResponse<List<PilgrimageModel>> {
