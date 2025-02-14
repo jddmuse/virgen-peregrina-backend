@@ -2,13 +2,17 @@ package com.virgen.peregrina.demo.repository
 
 import com.virgen.peregrina.demo.data.entity.Pilgrimage
 import com.virgen.peregrina.demo.util.PILGRIMAGE_REPOSITORY_NAME
-import org.springframework.data.domain.Page
-import org.springframework.data.domain.Pageable
+import com.virgen.peregrina.demo.util.base.BaseRepositoryResponse
 import org.springframework.data.jpa.repository.JpaRepository
+import org.springframework.data.jpa.repository.Query
+import org.springframework.data.repository.query.Param
 import org.springframework.stereotype.Repository
 
 @Repository(PILGRIMAGE_REPOSITORY_NAME)
 interface PilgrimageRepository : JpaRepository<Pilgrimage, Long> {
+
+    @Query(value = "SELECT pr_insert_pilgrimage(:p_request_json)", nativeQuery = true)
+    fun insert2(@Param("p_request_json") request: String): String
 
 //    fun findAll(pageable: Pageable): Page<Pilgrimage>
 

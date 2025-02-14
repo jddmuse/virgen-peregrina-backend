@@ -1,5 +1,6 @@
 package com.virgen.peregrina.demo.service.pilgrimage
 
+import com.fasterxml.jackson.databind.ObjectMapper
 import com.virgen.peregrina.demo.data.entity.EnumPilgrimageStatus
 import com.virgen.peregrina.demo.data.entity.Pilgrimage
 import com.virgen.peregrina.demo.data.entity.toModel
@@ -9,6 +10,7 @@ import com.virgen.peregrina.demo.repository.ReplicaRepository
 import com.virgen.peregrina.demo.repository.UserRepository
 import com.virgen.peregrina.demo.util.PILGRIMAGE_REPOSITORY_NAME
 import com.virgen.peregrina.demo.util.PILGRIMAGE_SERVICE_NAME
+import com.virgen.peregrina.demo.util.base.BaseRepositoryResponse
 import com.virgen.peregrina.demo.util.base.BaseServiceResponse
 import org.apache.commons.logging.LogFactory
 import org.springframework.beans.factory.annotation.Autowired
@@ -38,6 +40,9 @@ class PilgrimageServiceImpl : PilgrimageService {
     @Qualifier("replicaRepository")
     private lateinit var replicaRepository: ReplicaRepository
 
+    @Autowired
+    private lateinit var objectMapper: ObjectMapper
+
 //    @Autowired
 //    @Qualifier(PILGRIMAGE_CONVERTER_NAME)
 //    private lateinit var pilgrimageConverter: PilgrimageConverter
@@ -60,16 +65,19 @@ class PilgrimageServiceImpl : PilgrimageService {
             val userEntity = userRepository.findById(model.userId)
             if(!userEntity.isPresent)
                 return BaseServiceResponse.NullOrEmptyData()
-            val pilgrimageData2Save = Pilgrimage(
-                replica = replicaEntity.get(),
-                user = userEntity.get(),
-                description = model.intention,
-                startDate = model.startDate,
-                endDate = model.endDate,
-                status = EnumPilgrimageStatus.PENDING.name
-            )
-            val pilgrimageEntity = pilgrimageRepository.save(pilgrimageData2Save)
-            return BaseServiceResponse.Success(pilgrimageEntity.toModel())
+            val jsonStringParam = objectMapper.writeValueAsString(model)
+            val jsonResponse = pilgrimageRepository.insert2(jsonStringParam)
+            val response = objectMapper.readValue(jsonResponse, BaseRepositoryResponse::class.java)?.let {
+                BaseRepositoryResponse(
+                    data = it.data?.let { data: Any -> objectMapper.convertValue(data, PilgrimageModel::class.java) },
+                    message = it.message,
+                    success = it.success
+                )
+            }
+            return if(response != null && response.success) {
+                BaseServiceResponse.Success(response.data!!)
+            } else
+                BaseServiceResponse.NullOrEmptyData(response?.message)
         } catch (ex:Exception) {
             log.error("$TAG create(): Excepción -> $ex")
             return BaseServiceResponse.Error(ex)

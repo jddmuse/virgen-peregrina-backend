@@ -3,6 +3,7 @@ package com.virgen.peregrina.demo.data.entity
 import com.virgen.peregrina.demo.data.model.ReplicaModel
 import com.virgen.peregrina.demo.data.model.UserModel
 import org.hibernate.annotations.Where
+import java.time.LocalDate
 import java.util.*
 import javax.persistence.*
 
@@ -24,7 +25,7 @@ data class Replica(
     val code: String,
 
     @Column(name = "BIRTHDATE")
-    val birthdate: Date,
+    val birthdate: LocalDate,
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(
