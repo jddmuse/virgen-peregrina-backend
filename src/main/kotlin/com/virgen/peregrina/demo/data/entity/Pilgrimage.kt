@@ -38,35 +38,17 @@ class Pilgrimage(
     )
     val user: User,
 
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(
-//        foreignKey = ForeignKey(name = "pilgrimage_user_receiver_fkey"),
-//        name = "user_id_receiver",
-//        referencedColumnName = "user_id"
-//    )
-//    val receiver_user: User,
-
-//    @Column(name = "pilg_is_returned")
-//    val replica_is_returned: Boolean = false
-
     @Column(name = "STATUS")
     val status: String
-) {
-//
-//    fun onRange(other: Pilgrimage): Boolean {
-//        return (other.startDate.after(startDate) && other.startDate.before(endDate))
-//                || (other.endDate.after(startDate) && other.endDate.before(endDate))
-//                || other.startDate == startDate || other.endDate == endDate
-//                || other.startDate == endDate || other.endDate == startDate
-//    }
+)
 
-}
 enum class EnumPilgrimageStatus {
     PENDING, PROGRESS, FINISHED
 }
 
 fun Pilgrimage.toModel(): PilgrimageModel {
     return PilgrimageModel(
+        id = id ?: -1,
         replicaId = replica.id ?: -1,
         userId = user.id ?: -1,
         startDate = startDate,
