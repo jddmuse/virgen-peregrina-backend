@@ -27,7 +27,7 @@ class AuthServiceImpl: AuthService {
 
     override fun login(request: LoginRequest): BaseServiceResponse<LoginModel> {
         return try {
-            val userEntity = userRepository.findByEmailAndPass(request.email, request.pass)?.first()
+            val userEntity = userRepository.findByEmailAndPass(request.email.uppercase(), request.pass.uppercase())?.first()
             if(userEntity != null) {
                 val response = AuthServiceHelper.loginModel(userEntity.toModel())
                 BaseServiceResponse.Success(response)
