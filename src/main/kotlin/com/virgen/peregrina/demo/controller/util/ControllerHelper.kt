@@ -13,7 +13,8 @@ class ControllerHelper {
                     ResponseEntity(
                         BaseApiResponse(
                             data = serviceResponse.data,
-                            message = "Exito"
+                            message = "Exito",
+                            success = true
                         ), HttpStatus.OK
                     )
 
@@ -21,14 +22,16 @@ class ControllerHelper {
                     ResponseEntity(
                         BaseApiResponse(
                             message = serviceResponse.message,
-                            error = serviceResponse.exception.message
+                            error = serviceResponse.exception.message,
+                            success = false
                         ), HttpStatus.BAD_REQUEST
                     )
 
                 is BaseServiceResponse.NullOrEmptyData -> {
                     ResponseEntity(
                         BaseApiResponse(
-                            message = serviceResponse.message
+                            message = serviceResponse.message,
+                            success = false
                         ), HttpStatus.NOT_FOUND
                     )
                 }
