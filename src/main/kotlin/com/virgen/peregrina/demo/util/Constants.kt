@@ -3,6 +3,8 @@ package com.virgen.peregrina.demo.util
 const val METHOD_CALLED = "METHOD CALLED:"
 const val PARAMS = "PARAMS:"
 
+const val ERROR_CREATE_PILGRIMAGE_REPLICA_EXISTS = "No existe un registro de replica con ID = "
+const val ERROR_CREATE_PILGRIMAGE_USER_EXISTS = "No existe un registro de usuario con ID = "
 const val ERROR_PILGRIMAGE_ON_RANGE = "No se pudo guardar esta peregrinación ya que se cruzan los dias con otra peregrinación ya registrada"
 const val ERROR_START_DATE_GREATER_THAN_END_DATE =  "La fecha de inicio debe ser inferior a la fecha de Finalización"
 

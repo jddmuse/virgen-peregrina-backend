@@ -8,6 +8,8 @@ import com.virgen.peregrina.demo.data.model.PilgrimageModel
 import com.virgen.peregrina.demo.repository.PilgrimageRepository
 import com.virgen.peregrina.demo.repository.ReplicaRepository
 import com.virgen.peregrina.demo.repository.UserRepository
+import com.virgen.peregrina.demo.util.ERROR_CREATE_PILGRIMAGE_REPLICA_EXISTS
+import com.virgen.peregrina.demo.util.ERROR_CREATE_PILGRIMAGE_USER_EXISTS
 import com.virgen.peregrina.demo.util.PILGRIMAGE_REPOSITORY_NAME
 import com.virgen.peregrina.demo.util.PILGRIMAGE_SERVICE_NAME
 import com.virgen.peregrina.demo.util.base.BaseRepositoryResponse
@@ -61,10 +63,10 @@ class PilgrimageServiceImpl : PilgrimageService {
         try {
             val replicaEntity = replicaRepository.findById(model.replicaId)
             if(!replicaEntity.isPresent)
-                return BaseServiceResponse.NullOrEmptyData()
+                return BaseServiceResponse.NullOrEmptyData(ERROR_CREATE_PILGRIMAGE_REPLICA_EXISTS+model.replicaId)
             val userEntity = userRepository.findById(model.userId)
             if(!userEntity.isPresent)
-                return BaseServiceResponse.NullOrEmptyData()
+                return BaseServiceResponse.NullOrEmptyData(ERROR_CREATE_PILGRIMAGE_USER_EXISTS+model.userId)
             val jsonStringParam = objectMapper.writeValueAsString(model)
             val jsonResponse = pilgrimageRepository.insert2(jsonStringParam)
             val response = objectMapper.readValue(jsonResponse, BaseRepositoryResponse::class.java)?.let {
