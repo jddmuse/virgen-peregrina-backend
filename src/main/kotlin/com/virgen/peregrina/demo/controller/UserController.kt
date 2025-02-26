@@ -1,7 +1,7 @@
 package com.virgen.peregrina.demo.controller
 
 import com.virgen.peregrina.demo.controller.util.ControllerHelper
-import com.virgen.peregrina.demo.data.model.UserModel
+import com.virgen.peregrina.demo.data.model.user.UserModel
 import com.virgen.peregrina.demo.data.request.CreateUserRequest
 import com.virgen.peregrina.demo.data.request.GetUserRequest
 import com.virgen.peregrina.demo.data.request.toModel

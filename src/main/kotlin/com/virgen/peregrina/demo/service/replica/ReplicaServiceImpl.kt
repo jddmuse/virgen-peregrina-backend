@@ -3,7 +3,7 @@ package com.virgen.peregrina.demo.service.replica
 import com.virgen.peregrina.demo.data.converter.ReplicaConverter
 import com.virgen.peregrina.demo.data.entity.Replica
 import com.virgen.peregrina.demo.data.entity.toModel
-import com.virgen.peregrina.demo.data.model.ReplicaModel
+import com.virgen.peregrina.demo.data.model.replica.ReplicaModel
 import com.virgen.peregrina.demo.data.request.CreateReplicaRequest
 import com.virgen.peregrina.demo.repository.PilgrimageRepository
 import com.virgen.peregrina.demo.repository.ReplicaRepository

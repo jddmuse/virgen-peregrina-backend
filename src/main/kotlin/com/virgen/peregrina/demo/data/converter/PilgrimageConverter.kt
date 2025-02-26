@@ -1,7 +1,7 @@
 package com.virgen.peregrina.demo.data.converter
 
 import com.virgen.peregrina.demo.data.entity.Pilgrimage
-import com.virgen.peregrina.demo.data.model.PilgrimageModel
+import com.virgen.peregrina.demo.data.model.pilgrimage.PilgrimageModel
 import com.virgen.peregrina.demo.repository.ReplicaRepository
 import com.virgen.peregrina.demo.repository.TestimonyRepository
 import com.virgen.peregrina.demo.repository.UserRepository

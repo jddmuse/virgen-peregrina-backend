@@ -1,6 +1,6 @@
 package com.virgen.peregrina.demo.service.replica
 
-import com.virgen.peregrina.demo.data.model.ReplicaModel
+import com.virgen.peregrina.demo.data.model.replica.ReplicaModel
 import com.virgen.peregrina.demo.data.request.CreateReplicaRequest
 import com.virgen.peregrina.demo.util.base.BaseServiceResponse
 import com.virgen.peregrina.demo.util.component.Service

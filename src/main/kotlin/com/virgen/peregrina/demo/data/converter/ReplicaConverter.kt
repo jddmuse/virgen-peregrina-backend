@@ -1,19 +1,15 @@
 package com.virgen.peregrina.demo.data.converter
 
 import com.virgen.peregrina.demo.data.entity.Replica
-import com.virgen.peregrina.demo.data.model.ReplicaModel
-import com.virgen.peregrina.demo.data.model.UserModel
+import com.virgen.peregrina.demo.data.model.replica.ReplicaModel
 import com.virgen.peregrina.demo.repository.PilgrimageRepository
 import com.virgen.peregrina.demo.repository.UserRepository
 import com.virgen.peregrina.demo.util.PILGRIMAGE_CONVERTER_NAME
 import com.virgen.peregrina.demo.util.PILGRIMAGE_REPOSITORY_NAME
 import com.virgen.peregrina.demo.util.component.Converter
-import com.virgen.peregrina.demo.util.getLog
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.stereotype.Component
-import java.text.SimpleDateFormat
-import java.util.*
 
 @Component("replicaConverter")
 class ReplicaConverter : Converter<ReplicaModel, Replica> {

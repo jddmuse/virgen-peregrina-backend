@@ -1,8 +1,8 @@
 package com.virgen.peregrina.demo.data.entity
 
-import com.virgen.peregrina.demo.data.model.PilgrimageModel
+import com.virgen.peregrina.demo.data.model.pilgrimage.PilgrimageModel
+import com.virgen.peregrina.demo.data.model.pilgrimage.PilgrimageOnlyDatesModel
 import java.time.LocalDate
-import java.util.*
 import javax.persistence.*
 
 @Entity
@@ -41,18 +41,3 @@ class Pilgrimage(
     @Column(name = "STATUS")
     val status: String
 )
-
-enum class EnumPilgrimageStatus {
-    PENDING, PROGRESS, FINISHED
-}
-
-fun Pilgrimage.toModel(): PilgrimageModel {
-    return PilgrimageModel(
-        id = id ?: -1,
-        replicaId = replica.id ?: -1,
-        userId = user.id ?: -1,
-        startDate = startDate,
-        endDate = endDate,
-        intention = description
-    )
-}

@@ -1,7 +1,7 @@
 package com.virgen.peregrina.demo.data.request
 
 import com.fasterxml.jackson.annotation.JsonProperty
-import com.virgen.peregrina.demo.data.model.PilgrimageModel
+import com.virgen.peregrina.demo.data.model.pilgrimage.PilgrimageModel
 import java.time.LocalDate
 
 data class CreatePilgrimageRequest(

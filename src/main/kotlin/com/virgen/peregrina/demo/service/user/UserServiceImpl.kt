@@ -3,8 +3,8 @@ package com.virgen.peregrina.demo.service.user
 import com.virgen.peregrina.demo.data.converter.UserConverter
 import com.virgen.peregrina.demo.data.entity.User
 import com.virgen.peregrina.demo.data.entity.toModel
-import com.virgen.peregrina.demo.data.model.UserModel
-import com.virgen.peregrina.demo.data.model.toEntity
+import com.virgen.peregrina.demo.data.model.user.UserModel
+import com.virgen.peregrina.demo.data.model.user.entity
 import com.virgen.peregrina.demo.repository.UserRepository
 import com.virgen.peregrina.demo.service.replica.ReplicaService
 import com.virgen.peregrina.demo.util.base.BaseServiceResponse
@@ -51,7 +51,7 @@ class UserServiceImpl : UserService {
 
     override fun create(model: UserModel): BaseServiceResponse<UserModel> {
         return try {
-            val userEntity: User = userRepository.save(model.toEntity())
+            val userEntity: User = userRepository.save(model.entity())
             BaseServiceResponse.Success(userEntity.toModel())
         } catch (ex:Exception) {
             log.error("$TAG create(): Exception -> $ex")

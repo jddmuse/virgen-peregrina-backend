@@ -1,7 +1,7 @@
 package com.virgen.peregrina.demo.controller
 
 import com.virgen.peregrina.demo.controller.util.ControllerHelper
-import com.virgen.peregrina.demo.data.model.ReplicaModel
+import com.virgen.peregrina.demo.data.model.replica.ReplicaModel
 import com.virgen.peregrina.demo.data.request.CreateReplicaRequest
 import com.virgen.peregrina.demo.service.replica.ReplicaService
 import com.virgen.peregrina.demo.util.base.BaseApiResponse

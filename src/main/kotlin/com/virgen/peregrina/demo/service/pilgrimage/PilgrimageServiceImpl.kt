@@ -1,10 +1,8 @@
 package com.virgen.peregrina.demo.service.pilgrimage
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import com.virgen.peregrina.demo.data.entity.EnumPilgrimageStatus
-import com.virgen.peregrina.demo.data.entity.Pilgrimage
 import com.virgen.peregrina.demo.data.entity.toModel
-import com.virgen.peregrina.demo.data.model.PilgrimageModel
+import com.virgen.peregrina.demo.data.model.pilgrimage.PilgrimageModel
 import com.virgen.peregrina.demo.repository.PilgrimageRepository
 import com.virgen.peregrina.demo.repository.ReplicaRepository
 import com.virgen.peregrina.demo.repository.UserRepository

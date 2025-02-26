@@ -1,6 +1,6 @@
 package com.virgen.peregrina.demo.service.user
 
-import com.virgen.peregrina.demo.data.model.UserModel
+import com.virgen.peregrina.demo.data.model.user.UserModel
 import com.virgen.peregrina.demo.util.base.BaseServiceResponse
 import com.virgen.peregrina.demo.util.component.Service
 

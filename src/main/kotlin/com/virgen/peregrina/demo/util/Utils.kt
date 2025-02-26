@@ -1,6 +1,5 @@
 package com.virgen.peregrina.demo.util
 
-import com.virgen.peregrina.demo.data.model.UserModel
 import org.apache.commons.logging.LogFactory
 import java.util.*
 

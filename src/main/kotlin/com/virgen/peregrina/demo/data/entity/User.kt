@@ -1,7 +1,6 @@
 package com.virgen.peregrina.demo.data.entity
 
-import com.virgen.peregrina.demo.data.model.UserModel
-import com.virgen.peregrina.demo.data.model.toEntity
+import com.virgen.peregrina.demo.data.model.user.UserModel
 import javax.persistence.*
 
 @Entity
@@ -54,20 +53,3 @@ data class User(
 //    @OneToMany(mappedBy = "USER")
 //    val pilgrimages: List<Pilgrimage>?
 )
-
-
-fun User.toModel(): UserModel {
-    return UserModel(
-        id = this.id!!,
-        name = this.name,
-        lastName = this.lastName,
-        email = this.email,
-        address = this.address,
-        city = this.city,
-        country = this.country,
-        cellphone = this.cellphone,
-        telephone = this.telephone,
-        photoUrl = this.photoUrl,
-        pass = this.pass
-    )
-}

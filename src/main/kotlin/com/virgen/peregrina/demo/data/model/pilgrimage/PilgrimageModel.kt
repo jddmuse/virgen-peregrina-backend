@@ -1,7 +1,8 @@
-package com.virgen.peregrina.demo.data.model
+package com.virgen.peregrina.demo.data.model.pilgrimage
 
 import com.fasterxml.jackson.annotation.JsonProperty
-import java.io.Serializable
+import com.virgen.peregrina.demo.data.model.replica.ReplicaLiteModel
+import com.virgen.peregrina.demo.data.model.user.UserLiteModel
 import java.time.LocalDate
 
 data class PilgrimageModel(
@@ -9,6 +10,6 @@ data class PilgrimageModel(
     @JsonProperty("startDate") val startDate: LocalDate,
     @JsonProperty("endDate") val endDate: LocalDate,
     @JsonProperty("intention") val intention: String,
-    @JsonProperty("replicaId") val replicaId: Long,
-    @JsonProperty("userId") val userId: Long
+    @JsonProperty("replica") val replica: ReplicaLiteModel,
+    @JsonProperty("user") val user: UserLiteModel
 )

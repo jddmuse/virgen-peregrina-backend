@@ -1,7 +1,7 @@
 package com.virgen.peregrina.demo.service.auth
 
 import com.virgen.peregrina.demo.data.model.LoginModel
-import com.virgen.peregrina.demo.data.model.UserModel
+import com.virgen.peregrina.demo.data.model.user.UserModel
 
 internal class AuthServiceHelper {
 

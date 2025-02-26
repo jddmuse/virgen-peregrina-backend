@@ -1,7 +1,7 @@
 package com.virgen.peregrina.demo.data.request
 
 import com.fasterxml.jackson.annotation.JsonProperty
-import com.virgen.peregrina.demo.data.model.UserModel
+import com.virgen.peregrina.demo.data.model.user.UserModel
 
 data class CreateUserRequest(
     @JsonProperty("name") private val _name: String,

@@ -1,7 +1,7 @@
 package com.virgen.peregrina.demo.controller
 
 import com.virgen.peregrina.demo.controller.util.ControllerHelper
-import com.virgen.peregrina.demo.data.model.PilgrimageModel
+import com.virgen.peregrina.demo.data.model.pilgrimage.PilgrimageModel
 import com.virgen.peregrina.demo.data.request.CreatePilgrimageRequest
 import com.virgen.peregrina.demo.data.request.GetPilgrimageRequest
 import com.virgen.peregrina.demo.data.request.toModel
