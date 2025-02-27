@@ -2,8 +2,8 @@ package com.virgen.peregrina.demo.service.replica
 
 import com.virgen.peregrina.demo.data.converter.ReplicaConverter
 import com.virgen.peregrina.demo.data.entity.Replica
-import com.virgen.peregrina.demo.data.entity.toModel
 import com.virgen.peregrina.demo.data.model.replica.ReplicaModel
+import com.virgen.peregrina.demo.data.model.replica.model
 import com.virgen.peregrina.demo.data.request.CreateReplicaRequest
 import com.virgen.peregrina.demo.repository.PilgrimageRepository
 import com.virgen.peregrina.demo.repository.ReplicaRepository
@@ -54,7 +54,7 @@ class ReplicaServiceImpl : ReplicaService {
                 user = userEntity.get()
             )
             val replicaEntity = replicaRepository.save(replicaData2Save)
-            return BaseServiceResponse.Success(replicaEntity.toModel())
+            return BaseServiceResponse.Success(replicaEntity.model())
         } catch (ex:Exception) {
             log.error("$TAG create(): Exception -> $ex")
             return BaseServiceResponse.Error(ex, "No se pudo crear la replica")
@@ -64,7 +64,7 @@ class ReplicaServiceImpl : ReplicaService {
     override fun findAll(pageable: Pageable): BaseServiceResponse<Page<ReplicaModel>> {
         return try {
             val result = replicaRepository.findAll(pageable)
-                .map { it.toModel() }
+                .map { it.model() }
             BaseServiceResponse.Success(result)
         } catch (ex:Exception) {
             log.error("$TAG findAll(): Exception -> $ex")

@@ -4,6 +4,7 @@ import com.virgen.peregrina.demo.data.converter.TestimonyConverter
 import com.virgen.peregrina.demo.data.entity.Testimony
 import com.virgen.peregrina.demo.data.entity.toModel
 import com.virgen.peregrina.demo.data.model.TestimonyModel
+import com.virgen.peregrina.demo.data.request.CreateTestimonyRequest
 import com.virgen.peregrina.demo.repository.PilgrimageRepository
 import com.virgen.peregrina.demo.repository.TestimonyRepository
 import com.virgen.peregrina.demo.repository.UserRepository
@@ -34,7 +35,7 @@ class TestimonyServiceImpl : TestimonyService {
 
     private val log = getLog<TestimonyServiceImpl>()
 
-    override fun create(model: TestimonyModel): BaseServiceResponse<TestimonyModel> {
+    override fun create(model: CreateTestimonyRequest): BaseServiceResponse<TestimonyModel> {
         try {
             val pilgrimageEntity = pilgrimageRepository.findById(model.pilgrimageId)
             if(!pilgrimageEntity.isPresent)

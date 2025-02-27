@@ -4,7 +4,6 @@ import com.virgen.peregrina.demo.controller.util.ControllerHelper
 import com.virgen.peregrina.demo.data.model.user.UserModel
 import com.virgen.peregrina.demo.data.request.CreateUserRequest
 import com.virgen.peregrina.demo.data.request.GetUserRequest
-import com.virgen.peregrina.demo.data.request.toModel
 import com.virgen.peregrina.demo.data.response.GetUserResponse
 import com.virgen.peregrina.demo.service.user.UserService
 import com.virgen.peregrina.demo.util.base.BaseApiResponse
@@ -13,11 +12,7 @@ import org.apache.commons.logging.LogFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/user")
@@ -45,7 +40,7 @@ class UserController {
 
     @PostMapping("/create")
     fun create(@RequestBody body: CreateUserRequest): ResponseEntity<BaseApiResponse<UserModel>> {
-        val serviceResponse: BaseServiceResponse<UserModel> = userService.create(body.toModel())
+        val serviceResponse: BaseServiceResponse<UserModel> = userService.create(body)
         return ControllerHelper.response(serviceResponse)
     }
 

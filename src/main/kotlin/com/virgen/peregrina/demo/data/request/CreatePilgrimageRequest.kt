@@ -17,13 +17,3 @@ data class CreatePilgrimageRequest(
     val endDate get() = _endDate
     val intention get() = _intention.uppercase()
 }
-
-fun CreatePilgrimageRequest.toModel(): PilgrimageModel {
-    return PilgrimageModel(
-        replicaId = replicaId,
-        userId = userId,
-        startDate = startDate,
-        endDate = endDate,
-        intention = intention
-    )
-}

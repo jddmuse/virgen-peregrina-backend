@@ -4,7 +4,6 @@ import com.virgen.peregrina.demo.controller.util.ControllerHelper
 import com.virgen.peregrina.demo.data.model.TestimonyModel
 import com.virgen.peregrina.demo.data.request.CreateTestimonyRequest
 import com.virgen.peregrina.demo.data.request.GetTestimonyRequest
-import com.virgen.peregrina.demo.data.request.toModel
 import com.virgen.peregrina.demo.data.response.CreateTestimonyResponse
 import com.virgen.peregrina.demo.data.response.GetTestimonyResponse
 import com.virgen.peregrina.demo.service.testimony.TestimonyService
@@ -44,7 +43,7 @@ class TestimonyController {
 
     @PostMapping("/create")
     fun create(body: CreateTestimonyRequest): ResponseEntity<BaseApiResponse<TestimonyModel>> {
-        val serviceResponse = testimonyService.create(body.toModel())
+        val serviceResponse = testimonyService.create(body)
         return ControllerHelper.response(serviceResponse)
     }
 

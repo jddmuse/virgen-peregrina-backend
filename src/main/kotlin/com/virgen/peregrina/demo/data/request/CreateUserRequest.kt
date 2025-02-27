@@ -27,19 +27,3 @@ data class CreateUserRequest(
     val pass: String get() = _pass
 
 }
-
-fun CreateUserRequest.toModel(): UserModel {
-    return UserModel(
-        id = -1,
-        name = this.name,
-        lastName = this.lastName,
-        email = this.email,
-        address = this.address,
-        city = this.city,
-        country = this.country,
-        cellphone = this.cellphone,
-        telephone = this.telephone,
-        photoUrl = this.photoUrl,
-        pass = pass
-    )
-}

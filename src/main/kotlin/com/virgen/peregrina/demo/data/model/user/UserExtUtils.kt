@@ -1,6 +1,7 @@
 package com.virgen.peregrina.demo.data.model.user
 
 import com.virgen.peregrina.demo.data.entity.User
+import com.virgen.peregrina.demo.data.request.CreateUserRequest
 import com.virgen.peregrina.demo.data.response.CreateUserResponse
 
 fun UserModel.createUserResponse(): CreateUserResponse {
@@ -15,6 +16,22 @@ fun UserModel.createUserResponse(): CreateUserResponse {
         cellphone = this.cellphone,
         telephone = this.telephone,
         photoUrl = this.photoUrl,
+    )
+}
+
+fun CreateUserRequest.entity(): User {
+    return User(
+        id = -1,
+        name = this.name,
+        lastName = this.lastName,
+        email = this.email,
+        address = this.address,
+        city = this.city,
+        country = this.country,
+        cellphone = this.cellphone,
+        telephone = this.telephone,
+        photoUrl = this.photoUrl,
+        pass = this.pass
     )
 }
 

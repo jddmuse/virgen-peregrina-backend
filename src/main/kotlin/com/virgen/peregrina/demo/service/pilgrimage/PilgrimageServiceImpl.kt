@@ -1,8 +1,9 @@
 package com.virgen.peregrina.demo.service.pilgrimage
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import com.virgen.peregrina.demo.data.entity.toModel
 import com.virgen.peregrina.demo.data.model.pilgrimage.PilgrimageModel
+import com.virgen.peregrina.demo.data.model.pilgrimage.model
+import com.virgen.peregrina.demo.data.request.CreatePilgrimageRequest
 import com.virgen.peregrina.demo.repository.PilgrimageRepository
 import com.virgen.peregrina.demo.repository.ReplicaRepository
 import com.virgen.peregrina.demo.repository.UserRepository
@@ -49,7 +50,7 @@ class PilgrimageServiceImpl : PilgrimageService {
 
     override fun findAll(pageable: Pageable): BaseServiceResponse<Page<PilgrimageModel>> {
         return try {
-            val result = pilgrimageRepository.findAll(pageable).map { it.toModel() }
+            val result = pilgrimageRepository.findAll(pageable).map { it.model() }
             BaseServiceResponse.Success(result)
         } catch (ex: Exception) {
             log.error("$TAG create(): Excepción -> $ex")
@@ -57,7 +58,7 @@ class PilgrimageServiceImpl : PilgrimageService {
         }
     }
 
-    override fun create(model: PilgrimageModel): BaseServiceResponse<PilgrimageModel> {
+    override fun create(model: CreatePilgrimageRequest): BaseServiceResponse<PilgrimageModel> {
         try {
             val replicaEntity = replicaRepository.findById(model.replicaId)
             if(!replicaEntity.isPresent)
