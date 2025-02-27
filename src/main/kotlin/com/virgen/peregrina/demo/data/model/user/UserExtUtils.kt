@@ -1,6 +1,7 @@
 package com.virgen.peregrina.demo.data.model.user
 
 import com.virgen.peregrina.demo.data.entity.User
+import com.virgen.peregrina.demo.data.model.LoginModel
 import com.virgen.peregrina.demo.data.request.CreateUserRequest
 import com.virgen.peregrina.demo.data.response.CreateUserResponse
 
@@ -77,5 +78,17 @@ fun User.liteModel(): UserLiteModel {
         city = this.city,
         country = this.country,
         cellphone = this.cellphone
+    )
+}
+
+fun User.loginModel() : LoginModel {
+    return LoginModel(
+        userId = this.id ?: -1,
+        userName = this.name,
+        userEmail = this.lastName,
+        userAddress = this.email,
+        userCity = this.address,
+        userCountry = this.city,
+        userCellphone = this.country
     )
 }

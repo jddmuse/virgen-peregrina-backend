@@ -1,6 +1,7 @@
 package com.virgen.peregrina.demo.service.auth
 
 import com.virgen.peregrina.demo.data.model.LoginModel
+import com.virgen.peregrina.demo.data.model.user.loginModel
 import com.virgen.peregrina.demo.data.model.user.model
 import com.virgen.peregrina.demo.data.request.LoginRequest
 import com.virgen.peregrina.demo.repository.UserRepository
@@ -28,7 +29,7 @@ class AuthServiceImpl: AuthService {
         return try {
             val userEntity = userRepository.findByEmailAndPass(request.email.uppercase(), request.pass.uppercase())?.first()
             if(userEntity != null) {
-                val response = AuthServiceHelper.loginModel(userEntity.model())
+                val response = userEntity.loginModel()
                 BaseServiceResponse.Success(response)
             } else {
                 BaseServiceResponse.NullOrEmptyData(EnumServiceError.USER_LO.info)
