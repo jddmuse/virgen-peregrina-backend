@@ -1,5 +1,6 @@
 package com.virgen.peregrina.demo.service.pilgrimage
 
+import com.virgen.peregrina.demo.data.model.pilgrimage.PilgrimageLiteModel
 import com.virgen.peregrina.demo.data.model.pilgrimage.PilgrimageModel
 import com.virgen.peregrina.demo.data.request.CreatePilgrimageRequest
 import com.virgen.peregrina.demo.util.base.BaseServiceResponse
@@ -13,5 +14,5 @@ interface PilgrimageService : Service<PilgrimageModel> {
 //    fun getAllWithLimit(limit: Int): BaseServiceResponse<List<PilgrimageModel>>
 
     fun findAll(pageable: Pageable): BaseServiceResponse<Page<PilgrimageModel>>
-    fun create(model: CreatePilgrimageRequest): BaseServiceResponse<PilgrimageModel>
+    fun create(model: CreatePilgrimageRequest): BaseServiceResponse<PilgrimageLiteModel>
 }

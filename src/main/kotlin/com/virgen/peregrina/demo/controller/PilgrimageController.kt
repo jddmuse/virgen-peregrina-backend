@@ -1,6 +1,7 @@
 package com.virgen.peregrina.demo.controller
 
 import com.virgen.peregrina.demo.controller.util.ControllerHelper
+import com.virgen.peregrina.demo.data.model.pilgrimage.PilgrimageLiteModel
 import com.virgen.peregrina.demo.data.model.pilgrimage.PilgrimageModel
 import com.virgen.peregrina.demo.data.request.CreatePilgrimageRequest
 import com.virgen.peregrina.demo.data.request.GetPilgrimageRequest
@@ -42,7 +43,7 @@ class PilgrimageController {
     }
 
     @PostMapping("/create")
-    fun create(@RequestBody body: CreatePilgrimageRequest): ResponseEntity<BaseApiResponse<PilgrimageModel>> {
+    fun create(@RequestBody body: CreatePilgrimageRequest): ResponseEntity<BaseApiResponse<PilgrimageLiteModel>> {
         val responseService = pilgrimageService.create(body)
         return ControllerHelper.response(responseService)
     }

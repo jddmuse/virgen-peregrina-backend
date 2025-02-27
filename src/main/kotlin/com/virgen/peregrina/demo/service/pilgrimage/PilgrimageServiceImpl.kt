@@ -1,6 +1,7 @@
 package com.virgen.peregrina.demo.service.pilgrimage
 
 import com.fasterxml.jackson.databind.ObjectMapper
+import com.virgen.peregrina.demo.data.model.pilgrimage.PilgrimageLiteModel
 import com.virgen.peregrina.demo.data.model.pilgrimage.PilgrimageModel
 import com.virgen.peregrina.demo.data.model.pilgrimage.model
 import com.virgen.peregrina.demo.data.request.CreatePilgrimageRequest
@@ -58,7 +59,7 @@ class PilgrimageServiceImpl : PilgrimageService {
         }
     }
 
-    override fun create(model: CreatePilgrimageRequest): BaseServiceResponse<PilgrimageModel> {
+    override fun create(model: CreatePilgrimageRequest): BaseServiceResponse<PilgrimageLiteModel> {
         try {
             val replicaEntity = replicaRepository.findById(model.replicaId)
             if(!replicaEntity.isPresent)
@@ -70,7 +71,7 @@ class PilgrimageServiceImpl : PilgrimageService {
             val jsonResponse = pilgrimageRepository.insert2(jsonStringParam)
             val response = objectMapper.readValue(jsonResponse, BaseRepositoryResponse::class.java)?.let {
                 BaseRepositoryResponse(
-                    data = it.data?.let { data: Any -> objectMapper.convertValue(data, PilgrimageModel::class.java) },
+                    data = it.data?.let { data: Any -> objectMapper.convertValue(data, PilgrimageLiteModel::class.java) },
                     message = it.message,
                     success = it.success
                 )
