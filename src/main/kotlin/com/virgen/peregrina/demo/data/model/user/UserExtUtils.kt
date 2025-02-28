@@ -85,10 +85,10 @@ fun User.loginModel() : LoginModel {
     return LoginModel(
         userId = this.id ?: -1,
         userName = this.name,
-        userEmail = this.lastName,
-        userAddress = this.email,
-        userCity = this.address,
-        userCountry = this.city,
-        userCellphone = this.country
+        userEmail = this.email,
+        userAddress = this.address,
+        userCity = this.city,
+        userCountry = this.country,
+        userCellphone = this.cellphone
     )
 }
